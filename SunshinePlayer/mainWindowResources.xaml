@@ -1,0 +1,248 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:SunshinePlayer">
+    <!-- 提前按钮样式 -->
+    <Style x:Key="btnAdvanceStyle" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="2,0,2,0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="ToolTip" Value="歌词提前0.1s"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Fill="#4f535d" Stroke="White" />
+                        <!-- 按钮内容 -->
+                        <Grid>
+                            <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
+                                <Line StrokeThickness="2" Stroke="White" X1="5" Y1="0" X2="1" Y2="4" />
+                                <Line StrokeThickness="2" Stroke="White" X1="1" Y1="4" X2="5" Y2="8" />
+                            </Canvas>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"  Value="True">
+                            <Setter Property="Opacity" Value="1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- 延后按钮样式 -->
+    <Style x:Key="btnDelayStyle" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="2,0,2,0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="ToolTip" Value="歌词延后0.1s"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Fill="#4f535d" Stroke="White" />
+                        <!-- 按钮内容 -->
+                        <Grid>
+                            <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
+                                <Line StrokeThickness="2" Stroke="White" X1="3" Y1="0" X2="7" Y2="4" />
+                                <Line StrokeThickness="2" Stroke="White" X1="7" Y1="4" X2="3" Y2="8" />
+                            </Canvas>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"  Value="True">
+                            <Setter Property="Opacity" Value="1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- 设置按钮样式 -->
+    <Style x:Key="btnSettingStyle" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="2,0,2,0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="ToolTip" Value="设置"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Rectangle Width="18" Height="16" Fill="White" Opacity=".1" RadiusX="4" RadiusY="4" StrokeThickness="2" />
+                        <Rectangle Width="18" Height="16" StrokeThickness="2" RadiusX="4" RadiusY="4" Stroke="White" />
+                        <!-- 按钮内容 -->
+                        <Grid>
+                            <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
+                                <Line StrokeThickness="2" Stroke="White" X1="1" Y1="1" X2="8" Y2="8" />
+                                <Line StrokeThickness="4" Stroke="White" X1="-2" Y1="4" X2="4" Y2="-2" />
+                            </Canvas>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"  Value="True">
+                            <Setter Property="Opacity" Value="1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- 打开文件按钮样式 -->
+    <Style x:Key="btnOpenStyle" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="5,0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="borderoflrcbtnstyle" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Center" Background="Transparent" Width="{TemplateBinding Width}">
+                            <TextBlock x:Name="textblockoflrcbtnstyle" Grid.Column="1" Text="{TemplateBinding Content}"  HorizontalAlignment="Center" Margin="3 0 3 0" Foreground="White"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="CheckBox.IsMouseOver"  Value="True">
+                            <Setter Property="Opacity" Value="1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- 桌面歌词开关按钮样式 -->
+    <Style x:Key="btnLrcStyle" TargetType="{x:Type CheckBox}">
+        <Setter Property="Margin" Value="5,0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid>
+                        <Border x:Name="borderoflrcbtnstyle" BorderBrush="White" BorderThickness="1" HorizontalAlignment="Center" Background="Transparent" Width="{TemplateBinding Width}">
+                            <TextBlock x:Name="textblockoflrcbtnstyle" Grid.Column="1" Text="{TemplateBinding Content}"  HorizontalAlignment="Center" Margin="3 0 3 0" Foreground="White"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="CheckBox.IsMouseOver"  Value="True">
+                            <Setter Property="BorderBrush" TargetName="borderoflrcbtnstyle" Value="Yellow" />
+                            <Setter Property="Foreground" TargetName="textblockoflrcbtnstyle" Value="Yellow" />
+                        </Trigger>
+                        <Trigger Property="CheckBox.IsChecked"  Value="True">
+                            <Setter Property="Opacity" Value="1" />
+                        </Trigger>
+                        <Trigger Property="CheckBox.IsChecked"  Value="False">
+                            <Setter Property="Opacity" Value="0.75" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- 频谱条样式 -->
+    <Style x:Key="spectrumArticleStyle" TargetType="{x:Type Rectangle}">
+        <Setter Property="Fill" Value="#E5FFFFFF"/>
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="Canvas.Bottom" Value="0"/>
+        <Setter Property="Opacity" Value="0.8"/>
+    </Style>
+    <!-- 频谱线样式 -->
+    <Style x:Key="spectralLineStyle" TargetType="{x:Type Rectangle}">
+        <Setter Property="Fill" Value="#E5FFFFFF"/>
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="Height" Value="2"/>
+        <Setter Property="Opacity" Value="0.9"/>
+    </Style>
+    <!-- 窗口歌词样式 -->
+    <Style x:Key="LyricStyle" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Foreground" Value="#01D328"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                    <Grid x:Name="Background" SnapsToDevicePixels="true">
+                        <TextBlock Text="{TemplateBinding Tag}" Foreground="{TemplateBinding Background}" Opacity="0.8" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="20" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Left">
+								<!--<TextBlock.Effect>
+									<DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="20"/>
+								</TextBlock.Effect>-->
+                        </TextBlock>
+                        <Rectangle x:Name="PART_Track"/>
+                        <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
+                            <Grid x:Name="Foreground">
+                                <TextBlock x:Name="Indicator" Text="{TemplateBinding Tag}" Foreground="{TemplateBinding Foreground}" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="20" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Left" />
+                            </Grid>
+                        </Decorator>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!-- 音量条出现 -->
+    <Storyboard x:Key="showVolume">
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Volume">
+            <SplineDoubleKeyFrame KeyTime="0:0:0.1" Value="260"/>
+        </DoubleAnimationUsingKeyFrames>
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Volume">
+            <SplineColorKeyFrame KeyTime="0" Value="#00000000"/>
+            <SplineColorKeyFrame KeyTime="0:0:0.1" Value="Black"/>
+        </ColorAnimationUsingKeyFrames>
+    </Storyboard>
+    <!-- 音量条消失 -->
+    <Storyboard x:Key="hideVolume">
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Volume">
+            <SplineDoubleKeyFrame KeyTime="0" Value="260"/>
+            <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="40"/>
+        </DoubleAnimationUsingKeyFrames>
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Volume">
+            <SplineColorKeyFrame KeyTime="0" Value="Black"/>
+            <SplineColorKeyFrame KeyTime="0:0:0.5" Value="#00000000"/>
+        </ColorAnimationUsingKeyFrames>
+    </Storyboard>
+    <!-- 窗口样式模板 -->
+    <ControlTemplate x:Key="mainWindowTemplate" TargetType="{x:Type Window}">
+        <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+            <!--border元素：实现窗体四周半透明的环绕-->
+            <Border BorderThickness="5" CornerRadius="6" BorderBrush="#000000" Opacity="0.08" />
+            <!--borderBg实现半透明-->
+            <Border x:Name="borderBg" Margin="5" Background="{TemplateBinding Background}" BorderBrush="#ffffff" Opacity="0.85" BorderThickness="2" CornerRadius="{StaticResource winCorner}" Style="{StaticResource winBorderStyle}">
+                <!--定义窗口的元素，Grid分别为标题栏、内容-->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                </Grid>
+            </Border>
+            <Grid Margin="7">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <!--标题栏框-->
+                <Border x:Name="borderTitle" Grid.Row="0" CornerRadius="{StaticResource winTitleCorner}" Style="{StaticResource winTitleStyle}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Grid Background="Transparent">
+                        <TextBlock Text="{TemplateBinding Title}" Foreground="White" Opacity="0.75" HorizontalAlignment="Left" />
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Visible" Orientation="Horizontal">
+                            <!--提前、延后、歌词开关、打开文件、设置、最小化和关闭按钮-->
+                            <Button x:Name="btnTq" Style="{StaticResource btnAdvanceStyle}"/>
+                            <Button x:Name="btnYh" Style="{StaticResource btnDelayStyle}"/>
+                            <Button x:Name="btnOPEN" Content="打开文件" Style="{StaticResource btnOpenStyle}"/>
+                            <CheckBox x:Name="btnLRC" Content="桌面歌词" Style="{StaticResource btnLrcStyle}"/>
+                            <Button x:Name="btnSet" Style="{StaticResource btnSettingStyle}"/>
+                            <Button x:Name="btnMin" Style="{StaticResource btnMinimizeStyle}" />
+                            <Button x:Name="btnClose" Style="{StaticResource btnCloseStyle}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <!--内容-->
+                <Grid x:Name="gridContent" Grid.Row="1">
+                    <ContentPresenter />
+                </Grid>
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+    <!--窗口样式设置-->
+    <Style x:Key="windowStyle" TargetType="{x:Type Window}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template" Value="{StaticResource mainWindowTemplate}"/>
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="AllowsTransparency" Value="True" />
+    </Style>
+</ResourceDictionary>

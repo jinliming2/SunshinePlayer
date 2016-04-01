@@ -5,8 +5,362 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SunshinePlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Sunshine Player 10.0.0.0 Alpha" Height="600" Width="800" Icon="Sun.ico" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" AllowDrop="True" Background="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{DynamicResource windowStyle}">
+    <Window.Resources>
+        <ResourceDictionary Source="mainWindowResources.xaml"></ResourceDictionary>
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="Volume">
+            <BeginStoryboard x:Name="showVolume_BeginStoryboard" Storyboard="{StaticResource showVolume}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeave" SourceName="Volume">
+            <BeginStoryboard x:Name="hideVolume_BeginStoryboard1" Storyboard="{StaticResource hideVolume}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Canvas>
+        <!-- 播放按钮 -->
+        <Button x:Name="PlayButton" Content="Play" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPlayStyle}" Cursor="Hand" ToolTip="播放" IsTabStop="False" d:IsLocked="True">
+            <Button.Resources>
+                <Style x:Key="btnPlayStyle" TargetType="{x:Type Button}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Canvas SnapsToDevicePixels="true" Style="{DynamicResource btnAnimation}">
+                                    <Canvas.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
+                                    </Canvas.Effect>
+                                    <Ellipse HorizontalAlignment="Left" Height="100" Margin="0" Stroke="White" VerticalAlignment="Top" Width="100" StrokeThickness="5" Fill="#02FFFFFF"/>
+                                    <Polygon Points="0,0 0,50 43.3,25" Stroke="White" StrokeThickness="5" Canvas.Left="32.85" Canvas.Top="24.835" Fill="White" />
+                                </Canvas>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <!-- 暂停按钮 -->
+        <Button x:Name="PauseButton" Content="Pause" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPauseStyle}" Cursor="Hand" ToolTip="暂停" Visibility="Hidden" IsTabStop="False" d:IsLocked="True">
+            <Button.Resources>
+                <Style x:Key="btnPauseStyle" TargetType="{x:Type Button}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Canvas SnapsToDevicePixels="true" Style="{DynamicResource btnAnimation}">
+                                    <Canvas.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
+                                    </Canvas.Effect>
+                                    <Ellipse HorizontalAlignment="Left" Height="100" Margin="0" Stroke="White" VerticalAlignment="Top" Width="100" StrokeThickness="5" Fill="#02FFFFFF"/>
+                                    <Rectangle Fill="White" Height="54.33" Canvas.Left="26" Stroke="White" StrokeThickness="5" Canvas.Top="24.835" Width="17"/>
+                                    <Rectangle Fill="White" Height="54.33" Canvas.Left="57" Stroke="White" StrokeThickness="5" Canvas.Top="24.835" Width="17"/>
+                                </Canvas>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <!-- 上一曲按钮 -->
+        <Button x:Name="LastButton" Content="Last" HorizontalAlignment="Center" Height="80" VerticalAlignment="Center" Width="80" Canvas.Top="402" Canvas.Left="153" Style="{DynamicResource btnLastStyle}" Cursor="Hand" ToolTip="上一曲" IsTabStop="False" d:IsLocked="True">
+            <Button.Resources>
+                <Style x:Key="btnLastStyle" TargetType="{x:Type Button}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Canvas SnapsToDevicePixels="true" Style="{DynamicResource btnAnimation}">
+                                    <Canvas.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
+                                    </Canvas.Effect>
+                                    <Ellipse HorizontalAlignment="Left" Height="80" Margin="0" Stroke="White" VerticalAlignment="Top" Width="80" StrokeThickness="5" Fill="#02FFFFFF"/>
+                                    <Polygon Points="0,17.5 21.65,35 21.65,0" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="10.985" />
+                                    <Polygon Points="0,17.5 21.65,35 21.65,0" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="41.319" />
+                                </Canvas>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <!-- 下一曲按钮 -->
+        <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Center" Height="80" VerticalAlignment="Center" Width="80" Canvas.Top="402" Canvas.Left="553" Style="{DynamicResource btnNextStyle}" Cursor="Hand" ToolTip="下一曲" IsTabStop="False" d:IsLocked="True">
+            <Button.Resources>
+                <Style x:Key="btnNextStyle" TargetType="{x:Type Button}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Canvas SnapsToDevicePixels="true" Style="{DynamicResource btnAnimation}">
+                                    <Canvas.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
+                                    </Canvas.Effect>
+                                    <Ellipse HorizontalAlignment="Left" Height="80" Margin="0" Stroke="White" VerticalAlignment="Top" Width="80" StrokeThickness="5" Fill="#02FFFFFF"/>
+                                    <Polygon Points="0,0 0,35 21.65,17.5" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="17.332" />
+                                    <Polygon Points="0,0 0,35 21.65,17.5" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="47.666" />
+                                </Canvas>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <!-- 播放列表按钮 -->
+        <Button x:Name="PlayListButton" Content="PlayList" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Style="{DynamicResource btnPlayListStyle}" Cursor="Hand" ToolTip="播放列表" IsTabStop="False" Canvas.Left="715" Canvas.Top="422" d:IsLocked="True">
+            <Button.Resources>
+                <Style x:Key="btnPlayListStyle" TargetType="{x:Type Button}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Canvas SnapsToDevicePixels="true" Background="#01000000">
+                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="2" X2="5" Y2="2" />
+                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="2" X2="40" Y2="2" />
+                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="14" X2="5" Y2="14" />
+                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="14" X2="40" Y2="14" />
+                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="26" X2="5" Y2="26" />
+                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="26" X2="40" Y2="26" />
+                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="38" X2="5" Y2="38" />
+                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="38" X2="40" Y2="38" />
+                                </Canvas>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <!-- 频谱 -->
+        <Canvas x:Name="Spectrum" Canvas.Left="10" Canvas.Top="92" IsHitTestVisible="False" Height="295" Width="433" d:IsLocked="True">
+            <Rectangle x:Name="ppt01" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="1.1"/>
+            <Rectangle x:Name="ppt02" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="11.3"/>
+            <Rectangle x:Name="ppt03" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="21.5"/>
+            <Rectangle x:Name="ppt04" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="31.7"/>
+            <Rectangle x:Name="ppt05" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="41.9"/>
+            <Rectangle x:Name="ppt06" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="52.1"/>
+            <Rectangle x:Name="ppt07" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="62.3"/>
+            <Rectangle x:Name="ppt08" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="72.5"/>
+            <Rectangle x:Name="ppt09" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="82.7"/>
+            <Rectangle x:Name="ppt10" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="92.9"/>
+            <Rectangle x:Name="ppt11" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="103.1"/>
+            <Rectangle x:Name="ppt12" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="113.3"/>
+            <Rectangle x:Name="ppt13" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="123.5"/>
+            <Rectangle x:Name="ppt14" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="133.7"/>
+            <Rectangle x:Name="ppt15" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="143.9"/>
+            <Rectangle x:Name="ppt16" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="154.1"/>
+            <Rectangle x:Name="ppt17" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="164.3"/>
+            <Rectangle x:Name="ppt18" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="174.5"/>
+            <Rectangle x:Name="ppt19" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="184.7"/>
+            <Rectangle x:Name="ppt20" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="194.9"/>
+            <Rectangle x:Name="ppt21" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="205.1"/>
+            <Rectangle x:Name="ppt22" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="215.3"/>
+            <Rectangle x:Name="ppt23" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="225.5"/>
+            <Rectangle x:Name="ppt24" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="235.7"/>
+            <Rectangle x:Name="ppt25" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="245.9"/>
+            <Rectangle x:Name="ppt26" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="256.1"/>
+            <Rectangle x:Name="ppt27" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="266.3"/>
+            <Rectangle x:Name="ppt28" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="276.5"/>
+            <Rectangle x:Name="ppt29" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="286.7"/>
+            <Rectangle x:Name="ppt30" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="296.9"/>
+            <Rectangle x:Name="ppt31" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="307.1"/>
+            <Rectangle x:Name="ppt32" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="317.3"/>
+            <Rectangle x:Name="ppt33" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="327.5"/>
+            <Rectangle x:Name="ppt34" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="337.7"/>
+            <Rectangle x:Name="ppt35" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="347.9"/>
+            <Rectangle x:Name="ppt36" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="358.1"/>
+            <Rectangle x:Name="ppt37" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="368.3"/>
+            <Rectangle x:Name="ppt38" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="378.5"/>
+            <Rectangle x:Name="ppt39" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="388.7"/>
+            <Rectangle x:Name="ppt40" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="398.9"/>
+            <Rectangle x:Name="ppt41" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="409.1"/>
+            <Rectangle x:Name="ppt42" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="419.3"/>
+            <Rectangle x:Name="ppx01" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="1.1"/>
+            <Rectangle x:Name="ppx02" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="11.3"/>
+            <Rectangle x:Name="ppx03" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="21.5"/>
+            <Rectangle x:Name="ppx04" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="31.7"/>
+            <Rectangle x:Name="ppx05" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="41.9"/>
+            <Rectangle x:Name="ppx06" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="52.1"/>
+            <Rectangle x:Name="ppx07" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="62.3"/>
+            <Rectangle x:Name="ppx08" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="72.5"/>
+            <Rectangle x:Name="ppx09" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="82.7"/>
+            <Rectangle x:Name="ppx10" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="92.9"/>
+            <Rectangle x:Name="ppx11" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="103.1"/>
+            <Rectangle x:Name="ppx12" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="113.3"/>
+            <Rectangle x:Name="ppx13" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="123.5"/>
+            <Rectangle x:Name="ppx14" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="133.7"/>
+            <Rectangle x:Name="ppx15" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="143.9"/>
+            <Rectangle x:Name="ppx16" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="154.1"/>
+            <Rectangle x:Name="ppx17" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="164.3"/>
+            <Rectangle x:Name="ppx18" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="174.5"/>
+            <Rectangle x:Name="ppx19" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="184.7"/>
+            <Rectangle x:Name="ppx20" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="194.9"/>
+            <Rectangle x:Name="ppx21" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="205.1"/>
+            <Rectangle x:Name="ppx22" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="215.3"/>
+            <Rectangle x:Name="ppx23" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="225.5"/>
+            <Rectangle x:Name="ppx24" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="235.7"/>
+            <Rectangle x:Name="ppx25" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="245.9"/>
+            <Rectangle x:Name="ppx26" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="256.1"/>
+            <Rectangle x:Name="ppx27" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="266.3"/>
+            <Rectangle x:Name="ppx28" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="276.5"/>
+            <Rectangle x:Name="ppx29" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="286.7"/>
+            <Rectangle x:Name="ppx30" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="296.9"/>
+            <Rectangle x:Name="ppx31" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="307.1"/>
+            <Rectangle x:Name="ppx32" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="317.3"/>
+            <Rectangle x:Name="ppx33" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="327.5"/>
+            <Rectangle x:Name="ppx34" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="337.7"/>
+            <Rectangle x:Name="ppx35" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="347.9"/>
+            <Rectangle x:Name="ppx36" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="358.1"/>
+            <Rectangle x:Name="ppx37" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="368.3"/>
+            <Rectangle x:Name="ppx38" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="378.5"/>
+            <Rectangle x:Name="ppx39" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="388.7"/>
+            <Rectangle x:Name="ppx40" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="398.9"/>
+            <Rectangle x:Name="ppx41" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="409.1"/>
+            <Rectangle x:Name="ppx42" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="419.3"/>
+        </Canvas>
+        <!-- 歌词 -->
+        <Canvas Canvas.Left="10" Canvas.Top="173" IsHitTestVisible="False" Width="766" Height="214" ClipToBounds="True" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="Lrc" IsHitTestVisible="False" Width="766" ClipToBounds="True" ScrollViewer.VerticalScrollBarVisibility="Disabled" AllowDrop="False">
+                <StackPanel.Effect>
+                    <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="20"/>
+                </StackPanel.Effect>
+            </StackPanel>
+        </Canvas>
+        <!-- 标题 -->
+        <Label x:Name="TitleLabel" Content="" Height="77" Canvas.Left="10" Canvas.Top="10" Width="766" Foreground="#CCFFFFFF" FontSize="48" d:IsLocked="True">
+            <Label.Effect>
+                <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="20"/>
+            </Label.Effect>
+        </Label>
+        <!-- 歌手 -->
+        <Label x:Name="SingerLabel" Content="" Height="50" Canvas.Left="62" Canvas.Top="87" Width="714" Foreground="#CCFFFFFF" FontSize="29.333" d:IsLocked="True">
+            <Label.Effect>
+                <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="20"/>
+            </Label.Effect>
+        </Label>
+        <!-- 专辑 -->
+        <Label x:Name="AlbumLabel" Content="" Height="36" Canvas.Left="92" Canvas.Top="137" Width="684" Foreground="#CCFFFFFF" FontSize="18.667" d:IsLocked="True">
+            <Label.Effect>
+                <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="20"/>
+            </Label.Effect>
+        </Label>
+        <!-- 时间显示 -->
+        <TextBlock x:Name="TimeLabel" Height="22" Canvas.Left="606" Canvas.Top="507" Width="170" Foreground="#CCFFFFFF" FontSize="16" TextAlignment="Right" d:IsLocked="True" />
+        <!-- 进度条 -->
+        <Slider x:Name="Progress" Opacity="0.8" Style="{DynamicResource SimpleSlider}" Width="766" Height="14" Canvas.Left="10" Canvas.Top="534" Maximum="10000" Orientation="Horizontal" SmallChange="1" TickPlacement="None" Cursor="Hand" d:IsLocked="True"/>
+        <!-- 音量操作区 -->
+        <Canvas x:Name="Volume" Height="40" Width="40" Canvas.Left="31" Canvas.Top="422" Background="#00000000" Opacity="0.9" ClipToBounds="True" d:IsLocked="True">
+            <!-- 静音操作（音量） -->
+            <Button x:Name="MuteButton" Content="Volume" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Style="{DynamicResource btnMuteStyle}" Cursor="Hand" ToolTip="静音" IsTabStop="False">
+                <Button.Resources>
+                    <Style x:Key="btnMuteStyle" TargetType="{x:Type Button}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="1"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Canvas SnapsToDevicePixels="true" Style="{DynamicResource btnAnimation}">
+                                        <Canvas.Effect>
+                                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
+                                        </Canvas.Effect>
+                                        <Polygon Points="0,10 0,30 10,30 20,40 20,0 10,10" Stroke="White" StrokeThickness="1" Fill="White" />
+                                        <Line StrokeThickness="2" Stroke="White" X1="25" Y1="13" X2="40" Y2="4" />
+                                        <Line StrokeThickness="2" Stroke="White" X1="25" Y1="20" X2="40" Y2="20" />
+                                        <Line StrokeThickness="2" Stroke="White" X1="25" Y1="27" X2="40" Y2="36" />
+                                    </Canvas>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <!-- 取消静音操作（静音） -->
+            <Button x:Name="VolumeButton" Content="Mute" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Style="{DynamicResource btnVolumeStyle}" Cursor="Hand" ToolTip="取消静音" IsTabStop="False" Visibility="Hidden">
+                <Button.Resources>
+                    <Style x:Key="btnVolumeStyle" TargetType="{x:Type Button}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="1"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Canvas SnapsToDevicePixels="true" Style="{DynamicResource btnAnimation}">
+                                        <Canvas.Effect>
+                                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
+                                        </Canvas.Effect>
+                                        <Polygon Points="0,10 0,30 10,30 20,40 20,0 10,10" Stroke="White" StrokeThickness="1" Fill="White" />
+                                        <Ellipse Canvas.Left="15" Canvas.Top="7.5" HorizontalAlignment="Left" Height="25" Margin="0" Stroke="Red" VerticalAlignment="Top" Width="25" StrokeThickness="4" Fill="#02FFFFFF"/>
+                                        <Line StrokeThickness="4" Stroke="Red" X1="20" Y1="25" X2="37" Y2="14" />
+                                    </Canvas>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <!-- 音量条 -->
+            <Slider x:Name="VolumeBar" Opacity="0.8" Style="{DynamicResource SimpleSlider}" Width="190" Height="14" Maximum="100" Orientation="Horizontal" SmallChange="1" TickPlacement="None" Cursor="Hand" Canvas.Top="13" Canvas.Left="60" Value="100"/>
+        </Canvas>
+        <!-- 播放列表 -->
+        <Canvas x:Name="PlayList" Canvas.Left="10" Height="392" Width="766" Background="#CC000000" Opacity="0.9" ClipToBounds="True" d:IsLocked="True" d:IsHidden="True">
+            <!-- 播放列表 -->
+            <ListBox x:Name="List" Height="342" Canvas.Left="10" Canvas.Top="10" Width="746" Background="#4CFFFFFF" Foreground="White" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+            <!-- 播放模式 -->
+            <ComboBox x:Name="Model" Height="30" Canvas.Left="434" Canvas.Top="357" Width="106" Background="#CCFFFFFF" BorderBrush="Transparent" Opacity="0.8" IsReadOnly="True" SelectedIndex="0" FontSize="20" FontFamily="Consolas" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ComboBoxItem Content="列表循环" FontSize="20" FontFamily="Consolas" Opacity="0.8" ToolTip="列表循环" IsTabStop="False"/>
+                <ComboBoxItem Content="顺序播放" FontSize="20" FontFamily="Consolas" Opacity="0.8" ToolTip="顺序播放" IsTabStop="False"/>
+                <ComboBoxItem Content="单曲循环" FontSize="20" FontFamily="Consolas" Opacity="0.8" ToolTip="单曲循环" IsTabStop="False"/>
+                <ComboBoxItem Content="随机播放" FontSize="20" FontFamily="Consolas" Opacity="0.8" ToolTip="随机播放" IsTabStop="False"/>
+            </ComboBox>
+            <!-- 删除按钮 -->
+            <Button x:Name="btnDelete" Height="30" Width="145" Canvas.Left="611" Canvas.Top="357" Style="{DynamicResource btnStyle}" Content="删除选中项" FontFamily="隶书" FontSize="24" Margin="0" Foreground="#CCFFFFFF">
+                <Button.Resources>
+                    <Style x:Key="btnStyle" TargetType="{x:Type Button}">
+                        <Setter Property="Margin" Value="5,5,5,5"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Opacity" Value="0.75"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Width="{TemplateBinding Width}" BorderBrush="White" BorderThickness="1" Background="#02FFFFFF">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Column="0">
+                                                <DockPanel>
+                                                    <Canvas Width="15" Height="15" Margin="4,0">
+                                                        <Line StrokeThickness="5" Stroke="Red" X1="0" Y1="0" X2="15" Y2="15"/>
+                                                        <Line StrokeThickness="5" Stroke="Red" X1="0" Y1="15" X2="15" Y2="0"/>
+                                                    </Canvas>
+                                                </DockPanel>
+                                            </Border>
+                                            <Border Grid.Column="1" HorizontalAlignment="Center" Background="Transparent" VerticalAlignment="Center">
+                                                <ContentPresenter/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver"  Value="True">
+                                            <Setter Property="Opacity" Value="1" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Canvas>
+    </Canvas>
 </Window>
