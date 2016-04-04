@@ -221,13 +221,13 @@
                         <TextBlock Text="{TemplateBinding Title}" Foreground="White" Opacity="0.75" HorizontalAlignment="Left" />
                         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Visible" Orientation="Horizontal">
                             <!--提前、延后、歌词开关、打开文件、设置、最小化和关闭按钮-->
-                            <Button x:Name="btnTq" Style="{StaticResource btnAdvanceStyle}"/>
-                            <Button x:Name="btnYh" Style="{StaticResource btnDelayStyle}"/>
-                            <Button x:Name="btnOPEN" Content="打开文件" Style="{StaticResource btnOpenStyle}"/>
-                            <CheckBox x:Name="btnLRC" Content="桌面歌词" Style="{StaticResource btnLrcStyle}"/>
-                            <Button x:Name="btnSet" Style="{StaticResource btnSettingStyle}"/>
-                            <Button x:Name="btnMin" Style="{StaticResource btnMinimizeStyle}" />
-                            <Button x:Name="btnClose" Style="{StaticResource btnCloseStyle}" />
+                            <Button x:Name="advanceButton" Style="{StaticResource btnAdvanceStyle}"/>
+                            <Button x:Name="delayButton" Style="{StaticResource btnDelayStyle}"/>
+                            <Button x:Name="OpenButton" Content="打开文件" Style="{StaticResource btnOpenStyle}"/>
+                            <CheckBox x:Name="LrcButton" Content="桌面歌词" Style="{StaticResource btnLrcStyle}"/>
+                            <Button x:Name="settingButton" Style="{StaticResource btnSettingStyle}"/>
+                            <Button x:Name="minimizeButton" Style="{StaticResource btnMinimizeStyle}" />
+                            <Button x:Name="closeButton" Style="{StaticResource btnCloseStyle}" />
                         </StackPanel>
                     </Grid>
                 </Border>
