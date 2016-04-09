@@ -7,7 +7,7 @@ namespace SunshinePlayer {
     /// </summary>
     public partial class App : Application {
         protected override void OnStartup(StartupEventArgs e) {
-            SunshinePlayer.MainWindow.Args = e.Args;
+            SunshinePlayer.MainWindow.Args = e.Args; //启动参数
             Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata {
                 DefaultValue = 25
             });	//设置WPF动画默认帧数

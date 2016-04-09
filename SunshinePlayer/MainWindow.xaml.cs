@@ -13,6 +13,9 @@ namespace SunshinePlayer {
         /// 窗口句柄
         /// </summary>
         public IntPtr Handle { get { return new WindowInteropHelper(this).Handle; } }
+        /// <summary>
+        /// 启动参数
+        /// </summary>
         public static String[] Args;
         /// <summary>
         /// 歌词开关
