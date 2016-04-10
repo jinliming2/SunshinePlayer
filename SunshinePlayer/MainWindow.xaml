@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SunshinePlayer"
         mc:Ignorable="d"
-        Title="Sunshine Player 10.0.0.0 Alpha" Height="600" Width="800" Icon="Sun.ico" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" AllowDrop="True" Background="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{DynamicResource windowStyle}">
+        Title="Sunshine Player 10.0.0.0 Alpha" Height="600" Width="800" Icon="Sun.ico" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" AllowDrop="True" Background="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{DynamicResource windowStyle}" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary Source="mainWindowResources.xaml"></ResourceDictionary>
     </Window.Resources>
@@ -19,7 +19,7 @@
     </Window.Triggers>
     <Canvas>
         <!-- 播放按钮 -->
-        <Button x:Name="PlayButton" Content="Play" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPlayStyle}" Cursor="Hand" ToolTip="播放" IsTabStop="False" d:IsLocked="True">
+        <Button x:Name="PlayButton" Content="Play" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPlayStyle}" Cursor="Hand" ToolTip="播放" IsTabStop="False" d:IsLocked="False">
             <Button.Resources>
                 <Style x:Key="btnPlayStyle" TargetType="{x:Type Button}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -42,7 +42,7 @@
             </Button.Resources>
         </Button>
         <!-- 暂停按钮 -->
-        <Button x:Name="PauseButton" Content="Pause" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPauseStyle}" Cursor="Hand" ToolTip="暂停" Visibility="Hidden" IsTabStop="False" d:IsLocked="True">
+        <Button x:Name="PauseButton" Content="Pause" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPauseStyle}" Cursor="Hand" ToolTip="暂停" Visibility="Hidden" IsTabStop="False" d:IsLocked="False">
             <Button.Resources>
                 <Style x:Key="btnPauseStyle" TargetType="{x:Type Button}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -66,7 +66,7 @@
             </Button.Resources>
         </Button>
         <!-- 上一曲按钮 -->
-        <Button x:Name="LastButton" Content="Last" HorizontalAlignment="Center" Height="80" VerticalAlignment="Center" Width="80" Canvas.Top="402" Canvas.Left="153" Style="{DynamicResource btnLastStyle}" Cursor="Hand" ToolTip="上一曲" IsTabStop="False" d:IsLocked="True">
+        <Button x:Name="LastButton" Content="Last" HorizontalAlignment="Center" Height="80" VerticalAlignment="Center" Width="80" Canvas.Top="402" Canvas.Left="153" Style="{DynamicResource btnLastStyle}" Cursor="Hand" ToolTip="上一曲" IsTabStop="False" d:IsLocked="False">
             <Button.Resources>
                 <Style x:Key="btnLastStyle" TargetType="{x:Type Button}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -90,7 +90,7 @@
             </Button.Resources>
         </Button>
         <!-- 下一曲按钮 -->
-        <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Center" Height="80" VerticalAlignment="Center" Width="80" Canvas.Top="402" Canvas.Left="553" Style="{DynamicResource btnNextStyle}" Cursor="Hand" ToolTip="下一曲" IsTabStop="False" d:IsLocked="True">
+        <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Center" Height="80" VerticalAlignment="Center" Width="80" Canvas.Top="402" Canvas.Left="553" Style="{DynamicResource btnNextStyle}" Cursor="Hand" ToolTip="下一曲" IsTabStop="False" d:IsLocked="False">
             <Button.Resources>
                 <Style x:Key="btnNextStyle" TargetType="{x:Type Button}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -114,7 +114,7 @@
             </Button.Resources>
         </Button>
         <!-- 播放列表按钮 -->
-        <Button x:Name="PlayListButton" Content="PlayList" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Style="{DynamicResource btnPlayListStyle}" Cursor="Hand" ToolTip="播放列表" IsTabStop="False" Canvas.Left="715" Canvas.Top="422" d:IsLocked="True">
+        <Button x:Name="PlayListButton" Content="PlayList" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Style="{DynamicResource btnPlayListStyle}" Cursor="Hand" ToolTip="播放列表" IsTabStop="False" Canvas.Left="715" Canvas.Top="422" d:IsLocked="False" Click="PlayListButton_Click">
             <Button.Resources>
                 <Style x:Key="btnPlayListStyle" TargetType="{x:Type Button}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -140,7 +140,7 @@
             </Button.Resources>
         </Button>
         <!-- 频谱 -->
-        <Canvas x:Name="Spectrum" Canvas.Left="10" Canvas.Top="92" IsHitTestVisible="False" Height="295" Width="433" d:IsLocked="True">
+        <Canvas x:Name="Spectrum" Canvas.Left="10" Canvas.Top="92" IsHitTestVisible="False" Height="295" Width="433" d:IsLocked="False">
             <Rectangle x:Name="ppt01" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="1.1"/>
             <Rectangle x:Name="ppt02" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="11.3"/>
             <Rectangle x:Name="ppt03" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="21.5"/>
@@ -235,29 +235,29 @@
             </StackPanel>
         </Canvas>
         <!-- 标题 -->
-        <Label x:Name="TitleLabel" Content="" Height="77" Canvas.Left="10" Canvas.Top="10" Width="766" Foreground="#CCFFFFFF" FontSize="48" d:IsLocked="True">
+        <Label x:Name="TitleLabel" Content="" Height="77" Canvas.Left="10" Canvas.Top="10" Width="766" Foreground="#CCFFFFFF" FontSize="48" d:IsLocked="False">
             <Label.Effect>
                 <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="20"/>
             </Label.Effect>
         </Label>
         <!-- 歌手 -->
-        <Label x:Name="SingerLabel" Content="" Height="50" Canvas.Left="62" Canvas.Top="87" Width="714" Foreground="#CCFFFFFF" FontSize="29.333" d:IsLocked="True">
+        <Label x:Name="SingerLabel" Content="" Height="50" Canvas.Left="62" Canvas.Top="87" Width="714" Foreground="#CCFFFFFF" FontSize="29.333" d:IsLocked="False">
             <Label.Effect>
                 <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="20"/>
             </Label.Effect>
         </Label>
         <!-- 专辑 -->
-        <Label x:Name="AlbumLabel" Content="" Height="36" Canvas.Left="92" Canvas.Top="137" Width="684" Foreground="#CCFFFFFF" FontSize="18.667" d:IsLocked="True">
+        <Label x:Name="AlbumLabel" Content="" Height="36" Canvas.Left="92" Canvas.Top="137" Width="684" Foreground="#CCFFFFFF" FontSize="18.667" d:IsLocked="False">
             <Label.Effect>
                 <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="20"/>
             </Label.Effect>
         </Label>
         <!-- 时间显示 -->
-        <TextBlock x:Name="TimeLabel" Height="22" Canvas.Left="606" Canvas.Top="507" Width="170" Foreground="#CCFFFFFF" FontSize="16" TextAlignment="Right" d:IsLocked="True" />
+        <TextBlock x:Name="TimeLabel" Height="22" Canvas.Left="606" Canvas.Top="507" Width="170" Foreground="#CCFFFFFF" FontSize="16" TextAlignment="Right" d:IsLocked="False" />
         <!-- 进度条 -->
-        <Slider x:Name="Progress" Opacity="0.8" Style="{DynamicResource SimpleSlider}" Width="766" Height="14" Canvas.Left="10" Canvas.Top="534" Maximum="10000" Orientation="Horizontal" SmallChange="1" TickPlacement="None" Cursor="Hand" d:IsLocked="True"/>
+        <Slider x:Name="Progress" Opacity="0.8" Style="{DynamicResource SimpleSlider}" Width="766" Height="14" Canvas.Left="10" Canvas.Top="534" Maximum="10000" Orientation="Horizontal" SmallChange="1" TickPlacement="None" Cursor="Hand" d:IsLocked="False"/>
         <!-- 音量操作区 -->
-        <Canvas x:Name="Volume" Height="40" Width="40" Canvas.Left="31" Canvas.Top="422" Background="#00000000" Opacity="0.9" ClipToBounds="True" d:IsLocked="True">
+        <Canvas x:Name="Volume" Height="40" Width="40" Canvas.Left="31" Canvas.Top="422" Background="#00000000" Opacity="0.9" ClipToBounds="True" d:IsLocked="False">
             <!-- 静音操作（音量） -->
             <Button x:Name="MuteButton" Content="Volume" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Style="{DynamicResource btnMuteStyle}" Cursor="Hand" ToolTip="静音" IsTabStop="False">
                 <Button.Resources>
@@ -311,7 +311,7 @@
             <Slider x:Name="VolumeBar" Opacity="0.8" Style="{DynamicResource SimpleSlider}" Width="190" Height="14" Maximum="100" Orientation="Horizontal" SmallChange="1" TickPlacement="None" Cursor="Hand" Canvas.Top="13" Canvas.Left="60" Value="100"/>
         </Canvas>
         <!-- 播放列表 -->
-        <Canvas x:Name="PlayList" Canvas.Left="10" Height="392" Width="766" Background="#CC000000" Opacity="0.9" ClipToBounds="True" d:IsLocked="True" d:IsHidden="True">
+        <Canvas x:Name="PlayList" Canvas.Left="10" Height="392" Width="766" Background="#CC000000" Opacity="0.9" ClipToBounds="True" d:IsLocked="False" d:IsHidden="True">
             <!-- 播放列表 -->
             <ListBox x:Name="List" Height="342" Canvas.Left="10" Canvas.Top="10" Width="746" Background="#4CFFFFFF" Foreground="White" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
             <!-- 播放模式 -->

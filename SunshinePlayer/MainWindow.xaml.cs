@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace SunshinePlayer {
     /// <summary>
@@ -10,21 +12,25 @@ namespace SunshinePlayer {
     /// </summary>
     public partial class MainWindow : Window {
         /// <summary>
-        /// 窗口句柄
-        /// </summary>
-        public IntPtr Handle { get { return new WindowInteropHelper(this).Handle; } }
-        /// <summary>
         /// 启动参数
         /// </summary>
         public static String[] Args;
         /// <summary>
-        /// 歌词开关
+        /// 歌词开关按钮
         /// </summary>
         private static CheckBox LrcButton;
         /// <summary>
-        /// 打开文件
+        /// 打开文件按钮
         /// </summary>
         private static Button OpenButton;
+        /// <summary>
+        /// 窗口句柄
+        /// </summary>
+        public IntPtr Handle { get { return new WindowInteropHelper(this).Handle; } }
+        /// <summary>
+        /// 播放列表按钮效果
+        /// </summary>
+        private DropShadowEffect shadow = new DropShadowEffect();
         /// <summary>
         /// 构造函数 初始化程序
         /// </summary>
@@ -64,6 +70,12 @@ namespace SunshinePlayer {
             //窗口拖动
             this.MouseLeftButtonDown += delegate { this.MouseMove += dragWindow; };
             this.MouseUp += delegate { this.MouseMove -= dragWindow; };
+
+            //播放列表按钮效果
+            shadow.ShadowDepth = 0;
+            shadow.Color = Colors.White;
+            shadow.Opacity = 1;
+            PlayListButton.Effect = shadow;
         }
         /// <summary>
         /// 窗口最小化
@@ -113,6 +125,33 @@ namespace SunshinePlayer {
                 !this.List.IsMouseOver
             ) {
                 this.DragMove();  //拖动窗口
+            }
+        }
+        /// <summary>
+        /// 窗口加载完成
+        /// </summary>
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
+            //播放列表状态
+            if(Config.playListVisible) {
+                PlayList.Visibility = Visibility.Visible;
+                shadow.BlurRadius = 20;
+            } else {
+                PlayList.Visibility = Visibility.Collapsed;
+                shadow.BlurRadius = 0;
+            }
+        }
+        /// <summary>
+        /// 播放列表按钮
+        /// </summary>
+        private void PlayListButton_Click(object sender, RoutedEventArgs e) {
+            if(Config.playListVisible) {
+                PlayList.Visibility = Visibility.Collapsed;
+                shadow.BlurRadius = 0;
+                Config.playListVisible = false;
+            } else {
+                PlayList.Visibility = Visibility.Visible;
+                shadow.BlurRadius = 20;
+                Config.playListVisible = true;
             }
         }
     }
