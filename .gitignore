@@ -244,3 +244,5 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 
+# Bass Net 库注册信息
+BassNetRegistration.cs
