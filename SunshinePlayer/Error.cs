@@ -132,77 +132,77 @@ namespace SunshinePlayer {
             case BASSError.BASS_ERROR_EMPTY:
                 error.code = 31;
                 error.title = "The MOD music has no sequence data";
-                error.content = "";
+                error.content = "此MOD音乐序列数据为空！";
                 break;
             case BASSError.BASS_ERROR_NONET:
                 error.code = 32;
                 error.title = "No internet connection could be opened";
-                error.content = "";
+                error.content = "无法连接到网络！";
                 break;
             case BASSError.BASS_ERROR_CREATE:
                 error.code = 33;
                 error.title = "Couldn't create the file";
-                error.content = "";
+                error.content = "创建文件失败！";
                 break;
             case BASSError.BASS_ERROR_NOFX:
                 error.code = 34;
                 error.title = "Effects are not available";
-                error.content = "";
+                error.content = "不支持音效插件！";
                 break;
             case BASSError.BASS_ERROR_PLAYING:
                 error.code = 35;
                 error.title = "The channel is playing";
-                error.content = "";
+                error.content = "该频道正在播放！";
                 break;
             case BASSError.BASS_ERROR_NOTAVAIL:
                 error.code = 37;
                 error.title = "Requested data is not available";
-                error.content = "";
+                error.content = "请求的数据不可用！";
                 break;
             case BASSError.BASS_ERROR_DECODE:
                 error.code = 38;
                 error.title = "The channel is a 'decoding channel'";
-                error.content = "";
+                error.content = "该频道为解码频道！";
                 break;
             case BASSError.BASS_ERROR_DX:
                 error.code = 39;
                 error.title = "A sufficient DirectX version is not installed";
-                error.content = "";
+                error.content = "DirectX版本太低！";
                 break;
             case BASSError.BASS_ERROR_TIMEOUT:
                 error.code = 40;
                 error.title = "Connection timedout";
-                error.content = "";
+                error.content = "连接超时！";
                 break;
             case BASSError.BASS_ERROR_FILEFORM:
                 error.code = 41;
                 error.title = "Unsupported file format";
-                error.content = "";
+                error.content = "文件格式不支持！";
                 break;
             case BASSError.BASS_ERROR_SPEAKER:
                 error.code = 42;
                 error.title = "Unavailable speaker";
-                error.content = "";
+                error.content = "扬声器不可用！";
                 break;
             case BASSError.BASS_ERROR_VERSION:
                 error.code = 43;
                 error.title = "Invalid BASS version (used by add-ons)";
-                error.content = "";
+                error.content = "BASS版本不正确！";
                 break;
             case BASSError.BASS_ERROR_CODEC:
                 error.code = 44;
                 error.title = "Codec is not available/supported";
-                error.content = "";
+                error.content = "编码器/解码器不可用！";
                 break;
             case BASSError.BASS_ERROR_ENDED:
                 error.code = 45;
                 error.title = "The channel/file has ended";
-                error.content = "";
+                error.content = "该频道已被终止！";
                 break;
             case BASSError.BASS_ERROR_BUSY:
                 error.code = 46;
                 error.title = "The device is busy (eg. in \"exclusive\" use by another process)";
-                error.content = "";
+                error.content = "设备正在使用中！";
                 break;
             case BASSError.BASS_ERROR_UNKNOWN:
                 error.code = -1;
@@ -212,62 +212,62 @@ namespace SunshinePlayer {
             case BASSError.BASS_ERROR_WMA_LICENSE:
                 error.code = 1000;
                 error.title = "BassWma: the file is protected";
-                error.content = "";
+                error.content = "WMA文件受到保护！";
                 break;
             case BASSError.BASS_ERROR_WMA_WM9:
                 error.code = 1001;
                 error.title = "BassWma: WM9 is required";
-                error.content = "";
+                error.content = "需要升级Windows Media Player 9或以上版本！";
                 break;
             case BASSError.BASS_ERROR_WMA_DENIED:
                 error.code = 1002;
                 error.title = "BassWma: access denied (user/pass is invalid)";
-                error.content = "";
+                error.content = "WMA许可无效！";
                 break;
             case BASSError.BASS_ERROR_WMA_CODEC:
                 error.code = 1003;
                 error.title = "BassWma: no appropriate codec is installed";
-                error.content = "";
+                error.content = "没有可用的WMA解码器！";
                 break;
             case BASSError.BASS_ERROR_WMA_INDIVIDUAL:
                 error.code = 1004;
                 error.title = "BassWma: individualization is needed";
-                error.content = "";
+                error.content = "需要个性化！";  //What does this mean?
                 break;
             case BASSError.BASS_ERROR_ACM_CANCEL:
                 error.code = 2000;
                 error.title = "BassEnc: ACM codec selection cancelled";
-                error.content = "";
+                error.content = "ACM编解码器选项已被取消！";
                 break;
             case BASSError.BASS_ERROR_CAST_DENIED:
                 error.code = 2100;
                 error.title = "BassEnc: Access denied (invalid password)";
-                error.content = "";
+                error.content = "无效的密码，没有权限！";
                 break;
             case BASSError.BASS_VST_ERROR_NOINPUTS:
                 error.code = 3000;
                 error.title = "BassVst: the given effect has no inputs and is probably a VST instrument and no effect";
-                error.content = "";
+                error.content = "给定的音效没有输入，可能是一个VST乐器！";
                 break;
             case BASSError.BASS_VST_ERROR_NOOUTPUTS:
                 error.code = 3001;
                 error.title = "BassVst: the given effect has no outputs";
-                error.content = "";
+                error.content = "给定的音效没有输出！";
                 break;
             case BASSError.BASS_VST_ERROR_NOREALTIME:
                 error.code = 3002;
                 error.title = "BassVst: the given effect does not support realtime processing";
-                error.content = "";
+                error.content = "给定的音效不支持实时处理！";
                 break;
             case BASSError.BASS_ERROR_WASAPI:
                 error.code = 5000;
                 error.title = "BASSWASAPI: no WASAPI available";
-                error.content = "";
+                error.content = "不支持WASAPI！";
                 break;
             case BASSError.BASS_ERROR_MP4_NOSTREAM:
                 error.code = 6000;
                 error.title = "BASS_AAC: non-streamable due to MP4 atom order ('mdat' before 'moov')";
-                error.content = "";
+                error.content = "非流化由于MP4原子订单（前“MOOV'MDAT'）";  //By Google Translate, What does this mean？
                 break;
             case BASSError.BASS_OK:
             default:
