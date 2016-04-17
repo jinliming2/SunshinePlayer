@@ -1,6 +1,6 @@
 ﻿namespace SunshinePlayer {
     /// <summary>
-    /// 音乐ID3V1信息
+    /// 音乐ID3信息
     /// </summary>
     struct MusicID3 {
         /// <summary>
