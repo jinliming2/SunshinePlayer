@@ -80,6 +80,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BassNetRegistration.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -92,6 +93,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MusicID3.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
