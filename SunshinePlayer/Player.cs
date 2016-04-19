@@ -98,11 +98,23 @@ namespace SunshinePlayer {
         /// </summary>
         /// <returns>秒数</returns>
         public double getLength() {
+            return Bass.BASS_ChannelBytes2Seconds(stream, Bass.BASS_ChannelGetLength(stream));
+        }
+        /// <summary>
+        /// 设置播放进度
+        /// </summary>
+        /// <param name="seconds">秒数</param>
+        public void setPosition(double seconds) {
             if(stream != 0) {
-                return Bass.BASS_ChannelBytes2Seconds(stream, Bass.BASS_ChannelGetLength(stream));
-            } else {
-                return -1;
+                Bass.BASS_ChannelSetPosition(stream, seconds);
             }
+        }
+        /// <summary>
+        /// 取播放进度
+        /// </summary>
+        /// <returns>秒数</returns>
+        public double getPosition() {
+            return Bass.BASS_ChannelBytes2Seconds(stream, Bass.BASS_ChannelGetPosition(stream));
         }
         /// <summary>
         /// 设置音量
