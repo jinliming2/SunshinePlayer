@@ -9,7 +9,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 单例模式实例
         /// </summary>
-        private Player instance = null;
+        private static Player instance = null;
         /// <summary>
         /// 互斥锁对象
         /// </summary>
