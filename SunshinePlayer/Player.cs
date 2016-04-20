@@ -48,6 +48,13 @@ namespace SunshinePlayer {
             return instance;
         }
         #endregion
+        /// <summary>
+        /// 析构函数
+        /// </summary>
+        ~Player() {
+            //停止并释放音乐
+            stop();
+        }
 
         /// <summary>
         /// 文件流

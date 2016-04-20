@@ -113,6 +113,36 @@ namespace SunshinePlayer {
         /// 打开文件
         /// </summary>
         private void openFile(object sender, RoutedEventArgs e) {
+            //打开文件对话框
+            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+            //标题
+            ofd.Title = "打开音乐";
+            //检查文件必须存在
+            ofd.CheckFileExists = true;
+            //允许多选（所有文件加入播放列表，自动播放第一首）
+            ofd.Multiselect = true;
+            //快捷方式返回引用的文件
+            ofd.DereferenceLinks = true;
+            //文件筛选过滤器
+            ofd.Filter = "音乐文件|*.mp3;*.mp2;*.mp1;*.ogg;*.wav;*.aiff"
+                + "|MP3|*.mp3"
+                + "|OGG|*.ogg"
+                + "|WAV|*.wav"
+                + "|AIFF|*.aiff"
+                + "|MP2|*.mp2"
+                + "|MP1|*.mp1"
+                + "|所有文件|*";
+            //文件筛选索引
+            ofd.FilterIndex = 1;
+            //打开文件
+            if(ofd.ShowDialog() == true) {
+                //文件列表
+                string[] files = ofd.FileNames;
+                //打开第一个文件
+                Player player = Player.getInstance(Handle);
+                player.openFile(files[0]);
+                player.play(true);
+            }
         }
         /// <summary>
         /// 窗口拖动
