@@ -1,5 +1,5 @@
 # SunshinePlayer
-![Developing](https://img.shields.io/badge/Sunshine%20Player-developing-yellow.svg)
+[![Developing](https://img.shields.io/badge/Sunshine%20Player-developing-yellow.svg)](https://github.com/772807886/SunshinePlayer)
 [![GitHub license](https://img.shields.io/badge/license-AGPL-blue.svg)](https://raw.githubusercontent.com/772807886/SunshinePlayer/start/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/772807886/SunshinePlayer.svg)](https://github.com/772807886/SunshinePlayer/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/772807886/SunshinePlayer.svg)](https://github.com/772807886/SunshinePlayer/network)
