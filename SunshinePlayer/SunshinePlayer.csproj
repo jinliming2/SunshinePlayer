@@ -83,6 +83,7 @@
     <Compile Include="BassNetRegistration.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Error.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

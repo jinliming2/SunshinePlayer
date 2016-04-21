@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Threading;
 
 namespace SunshinePlayer {
     /// <summary>
@@ -14,7 +16,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 启动参数
         /// </summary>
-        public static String[] Args;
+        public static string[] Args;
         /// <summary>
         /// 歌词开关按钮
         /// </summary>
@@ -31,6 +33,14 @@ namespace SunshinePlayer {
         /// 播放列表按钮效果
         /// </summary>
         private DropShadowEffect shadow = new DropShadowEffect();
+        /// <summary>
+        /// 播放进度时钟
+        /// </summary>
+        private DispatcherTimer progressClock = new DispatcherTimer();
+        /// <summary>
+        /// 总时间标签，当前时间标签
+        /// </summary>
+        private Run time_total = new Run("/00:00"), time_now = new Run("00:00");
         /// <summary>
         /// 构造函数 初始化程序
         /// </summary>
@@ -76,6 +86,29 @@ namespace SunshinePlayer {
             shadow.Color = Colors.White;
             shadow.Opacity = 1;
             PlayListButton.Effect = shadow;
+
+            //时间显示
+            TimeLabel.Inlines.Clear();
+            TimeLabel.Inlines.Add(time_now);
+            TimeLabel.Inlines.Add(time_total);
+
+            //时钟设置
+            progressClock.Interval = new TimeSpan(0, 0, 0, 0, 250);
+            progressClock.Tick += ProgressClock;
+            progressClock.Start();
+        }
+        /// <summary>
+        /// 窗口加载完成
+        /// </summary>
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
+            //播放列表状态
+            if(Config.playListVisible) {
+                PlayList.Visibility = Visibility.Visible;
+                shadow.BlurRadius = 20;
+            } else {
+                PlayList.Visibility = Visibility.Collapsed;
+                shadow.BlurRadius = 0;
+            }
         }
         /// <summary>
         /// 窗口最小化
@@ -142,6 +175,10 @@ namespace SunshinePlayer {
                 Player player = Player.getInstance(Handle);
                 player.openFile(files[0]);
                 player.play(true);
+                //进度条最大值
+                Progress.Maximum = player.getLength();
+                //音乐长度
+                time_total.Text = "/" + Helper.Seconds2Time(Progress.Maximum);
             }
         }
         /// <summary>
@@ -158,22 +195,10 @@ namespace SunshinePlayer {
             }
         }
         /// <summary>
-        /// 窗口加载完成
-        /// </summary>
-        private void Window_Loaded(object sender, RoutedEventArgs e) {
-            //播放列表状态
-            if(Config.playListVisible) {
-                PlayList.Visibility = Visibility.Visible;
-                shadow.BlurRadius = 20;
-            } else {
-                PlayList.Visibility = Visibility.Collapsed;
-                shadow.BlurRadius = 0;
-            }
-        }
-        /// <summary>
         /// 播放列表按钮
         /// </summary>
         private void PlayListButton_Click(object sender, RoutedEventArgs e) {
+            //显示/隐藏播放列表
             if(Config.playListVisible) {
                 PlayList.Visibility = Visibility.Collapsed;
                 shadow.BlurRadius = 0;
@@ -183,6 +208,13 @@ namespace SunshinePlayer {
                 shadow.BlurRadius = 20;
                 Config.playListVisible = true;
             }
+        }
+        private void ProgressClock(object sender, EventArgs e) {
+            Player player = Player.getInstance(Handle);
+            //播放进度
+            Progress.Value = player.getPosition();
+            //播放时间
+            time_now.Text = Helper.Seconds2Time(Progress.Value);
         }
     }
 }
