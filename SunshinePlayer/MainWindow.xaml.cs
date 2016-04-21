@@ -174,11 +174,18 @@ namespace SunshinePlayer {
                 //打开第一个文件
                 Player player = Player.getInstance(Handle);
                 player.openFile(files[0]);
-                player.play(true);
-                //进度条最大值
-                Progress.Maximum = player.getLength();
-                //音乐长度
-                time_total.Text = "/" + Helper.Seconds2Time(Progress.Maximum);
+                if(player.play(true)) {
+                    //进度条最大值
+                    Progress.Maximum = player.length;
+                    //音乐长度
+                    time_total.Text = "/" + Helper.Seconds2Time(Progress.Maximum);
+                    //暂停播放按钮
+                    PauseButton.Visibility = Visibility.Visible;
+                    PlayButton.Visibility = Visibility.Hidden;
+                } else {
+                    Error error = player.error;
+                    MessageBox.Show(error.content, error.title, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
         /// <summary>
@@ -209,10 +216,35 @@ namespace SunshinePlayer {
                 Config.playListVisible = true;
             }
         }
+        /// <summary>
+        /// 播放按钮
+        /// </summary>
+        private void PlayButton_Click(object sender, RoutedEventArgs e) {
+            Player player = Player.getInstance(Handle);
+            if(!player.openedFile) {
+                openFile(sender, e);
+            } else {
+                player.play();
+            }
+            //暂停播放按钮
+            PauseButton.Visibility = Visibility.Visible;
+            PlayButton.Visibility = Visibility.Hidden;
+        }
+        /// <summary>
+        /// 暂停按钮
+        /// </summary>
+        private void PauseButton_Click(object sender, RoutedEventArgs e) {
+            Player player = Player.getInstance(Handle);
+            player.pause();
+            //暂停播放按钮
+            PauseButton.Visibility = Visibility.Hidden;
+            PlayButton.Visibility = Visibility.Visible;
+        }
+
         private void ProgressClock(object sender, EventArgs e) {
             Player player = Player.getInstance(Handle);
             //播放进度
-            Progress.Value = player.getPosition();
+            Progress.Value = player.position;
             //播放时间
             time_now.Text = Helper.Seconds2Time(Progress.Value);
         }

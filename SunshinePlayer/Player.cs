@@ -1,4 +1,5 @@
-﻿using Un4seen.Bass;
+﻿using System;
+using Un4seen.Bass;
 
 namespace SunshinePlayer {
     /// <summary>
@@ -24,7 +25,7 @@ namespace SunshinePlayer {
             }
             //初始化 BassNet 库
             if(!Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, windowHandle)) {
-                Error error = getError();
+                Error error = this.error;
                 System.Windows.MessageBox.Show(error.code + " - " + error.content, error.title, System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error, System.Windows.MessageBoxResult.OK, System.Windows.MessageBoxOptions.ServiceNotification);
             }
             //默认音量
@@ -62,16 +63,27 @@ namespace SunshinePlayer {
         /// 文件流
         /// </summary>
         private int stream = 0;
+        /// <summary>
+        /// 音量值记录
+        /// </summary>
+        private int _volumn = 100;
 
         /// <summary>
         /// 音量
         /// </summary>
         public int volumn {
             get {
-                return volumn;
+                float value = 100;
+                if(Bass.BASS_ChannelGetAttribute(stream, BASSAttribute.BASS_ATTRIB_VOL, ref value)) {
+                    return (int)(Math.Round(value * 100));
+                } else {
+                    return 100;
+                }
             }
             set {
-                volumn = value;
+                //记录音量
+                _volumn = value;
+                //设置音量
                 if(stream != 0) {
                     Bass.BASS_ChannelSetAttribute(stream, BASSAttribute.BASS_ATTRIB_VOL, value / 100f);
                 }
@@ -175,6 +187,9 @@ namespace SunshinePlayer {
         /// <param name="restart">重头开始</param>
         /// <returns>播放结果</returns>
         public bool play(bool restart = false) {
+            //设置音量
+            volumn = _volumn;
+            //播放
             return stream != 0 && Bass.BASS_ChannelPlay(stream, restart);
         }
         /// <summary>

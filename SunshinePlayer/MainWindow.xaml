@@ -19,7 +19,7 @@
     </Window.Triggers>
     <Canvas>
         <!-- 播放按钮 -->
-        <Button x:Name="PlayButton" Content="Play" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPlayStyle}" Cursor="Hand" ToolTip="播放" IsTabStop="False" d:IsLocked="False">
+        <Button x:Name="PlayButton" Content="Play" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPlayStyle}" Cursor="Hand" ToolTip="播放" IsTabStop="False" d:IsLocked="False" Click="PlayButton_Click">
             <Button.Resources>
                 <Style x:Key="btnPlayStyle" TargetType="{x:Type Button}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -42,7 +42,7 @@
             </Button.Resources>
         </Button>
         <!-- 暂停按钮 -->
-        <Button x:Name="PauseButton" Content="Pause" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPauseStyle}" Cursor="Hand" ToolTip="暂停" Visibility="Hidden" IsTabStop="False" d:IsLocked="False">
+        <Button x:Name="PauseButton" Content="Pause" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPauseStyle}" Cursor="Hand" ToolTip="暂停" Visibility="Hidden" IsTabStop="False" d:IsLocked="False" Click="PauseButton_Click">
             <Button.Resources>
                 <Style x:Key="btnPauseStyle" TargetType="{x:Type Button}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
