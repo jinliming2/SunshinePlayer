@@ -75,7 +75,8 @@ namespace SunshinePlayer {
             get {
                 float value = 100;
                 if(Bass.BASS_ChannelGetAttribute(stream, BASSAttribute.BASS_ATTRIB_VOL, ref value)) {
-                    return (int)(Math.Round(value * 100));
+                    _volumn = (int)(Math.Round(value * 100));
+                    return _volumn;
                 } else {
                     return 100;
                 }
@@ -177,8 +178,12 @@ namespace SunshinePlayer {
         /// <param name="filePath">文件路径</param>
         /// <returns>是否打开成功</returns>
         public bool openFile(string filePath) {
+            //停止当前的播放
             stop();
+            //打开新文件
             stream = Bass.BASS_StreamCreateFile(filePath, 0L, 0L, BASSFlag.BASS_SAMPLE_FLOAT);
+            //设置音量
+            volumn = _volumn;
             return stream == 0;
         }
         /// <summary>
