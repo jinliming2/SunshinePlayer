@@ -42,6 +42,18 @@ namespace SunshinePlayer {
         /// </summary>
         private Run time_total = new Run("/00:00"), time_now = new Run("00:00");
         /// <summary>
+        /// 进度条拖动状态
+        /// </summary>
+        private bool draggingProgress = false;
+        /// <summary>
+        /// 进度时间颜色
+        /// </summary>
+        private Brush progressColor = new SolidColorBrush(Colors.White);
+        /// <summary>
+        /// 进度时间拖动时颜色
+        /// </summary>
+        private Brush draggingProgressColor = new SolidColorBrush(Colors.Orange);
+        /// <summary>
         /// 构造函数 初始化程序
         /// </summary>
         public MainWindow() {
@@ -80,6 +92,20 @@ namespace SunshinePlayer {
             //窗口拖动
             this.MouseLeftButtonDown += delegate { this.MouseMove += dragWindow; };
             this.MouseUp += delegate { this.MouseMove -= dragWindow; };
+
+            //进度条拖动
+            Progress.PreviewMouseDown += delegate {
+                draggingProgress = true;
+                Progress.ValueChanged += progress_valueChange;
+                //时间文本颜色
+                time_now.Foreground = draggingProgressColor;
+            };
+            Progress.PreviewMouseUp += delegate {
+                draggingProgress = false;
+                Progress.ValueChanged -= progress_valueChange;
+                //时间文本颜色
+                time_now.Foreground = progressColor;
+            };
 
             //播放列表按钮效果
             shadow.ShadowDepth = 0;
@@ -240,13 +266,27 @@ namespace SunshinePlayer {
             PauseButton.Visibility = Visibility.Hidden;
             PlayButton.Visibility = Visibility.Visible;
         }
-
+        /// <summary>
+        /// 播放进度时钟
+        /// </summary>
         private void ProgressClock(object sender, EventArgs e) {
             Player player = Player.getInstance(Handle);
-            //播放进度
-            Progress.Value = player.position;
-            //播放时间
-            time_now.Text = Helper.Seconds2Time(Progress.Value);
+            if(!draggingProgress) {
+                //播放进度
+                Progress.Value = player.position;
+                //播放时间
+                time_now.Text = Helper.Seconds2Time(Progress.Value);
+            }
+        }
+        private void progress_valueChange(object sender, RoutedPropertyChangedEventArgs<double> e) {
+            //拖动进度条
+            if(draggingProgress) {
+                Player player = Player.getInstance(Handle);
+                //改变进度
+                player.position = e.NewValue;
+                //时间显示
+                time_now.Text = Helper.Seconds2Time(e.NewValue);
+            }
         }
     }
 }
