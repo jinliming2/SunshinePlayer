@@ -208,6 +208,11 @@ namespace SunshinePlayer {
                     //暂停播放按钮
                     PauseButton.Visibility = Visibility.Visible;
                     PlayButton.Visibility = Visibility.Hidden;
+                    //音乐信息
+                    MusicID3 information = player.information;
+                    TitleLabel.Content = information.title;
+                    SingerLabel.Content = information.artist;
+                    AlbumLabel.Content = information.album;
                 } else {
                     Error error = player.error;
                     MessageBox.Show(error.content, error.title, MessageBoxButton.OK, MessageBoxImage.Error);
