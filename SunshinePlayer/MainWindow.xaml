@@ -259,7 +259,7 @@
         <!-- 音量操作区 -->
         <Canvas x:Name="Volume" Height="40" Width="40" Canvas.Left="31" Canvas.Top="422" Background="#00000000" Opacity="0.9" ClipToBounds="True" d:IsLocked="False">
             <!-- 静音操作（音量） -->
-            <Button x:Name="MuteButton" Content="Volume" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Style="{DynamicResource btnMuteStyle}" Cursor="Hand" ToolTip="静音" IsTabStop="False">
+            <Button x:Name="MuteButton" Content="Volume" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Style="{DynamicResource btnMuteStyle}" Cursor="Hand" ToolTip="静音" IsTabStop="False" Click="MuteButton_Click">
                 <Button.Resources>
                     <Style x:Key="btnMuteStyle" TargetType="{x:Type Button}">
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -284,7 +284,7 @@
                 </Button.Resources>
             </Button>
             <!-- 取消静音操作（静音） -->
-            <Button x:Name="VolumeButton" Content="Mute" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Style="{DynamicResource btnVolumeStyle}" Cursor="Hand" ToolTip="取消静音" IsTabStop="False" Visibility="Hidden">
+            <Button x:Name="VolumeButton" Content="Mute" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Width="40" Style="{DynamicResource btnVolumeStyle}" Cursor="Hand" ToolTip="取消静音" IsTabStop="False" Visibility="Hidden" Click="VolumeButton_Click">
                 <Button.Resources>
                     <Style x:Key="btnVolumeStyle" TargetType="{x:Type Button}">
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -308,7 +308,7 @@
                 </Button.Resources>
             </Button>
             <!-- 音量条 -->
-            <Slider x:Name="VolumeBar" Opacity="0.8" Style="{DynamicResource SimpleSlider}" Width="190" Height="14" Maximum="100" Orientation="Horizontal" SmallChange="1" TickPlacement="None" Cursor="Hand" Canvas.Top="13" Canvas.Left="60" Value="100"/>
+            <Slider x:Name="VolumeBar" Opacity="0.8" Style="{DynamicResource SimpleSlider}" Width="190" Height="14" Maximum="100" Orientation="Horizontal" SmallChange="1" TickPlacement="None" Cursor="Hand" Canvas.Top="13" Canvas.Left="60" Value="100" ValueChanged="VolumeBar_ValueChanged"/>
         </Canvas>
         <!-- 播放列表 -->
         <Canvas x:Name="PlayList" Canvas.Left="10" Height="392" Width="766" Background="#CC000000" Opacity="0.9" ClipToBounds="True" d:IsLocked="False" d:IsHidden="True">

@@ -67,7 +67,21 @@ namespace SunshinePlayer {
         /// 音量值记录
         /// </summary>
         private int _volumn = 100;
-
+        
+        /// <summary>
+        /// 设置静音
+        /// </summary>
+        public bool mute {
+            set {
+                if(value) {
+                    int v = _volumn;
+                    volumn = 0;
+                    _volumn = v;
+                } else {
+                    volumn = _volumn;
+                }
+            }
+        }
         /// <summary>
         /// 音量
         /// </summary>

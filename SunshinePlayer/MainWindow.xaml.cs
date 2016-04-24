@@ -283,6 +283,38 @@ namespace SunshinePlayer {
                 time_now.Text = Helper.Seconds2Time(Progress.Value);
             }
         }
+        /// <summary>
+        /// 拖动音量条
+        /// </summary>
+        private void VolumeBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) {
+            Player player = Player.getInstance(Handle);
+            //调整音量
+            player.volumn = (int)Math.Round(e.NewValue);
+            //显示静音按钮
+            VolumeButton.Visibility = Visibility.Hidden;
+            MuteButton.Visibility = Visibility.Visible;
+        }
+        /// <summary>
+        /// 静音
+        /// </summary>
+        private void MuteButton_Click(object sender, RoutedEventArgs e) {
+            //静音并显示取消静音按钮
+            MuteButton.Visibility = Visibility.Hidden;
+            Player.getInstance(Handle).mute = true;
+            VolumeButton.Visibility = Visibility.Visible;
+        }
+        /// <summary>
+        /// 音量
+        /// </summary>
+        private void VolumeButton_Click(object sender, RoutedEventArgs e) {
+            //取消静音并显示静音按钮
+            VolumeButton.Visibility = Visibility.Hidden;
+            Player.getInstance(Handle).mute = false;
+            MuteButton.Visibility = Visibility.Visible;
+        }
+        /// <summary>
+        /// 拖动进度条
+        /// </summary>
         private void progress_valueChange(object sender, RoutedPropertyChangedEventArgs<double> e) {
             //拖动进度条
             if(draggingProgress) {
