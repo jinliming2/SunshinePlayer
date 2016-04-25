@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -6,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace SunshinePlayer {
@@ -54,6 +56,26 @@ namespace SunshinePlayer {
         /// </summary>
         private Brush draggingProgressColor = new SolidColorBrush(Colors.Orange);
         /// <summary>
+        /// 后台频谱操作线程
+        /// </summary>
+        private BackgroundWorker spectrumWorker = new BackgroundWorker();
+        /// <summary>
+        /// 频谱线、频谱条
+        /// </summary>
+        private Rectangle[] spectrum_t = new Rectangle[42], spectrum_x = new Rectangle[42];
+        /// <summary>
+        /// 频谱数据
+        /// </summary>
+        private int[] spectrum_position_t = new int[42], spectrum_position_x = new int[42];
+        /// <summary>
+        /// 频谱线下落速度
+        /// </summary>
+        private int[] spectrum_fall_rate = new int[42];
+        /// <summary>
+        /// 用于频谱线程访问的player对象
+        /// </summary>
+        private Player playerForSpectrum;
+        /// <summary>
         /// 构造函数 初始化程序
         /// </summary>
         public MainWindow() {
@@ -88,6 +110,11 @@ namespace SunshinePlayer {
             //打开文件按钮
             OpenButton = (Button)baseWindowTemplate.FindName("OpenButton", this);
             OpenButton.Click += openFile;  //打开文件
+            //频谱
+            for(int i = 1; i <= 42; i++) {
+                spectrum_t[i - 1] = (Rectangle)Spectrum.FindName("ppt" + i);
+                spectrum_x[i - 1] = (Rectangle)Spectrum.FindName("ppx" + i);
+            }
 
             //窗口拖动
             this.MouseLeftButtonDown += delegate { this.MouseMove += dragWindow; };
@@ -122,6 +149,14 @@ namespace SunshinePlayer {
             progressClock.Interval = new TimeSpan(0, 0, 0, 0, 250);
             progressClock.Tick += ProgressClock;
             progressClock.Start();
+
+            //频谱线程
+            playerForSpectrum = Player.getInstance(Handle);
+            spectrumWorker.WorkerReportsProgress = true;
+            spectrumWorker.WorkerSupportsCancellation = true;
+            spectrumWorker.ProgressChanged += spectrum_change;
+            spectrumWorker.DoWork += spectrum_caculator;
+            spectrumWorker.RunWorkerAsync();
         }
         /// <summary>
         /// 窗口加载完成
@@ -146,6 +181,7 @@ namespace SunshinePlayer {
         /// 窗口关闭
         /// </summary>
         private void close(object sender, RoutedEventArgs e) {
+            spectrumWorker.CancelAsync();
             this.Close();
         }
         /// <summary>
@@ -323,6 +359,70 @@ namespace SunshinePlayer {
                 player.position = e.NewValue;
                 //时间显示
                 time_now.Text = Helper.Seconds2Time(e.NewValue);
+            }
+        }
+        /// <summary>
+        /// 更新频谱显示
+        /// </summary>
+        private void spectrum_change(object sender, ProgressChangedEventArgs e) {
+            for(int i = 0; i < 42; i++) {
+                spectrum_t[i].Height = spectrum_position_t[i];
+                Canvas.SetBottom(spectrum_x[i], spectrum_position_x[i]);
+            }
+        }
+        /// <summary>
+        /// 频谱计算
+        /// </summary>
+        private void spectrum_caculator(object sender, DoWorkEventArgs e) {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            Player player = playerForSpectrum;
+            //频谱显示最大高度
+            int max_height = 295;
+            while(true) {
+                if(worker.CancellationPending) {
+                    break;
+                }
+                //频谱数据
+                float[] spectrum = player.spectrum;
+                for(int i = 0; i < 42; i++) {
+                    //忽略最前面三条，后面每隔一条取一条
+                    int id = i * 2 + 3;
+                    //计算高度（以0.1为最大值，但是实际在高音时可达到0.4左右）
+                    float height = spectrum[id] * max_height * 10;
+                    if(height > max_height) {
+                        height = max_height;
+                    }
+                    //上升
+                    if(height > spectrum_position_t[i]) {
+                        spectrum_position_t[i] = (int)height;
+                    } else if(spectrum_position_t[i] > 5) {
+                        //大幅下降
+                        spectrum_position_t[i] -= 5;
+                        if(spectrum_position_t[i] < height) {
+                            spectrum_position_t[i] = (int)height;
+                        }
+                    } else if(spectrum_position_t[i] > 0) {
+                        //小幅下降
+                        spectrum_position_t[i]--;
+                    }
+                    //频谱线下落速度
+                    if(spectrum_fall_rate[i] <= 10) {
+                        spectrum_fall_rate[i]++;
+                    }
+                    //频谱线下落
+                    if(spectrum_fall_rate[i] > 0) {
+                        spectrum_position_x[i] -= spectrum_fall_rate[i];
+                    }
+                    if(spectrum_position_x[i] < spectrum_position_t[i] + 1) {
+                        spectrum_position_x[i] = spectrum_position_t[i] + 1;
+                        //置为-10， 延迟下落
+                        spectrum_fall_rate[i] = -10;
+                    }
+                }
+                //更新显示
+                worker.ReportProgress(0);
+                //延迟获取
+                System.Threading.Thread.Sleep(35);
             }
         }
     }

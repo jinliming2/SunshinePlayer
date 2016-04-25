@@ -141,15 +141,15 @@
         </Button>
         <!-- 频谱 -->
         <Canvas x:Name="Spectrum" Canvas.Left="10" Canvas.Top="92" IsHitTestVisible="False" Height="295" Width="433" d:IsLocked="False">
-            <Rectangle x:Name="ppt01" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="1.1"/>
-            <Rectangle x:Name="ppt02" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="11.3"/>
-            <Rectangle x:Name="ppt03" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="21.5"/>
-            <Rectangle x:Name="ppt04" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="31.7"/>
-            <Rectangle x:Name="ppt05" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="41.9"/>
-            <Rectangle x:Name="ppt06" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="52.1"/>
-            <Rectangle x:Name="ppt07" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="62.3"/>
-            <Rectangle x:Name="ppt08" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="72.5"/>
-            <Rectangle x:Name="ppt09" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="82.7"/>
+            <Rectangle x:Name="ppt1" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="1.1"/>
+            <Rectangle x:Name="ppt2" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="11.3"/>
+            <Rectangle x:Name="ppt3" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="21.5"/>
+            <Rectangle x:Name="ppt4" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="31.7"/>
+            <Rectangle x:Name="ppt5" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="41.9"/>
+            <Rectangle x:Name="ppt6" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="52.1"/>
+            <Rectangle x:Name="ppt7" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="62.3"/>
+            <Rectangle x:Name="ppt8" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="72.5"/>
+            <Rectangle x:Name="ppt9" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="82.7"/>
             <Rectangle x:Name="ppt10" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="92.9"/>
             <Rectangle x:Name="ppt11" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="103.1"/>
             <Rectangle x:Name="ppt12" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="113.3"/>
@@ -183,15 +183,15 @@
             <Rectangle x:Name="ppt40" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="398.9"/>
             <Rectangle x:Name="ppt41" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="409.1"/>
             <Rectangle x:Name="ppt42" Style="{DynamicResource spectrumArticleStyle}" Height="1" Canvas.Left="419.3"/>
-            <Rectangle x:Name="ppx01" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="1.1"/>
-            <Rectangle x:Name="ppx02" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="11.3"/>
-            <Rectangle x:Name="ppx03" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="21.5"/>
-            <Rectangle x:Name="ppx04" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="31.7"/>
-            <Rectangle x:Name="ppx05" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="41.9"/>
-            <Rectangle x:Name="ppx06" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="52.1"/>
-            <Rectangle x:Name="ppx07" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="62.3"/>
-            <Rectangle x:Name="ppx08" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="72.5"/>
-            <Rectangle x:Name="ppx09" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="82.7"/>
+            <Rectangle x:Name="ppx1" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="1.1"/>
+            <Rectangle x:Name="ppx2" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="11.3"/>
+            <Rectangle x:Name="ppx3" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="21.5"/>
+            <Rectangle x:Name="ppx4" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="31.7"/>
+            <Rectangle x:Name="ppx5" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="41.9"/>
+            <Rectangle x:Name="ppx6" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="52.1"/>
+            <Rectangle x:Name="ppx7" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="62.3"/>
+            <Rectangle x:Name="ppx8" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="72.5"/>
+            <Rectangle x:Name="ppx9" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="82.7"/>
             <Rectangle x:Name="ppx10" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="92.9"/>
             <Rectangle x:Name="ppx11" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="103.1"/>
             <Rectangle x:Name="ppx12" Style="{DynamicResource spectralLineStyle}" Canvas.Bottom="2" Height="1" Canvas.Left="113.3"/>
