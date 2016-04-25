@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="MusicID3.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Playlist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
