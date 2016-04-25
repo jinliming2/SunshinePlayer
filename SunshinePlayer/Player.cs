@@ -67,7 +67,11 @@ namespace SunshinePlayer {
         /// 音量值记录
         /// </summary>
         private int _volumn = 100;
-        
+        /// <summary>
+        /// 频谱数据
+        /// </summary>
+        private float[] _spectrum = new float[128];
+
         /// <summary>
         /// 设置静音
         /// </summary>
@@ -142,6 +146,19 @@ namespace SunshinePlayer {
                     return Bass.BASS_ChannelIsActive(stream);
                 }
                 return BASSActive.BASS_ACTIVE_STOPPED;
+            }
+        }
+        /// <summary>
+        /// 获取频谱数据
+        /// </summary>
+        public float[] spectrum {
+            get {
+                if(stream != 0 && status == BASSActive.BASS_ACTIVE_PLAYING) {
+                    Bass.BASS_ChannelGetData(stream, _spectrum, (int)BASSData.BASS_DATA_FFT256);
+                } else {
+                    Array.Clear(_spectrum, 0, _spectrum.Length);
+                }
+                return _spectrum;
             }
         }
         /// <summary>
