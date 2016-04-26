@@ -8,7 +8,7 @@ namespace SunshinePlayer {
     /// 播放列表类
     /// </summary>
     [Serializable]
-    class Playlist {
+    public class Playlist {
         /// <summary>
         /// 音乐信息
         /// </summary>
@@ -21,6 +21,10 @@ namespace SunshinePlayer {
             /// 艺术家
             /// </summary>
             public string artist;
+            /// <summary>
+            /// 专辑
+            /// </summary>
+            public string album;
             /// <summary>
             /// 时长
             /// </summary>
@@ -45,7 +49,7 @@ namespace SunshinePlayer {
         /// </summary>
         /// <param name="obj">播放列表对象</param>
         /// <param name="path">文件路径及文件名</param>
-        public void saveFile(ref Playlist obj, string path) {
+        public static void saveFile(ref Playlist obj, string path) {
             //文件流
             Stream fStream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
             //二进制序列化器
@@ -61,7 +65,7 @@ namespace SunshinePlayer {
         /// </summary>
         /// <param name="obj">播放列表对象</param>
         /// <param name="path">文件路径及文件名</param>
-        public void loadFile(out Playlist obj, string path) {
+        public static void loadFile(out Playlist obj, string path) {
             try {
                 //文件流
                 Stream fStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);

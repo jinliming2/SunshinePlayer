@@ -16,10 +16,6 @@ namespace SunshinePlayer {
     /// </summary>
     public partial class MainWindow : Window {
         /// <summary>
-        /// 启动参数
-        /// </summary>
-        public static string[] Args;
-        /// <summary>
         /// 歌词开关按钮
         /// </summary>
         private static CheckBox LrcButton;
@@ -75,6 +71,10 @@ namespace SunshinePlayer {
         /// 用于频谱线程访问的player对象
         /// </summary>
         private Player playerForSpectrum;
+        /// <summary>
+        /// 播放列表
+        /// </summary>
+        public Playlist play_list;
         /// <summary>
         /// 构造函数 初始化程序
         /// </summary>
@@ -424,6 +424,51 @@ namespace SunshinePlayer {
                 //延迟获取
                 System.Threading.Thread.Sleep(35);
             }
+        }
+        /// <summary>
+        /// 加载播放列表
+        /// </summary>
+        private void load_playlist() {
+            Playlist.loadFile(out play_list, App.workPath + "\\Playlist.db");
+            foreach(Playlist.Music music in play_list.list) {
+                TextBlock textblock = new TextBlock();
+                textblock.TextTrimming = TextTrimming.WordEllipsis;
+                //歌曲名
+                Run title = new Run(music.title);
+                title.FontSize = 20;
+                title.FontWeight = FontWeights.Bold;
+                textblock.Inlines.Add(title);
+                //时长
+                Run duration = new Run(music.duration == "" ? "" : (" - " + music.duration));
+                duration.FontSize = 16;
+                duration.FontStyle = FontStyles.Italic;
+                textblock.Inlines.Add(duration);
+                textblock.Inlines.Add(new LineBreak());
+                //艺术家
+                Run artist = new Run(music.artist == "" ? music.path : music.artist);
+                artist.FontSize = 14;
+                textblock.Inlines.Add(artist);
+                //专辑
+                Run album = new Run(music.album == "" ? "" : (" - " + music.album));
+                album.FontSize = 14;
+                textblock.Inlines.Add(album);
+                //宽度
+                textblock.Width = 725;
+                StackPanel stackPanel = new StackPanel();
+                stackPanel.Orientation = Orientation.Horizontal;
+                stackPanel.Children.Add(textblock);
+                ListBoxItem item = new ListBoxItem();
+                item.Content = stackPanel;
+                item.ToolTip = music.path;
+                item.IsTabStop = false;
+                item.MouseDoubleClick += PlaylistOpen;
+                List.Items.Add(item);
+            }
+        }
+        /// <summary>
+        /// 从播放列表打开文件
+        /// </summary>
+        private void PlaylistOpen(object sender, MouseButtonEventArgs e) {
         }
     }
 }
