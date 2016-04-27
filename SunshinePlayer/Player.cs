@@ -215,7 +215,7 @@ namespace SunshinePlayer {
             stream = Bass.BASS_StreamCreateFile(filePath, 0L, 0L, BASSFlag.BASS_SAMPLE_FLOAT);
             //设置音量
             volumn = _volumn;
-            return stream == 0;
+            return stream != 0;
         }
         /// <summary>
         /// 开始播放
@@ -244,6 +244,46 @@ namespace SunshinePlayer {
                 Bass.BASS_StreamFree(stream);
             }
             stream = 0;
+        }
+        /// <summary>
+        /// 获取指定音乐文件的ID3信息
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <returns>音乐ID3信息</returns>
+        public MusicID3? getInformation(string filePath) {
+            //打开文件
+            int s = Bass.BASS_StreamCreateFile(filePath, 0L, 0L, BASSFlag.BASS_SAMPLE_FLOAT);
+            if(s == 0) {
+                //打开失败
+                return null;
+            }
+            //获取ID3信息
+            MusicID3 i = new MusicID3();
+            string[] info = Bass.BASS_ChannelGetTagsID3V1(s);
+            if(info != null) {
+                i.title = info[0];
+                i.artist = info[1];
+                i.album = info[2];
+                i.year = info[3];
+                i.comment = info[4];
+                i.genre_id = info[5];
+                i.track = info[6];
+            }
+            info = Bass.BASS_ChannelGetTagsID3V2(stream);
+            if(info != null) {
+                foreach(string str in info) {
+                    if(str.StartsWith("TIT2", true, null)) {
+                        i.title = str.Remove(0, 5);
+                    } else if(str.StartsWith("TPE1", true, null)) {
+                        i.artist = str.Remove(0, 5);
+                    } else if(str.StartsWith("TALB", true, null)) {
+                        i.album = str.Remove(0, 5);
+                    }
+                }
+            }
+            //释放文件
+            Bass.BASS_StreamFree(s);
+            return i;
         }
     }
 }
