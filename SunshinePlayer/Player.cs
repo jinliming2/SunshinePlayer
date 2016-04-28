@@ -57,6 +57,10 @@ namespace SunshinePlayer {
         ~Player() {
             //停止并释放音乐
             stop();
+            //停止所有
+            Bass.BASS_Stop();
+            //释放Bass库
+            Bass.BASS_Free();
         }
 
         /// <summary>
