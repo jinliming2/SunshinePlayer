@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -170,6 +171,8 @@ namespace SunshinePlayer {
                 PlayList.Visibility = Visibility.Collapsed;
                 shadow.BlurRadius = 0;
             }
+            //加载播放列表
+            load_playlist();
         }
         /// <summary>
         /// 窗口最小化
@@ -233,6 +236,8 @@ namespace SunshinePlayer {
             if(ofd.ShowDialog() == true) {
                 //文件列表
                 string[] files = ofd.FileNames;
+                //添加到播放列表
+                addToPlaylist(files);
                 //打开第一个文件
                 Player player = Player.getInstance(Handle);
                 player.openFile(files[0]);
@@ -469,6 +474,88 @@ namespace SunshinePlayer {
         /// 从播放列表打开文件
         /// </summary>
         private void PlaylistOpen(object sender, MouseButtonEventArgs e) {
+        }
+        /// <summary>
+        /// 向播放列表插入文件
+        /// </summary>
+        /// <param name="files">文件路径数组</param>
+        /// <returns>成功返回插入的第一个文件在列表中的位置，失败返回播放列表最后一个文件的位置（可能为-1）</returns>
+        private int addToPlaylist(string[] files) {
+            int lastid = List.Items.Count - 2, count = -1;
+            foreach(string file in files) {
+                //检验音乐文件合法性并获取音乐信息
+                MusicID3? info = Player.getInformation(file);
+                if(info == null) {
+                    //音乐文件无法打开
+                    continue;
+                }
+                //删除已存在项
+                ArrayList deleted = new ArrayList();
+                foreach(ListBoxItem lbi in List.Items) {
+                    if(((string)lbi.ToolTip) == file) {
+                        deleted.Add(lbi);
+                    }
+                }
+                foreach(ListBoxItem lbi in deleted) {
+                    List.Items.Remove(lbi);
+                }
+                deleted.Clear();
+                foreach(Playlist.Music music in play_list.list) {
+                    if(music.path == file) {
+                        deleted.Add(music);
+                    }
+                }
+                foreach(Playlist.Music music in deleted) {
+                    play_list.list.Remove(music);
+                }
+                //添加到列表
+                TextBlock textblock = new TextBlock();
+                textblock.TextTrimming = TextTrimming.WordEllipsis;
+                //歌曲名
+                Run title = new Run(info.Value.title);
+                title.FontSize = 20;
+                title.FontWeight = FontWeights.Bold;
+                textblock.Inlines.Add(title);
+                //时长
+                Run duration = new Run(" - " + info.Value.duration);
+                duration.FontSize = 16;
+                duration.FontStyle = FontStyles.Italic;
+                textblock.Inlines.Add(duration);
+                textblock.Inlines.Add(new LineBreak());
+                //艺术家
+                Run artist = new Run(info.Value.artist == "" ? file : info.Value.artist);
+                artist.FontSize = 14;
+                textblock.Inlines.Add(artist);
+                //专辑
+                Run album = new Run(info.Value.album == "" ? "" : (" - " + info.Value.album));
+                album.FontSize = 14;
+                textblock.Inlines.Add(album);
+                //宽度
+                textblock.Width = 725;
+                StackPanel stackPanel = new StackPanel();
+                stackPanel.Orientation = Orientation.Horizontal;
+                stackPanel.Children.Add(textblock);
+                ListBoxItem item = new ListBoxItem();
+                item.Content = stackPanel;
+                item.ToolTip = file;
+                item.IsTabStop = false;
+                item.MouseDoubleClick += PlaylistOpen;
+                //统计
+                lastid = List.Items.Add(item);
+                count++;
+                //添加到列表
+                play_list.list.Add(new Playlist.Music {
+                    title = info.Value.title,
+                    artist = info.Value.artist,
+                    album = info.Value.album,
+                    duration = info.Value.duration,
+                    path = file
+                });
+            }
+            //保存播放列表
+            Playlist.saveFile(ref play_list, App.workPath + "\\Playlist.db");
+            //返回插入的第一条位置id
+            return lastid - count;
         }
     }
 }

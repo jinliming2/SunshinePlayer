@@ -31,5 +31,9 @@
         /// 轨道
         /// </summary>
         public string track;  //0-255
+        /// <summary>
+        /// 音乐时长
+        /// </summary>
+        public string duration;  //非ID3属性
     }
 }

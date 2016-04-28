@@ -168,17 +168,7 @@ namespace SunshinePlayer {
             get {
                 MusicID3 i = new MusicID3();
                 if(stream != 0) {
-                    string[] info = Bass.BASS_ChannelGetTagsID3V1(stream);
-                    if(info != null) {
-                        i.title = info[0];
-                        i.artist = info[1];
-                        i.album = info[2];
-                        i.year = info[3];
-                        i.comment = info[4];
-                        i.genre_id = info[5];
-                        i.track = info[6];
-                    }
-                    info = Bass.BASS_ChannelGetTagsID3V2(stream);
+                    string[] info = Bass.BASS_ChannelGetTagsID3V2(stream);
                     if(info != null) {
                         foreach(string s in info) {
                             if(s.StartsWith("TIT2", true, null)) {
@@ -189,6 +179,16 @@ namespace SunshinePlayer {
                                 i.album = s.Remove(0, 5);
                             }
                         }
+                    }
+                    info = Bass.BASS_ChannelGetTagsID3V1(stream);
+                    if(info != null) {
+                        i.title = info[0] != "" ? info[0] : i.title;
+                        i.artist = info[1] != "" ? info[1] : i.artist;
+                        i.album = info[2] != "" ? info[2] : i.album;
+                        i.year = info[3];
+                        i.comment = info[4];
+                        i.genre_id = info[5];
+                        i.track = info[6];
                     }
                 }
                 return i;
@@ -250,7 +250,7 @@ namespace SunshinePlayer {
         /// </summary>
         /// <param name="filePath">文件路径</param>
         /// <returns>音乐ID3信息</returns>
-        public MusicID3? getInformation(string filePath) {
+        public static MusicID3? getInformation(string filePath) {
             //打开文件
             int s = Bass.BASS_StreamCreateFile(filePath, 0L, 0L, BASSFlag.BASS_SAMPLE_FLOAT);
             if(s == 0) {
@@ -259,17 +259,7 @@ namespace SunshinePlayer {
             }
             //获取ID3信息
             MusicID3 i = new MusicID3();
-            string[] info = Bass.BASS_ChannelGetTagsID3V1(s);
-            if(info != null) {
-                i.title = info[0];
-                i.artist = info[1];
-                i.album = info[2];
-                i.year = info[3];
-                i.comment = info[4];
-                i.genre_id = info[5];
-                i.track = info[6];
-            }
-            info = Bass.BASS_ChannelGetTagsID3V2(stream);
+            string[] info = Bass.BASS_ChannelGetTagsID3V2(s);
             if(info != null) {
                 foreach(string str in info) {
                     if(str.StartsWith("TIT2", true, null)) {
@@ -281,6 +271,19 @@ namespace SunshinePlayer {
                     }
                 }
             }
+            info = Bass.BASS_ChannelGetTagsID3V1(s);
+            if(info != null) {
+                i.title = info[0] != "" ? info[0] : i.title;
+                i.artist = info[1] != "" ? info[1] : i.artist;
+                i.album = info[2] != "" ? info[2] : i.album;
+                i.year = info[3];
+                i.comment = info[4];
+                i.genre_id = info[5];
+                i.track = info[6];
+            }
+            //获取时长信息
+            double seconds = Bass.BASS_ChannelBytes2Seconds(s, Bass.BASS_ChannelGetLength(s));
+            i.duration = Helper.Seconds2Time(seconds);
             //释放文件
             Bass.BASS_StreamFree(s);
             return i;

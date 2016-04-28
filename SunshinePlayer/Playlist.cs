@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SunshinePlayer {
@@ -12,6 +13,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 音乐信息
         /// </summary>
+        [Serializable]
         public struct Music {
             /// <summary>
             /// 标题
@@ -80,6 +82,9 @@ namespace SunshinePlayer {
                 Stream fStream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
                 //直接关闭文件
                 fStream.Close();
+                //返回一个新的空对象
+                obj = new Playlist();
+            } catch(SerializationException) {  //文件为空
                 //返回一个新的空对象
                 obj = new Playlist();
             }
