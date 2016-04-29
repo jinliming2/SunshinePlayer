@@ -237,27 +237,10 @@ namespace SunshinePlayer {
                 //文件列表
                 string[] files = ofd.FileNames;
                 //添加到播放列表
-                addToPlaylist(files);
+                List.SelectedIndex = addToPlaylist(files);
+                List.ScrollIntoView(List.SelectedItem);
                 //打开第一个文件
-                Player player = Player.getInstance(Handle);
-                player.openFile(files[0]);
-                if(player.play(true)) {
-                    //进度条最大值
-                    Progress.Maximum = player.length;
-                    //音乐长度
-                    time_total.Text = "/" + Helper.Seconds2Time(Progress.Maximum);
-                    //暂停播放按钮
-                    PauseButton.Visibility = Visibility.Visible;
-                    PlayButton.Visibility = Visibility.Hidden;
-                    //音乐信息
-                    MusicID3 information = player.information;
-                    TitleLabel.Content = information.title;
-                    SingerLabel.Content = information.artist;
-                    AlbumLabel.Content = information.album;
-                } else {
-                    Error error = player.error;
-                    MessageBox.Show(error.content, error.title, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                PlaylistOpen(sender, null);
             }
         }
         /// <summary>
@@ -474,6 +457,26 @@ namespace SunshinePlayer {
         /// 从播放列表打开文件
         /// </summary>
         private void PlaylistOpen(object sender, MouseButtonEventArgs e) {
+            Player player = Player.getInstance(Handle);
+            //打开文件
+            player.openFile((string)((ListBoxItem)List.Items.GetItemAt(List.SelectedIndex)).ToolTip);
+            if(player.play(true)) {
+                //进度条最大值
+                Progress.Maximum = player.length;
+                //音乐长度
+                time_total.Text = "/" + Helper.Seconds2Time(Progress.Maximum);
+                //暂停播放按钮
+                PauseButton.Visibility = Visibility.Visible;
+                PlayButton.Visibility = Visibility.Hidden;
+                //音乐信息
+                MusicID3 information = player.information;
+                TitleLabel.Content = information.title;
+                SingerLabel.Content = information.artist;
+                AlbumLabel.Content = information.album;
+            } else {
+                Error error = player.error;
+                MessageBox.Show(error.content, error.title, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         /// <summary>
         /// 向播放列表插入文件
