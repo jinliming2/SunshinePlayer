@@ -297,8 +297,8 @@ namespace SunshinePlayer {
                 PlaylistOpen(sender, null);
             } else {
                 player.play();
-                //进度时钟
-                progressClock.Start();
+                //时钟们
+                clocks(true);
             }
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Visible;
@@ -313,8 +313,8 @@ namespace SunshinePlayer {
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Hidden;
             PlayButton.Visibility = Visibility.Visible;
-            //进度时钟
-            progressClock.Stop();
+            //时钟们
+            clocks(false);
         }
         /// <summary>
         /// 停止播放
@@ -329,8 +329,19 @@ namespace SunshinePlayer {
             Progress.Value = 0;
             //播放时间
             time_now.Text = Helper.Seconds2Time(Progress.Value);
-            //进度时钟
-            progressClock.Stop();
+            //时钟们
+            clocks(false);
+        }
+        /// <summary>
+        /// 启动/停止时钟们
+        /// </summary>
+        /// <param name="start"></param>
+        private void clocks(bool start) {
+            if(start) {
+                progressClock.Start();
+            } else {
+                progressClock.Stop();
+            }
         }
         /// <summary>
         /// 播放进度时钟
@@ -354,7 +365,8 @@ namespace SunshinePlayer {
                     //停止播放关闭文件
                     stop();
                     if(Config.playlistIndex >= List.Items.Count - 1) {
-                        progressClock.Stop();  //停止时钟
+                        //时钟们
+                        clocks(false);
                         List.SelectedIndex = Config.playlistIndex = 0;
                         List.ScrollIntoView(List.SelectedItem);
                     } else {
@@ -513,7 +525,34 @@ namespace SunshinePlayer {
                 break;
             }
         }
-
+        /// <summary>
+        /// 上一曲
+        /// </summary>
+        private void LastButton_Click(object sender, RoutedEventArgs e) {
+            //停止播放关闭文件
+            stop();
+            if(Config.playlistIndex <= 0) {
+                List.SelectedIndex = Config.playlistIndex = List.Items.Count - 1;
+            } else {
+                List.SelectedIndex = --Config.playlistIndex;
+            }
+            List.ScrollIntoView(List.SelectedItem);
+            PlaylistOpen(sender, null);
+        }
+        /// <summary>
+        /// 下一曲
+        /// </summary>
+        private void NextButton_Click(object sender, RoutedEventArgs e) {
+            //停止播放关闭文件
+            stop();
+            if(Config.playlistIndex >= List.Items.Count - 1) {
+                List.SelectedIndex = Config.playlistIndex = 0;
+            } else {
+                List.SelectedIndex = ++Config.playlistIndex;
+            }
+            List.ScrollIntoView(List.SelectedItem);
+            PlaylistOpen(sender, null);
+        }
         /// <summary>
         /// 加载播放列表
         /// </summary>
@@ -583,8 +622,8 @@ namespace SunshinePlayer {
                 TitleLabel.Content = information.title;
                 SingerLabel.Content = information.artist;
                 AlbumLabel.Content = information.album;
-                //进度时钟
-                progressClock.Start();
+                //时钟们
+                clocks(true);
             } else {
                 Error error = player.error;
                 MessageBox.Show(error.content, error.title, MessageBoxButton.OK, MessageBoxImage.Error);
