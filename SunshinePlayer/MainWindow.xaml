@@ -315,7 +315,7 @@
             <!-- 播放列表 -->
             <ListBox x:Name="List" Height="342" Canvas.Left="10" Canvas.Top="10" Width="746" Background="#4CFFFFFF" Foreground="White" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
             <!-- 播放模式 -->
-            <ComboBox x:Name="Model" Height="30" Canvas.Left="434" Canvas.Top="357" Width="106" Background="#CCFFFFFF" BorderBrush="Transparent" Opacity="0.8" IsReadOnly="True" SelectedIndex="0" FontSize="20" FontFamily="Consolas" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <ComboBox x:Name="Model" Height="30" Canvas.Left="434" Canvas.Top="357" Width="106" Background="#CCFFFFFF" BorderBrush="Transparent" Opacity="0.8" IsReadOnly="True" SelectedIndex="0" FontSize="20" FontFamily="Consolas" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="Model_SelectionChanged">
                 <ComboBoxItem Content="列表循环" FontSize="20" FontFamily="Consolas" Opacity="0.8" ToolTip="列表循环" IsTabStop="False"/>
                 <ComboBoxItem Content="顺序播放" FontSize="20" FontFamily="Consolas" Opacity="0.8" ToolTip="顺序播放" IsTabStop="False"/>
                 <ComboBoxItem Content="单曲循环" FontSize="20" FontFamily="Consolas" Opacity="0.8" ToolTip="单曲循环" IsTabStop="False"/>

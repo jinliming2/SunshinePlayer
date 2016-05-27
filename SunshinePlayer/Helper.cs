@@ -6,6 +6,10 @@ namespace SunshinePlayer {
     /// </summary>
     class Helper {
         /// <summary>
+        /// 随机数获取
+        /// </summary>
+        public static Random random = new Random();
+        /// <summary>
         /// 秒数转换为时间
         /// </summary>
         /// <param name="seconds">秒数</param>
