@@ -201,7 +201,9 @@ namespace SunshinePlayer {
         /// 窗口关闭
         /// </summary>
         private void close(object sender, RoutedEventArgs e) {
+            //停止频谱
             spectrumWorker.CancelAsync();
+            //关闭窗口
             this.Close();
         }
         /// <summary>
@@ -710,6 +712,33 @@ namespace SunshinePlayer {
             Playlist.saveFile(ref play_list, App.workPath + "\\Playlist.db");
             //返回插入的第一条位置id
             return lastid - count;
+        }
+        /// <summary>
+        /// 删除播放列表选中项
+        /// </summary>
+        private void btnDelete_Click(object sender, RoutedEventArgs e) {
+            //删除已存在项
+            ArrayList deleted = new ArrayList();
+            ArrayList deletedItems = new ArrayList();
+            foreach(ListBoxItem lbi in List.SelectedItems) {
+                foreach(Playlist.Music music in play_list.list) {
+                    if(music.path == (string)lbi.ToolTip) {
+                        deleted.Add(music);
+                        break;
+                    }
+                }
+                deletedItems.Add(lbi);
+            }
+            //删除显示列表
+            foreach(ListBoxItem item in deletedItems) {
+                List.Items.Remove(item);
+            }
+            //删除存储列表
+            foreach(Playlist.Music music in deleted) {
+                play_list.list.Remove(music);
+            }
+            //保存播放列表
+            Playlist.saveFile(ref play_list, App.workPath + "\\Playlist.db");
         }
     }
 }
