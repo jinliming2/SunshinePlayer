@@ -80,6 +80,8 @@ namespace SunshinePlayer {
         /// 构造函数 初始化程序
         /// </summary>
         public MainWindow() {
+            //加载配置
+            Config.loadConfig(App.workPath + "\\config.db");
             //窗口初始化事件
             this.Loaded += initialize;
             InitializeComponent();
@@ -163,8 +165,22 @@ namespace SunshinePlayer {
         /// 窗口加载完成
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e) {
+            Config config = Config.getInstance();
+            //窗口位置
+            if(
+                config.position.X > -Width &&
+                config.position.X < SystemParameters.PrimaryScreenWidth &&
+                config.position.Y > -Height &&
+                config.position.Y < SystemParameters.PrimaryScreenHeight
+            ) {
+                Left = config.position.X;
+                Top = config.position.Y;
+            } else {
+                config.position.X = Left;
+                config.position.Y = Top;
+            }
             //播放列表状态
-            if(Config.playListVisible) {
+            if(config.playListVisible) {
                 PlayList.Visibility = Visibility.Visible;
                 shadow.BlurRadius = 20;
             } else {
@@ -172,11 +188,13 @@ namespace SunshinePlayer {
                 shadow.BlurRadius = 0;
             }
             //音量
-            Player.getInstance(Handle).volumn = Config.volumn;
+            Player.getInstance(Handle).volumn = config.volumn;
+            VolumeBar.Value = config.volumn;
             //加载播放列表
             load_playlist();
+            List.SelectedIndex = config.playlistIndex;
             //播放模式
-            switch(Config.playModel) {
+            switch(config.playModel) {
             case Config.PlayModel.SingleCycle:
                 Model.SelectedIndex = 2;  //单曲循环
                 break;
@@ -190,6 +208,15 @@ namespace SunshinePlayer {
                 Model.SelectedIndex = 3;  //随机播放
                 break;
             }
+            //启动参数
+            if(App.Args.Length > 0) {
+                //添加到播放列表
+                List.SelectedIndex = addToPlaylist(App.Args);
+                List.ScrollIntoView(List.SelectedItem);
+                PlaylistOpen(sender, null);
+            } else if(config.autoPlay) {  //启动自动播放
+                PlaylistOpen(sender, null);
+            }
         }
         /// <summary>
         /// 窗口最小化
@@ -201,6 +228,8 @@ namespace SunshinePlayer {
         /// 窗口关闭
         /// </summary>
         private void close(object sender, RoutedEventArgs e) {
+            //保存配置
+            Config.saveConfig(App.workPath + "\\config.db");
             //停止频谱
             spectrumWorker.CancelAsync();
             //关闭窗口
@@ -266,6 +295,7 @@ namespace SunshinePlayer {
         /// 窗口拖动
         /// </summary>
         private void dragWindow(object sender, MouseEventArgs e) {
+            Config config = Config.getInstance();
             //鼠标不在进度条、音量条、播放列表上时
             if(e.LeftButton == MouseButtonState.Pressed &&
                 !this.Progress.IsMouseOver &&
@@ -273,21 +303,24 @@ namespace SunshinePlayer {
                 !this.List.IsMouseOver
             ) {
                 this.DragMove();  //拖动窗口
+                config.position.X = Left;
+                config.position.Y = Top;
             }
         }
         /// <summary>
         /// 播放列表按钮
         /// </summary>
         private void PlayListButton_Click(object sender, RoutedEventArgs e) {
+            Config config = Config.getInstance();
             //显示/隐藏播放列表
-            if(Config.playListVisible) {
+            if(config.playListVisible) {
                 PlayList.Visibility = Visibility.Collapsed;
                 shadow.BlurRadius = 0;
-                Config.playListVisible = false;
+                config.playListVisible = false;
             } else {
                 PlayList.Visibility = Visibility.Visible;
                 shadow.BlurRadius = 20;
-                Config.playListVisible = true;
+                config.playListVisible = true;
             }
         }
         /// <summary>
@@ -350,6 +383,7 @@ namespace SunshinePlayer {
         /// </summary>
         private void ProgressClock(object sender, EventArgs e) {
             Player player = Player.getInstance(Handle);
+            Config config = Config.getInstance();
             if(!draggingProgress) {
                 //播放进度
                 Progress.Value = player.position;
@@ -357,22 +391,22 @@ namespace SunshinePlayer {
                 time_now.Text = Helper.Seconds2Time(Progress.Value);
             }
             if(player.status == Un4seen.Bass.BASSActive.BASS_ACTIVE_STOPPED) {
-                switch(Config.playModel) {
+                switch(config.playModel) {
                 case Config.PlayModel.SingleCycle:  //单曲循环
-                    List.SelectedIndex = Config.playlistIndex;
+                    List.SelectedIndex = config.playlistIndex;
                     List.ScrollIntoView(List.SelectedItem);
                     PlaylistOpen(sender, null);
                     break;
                 case Config.PlayModel.OrderPlay:  //顺序播放
                     //停止播放关闭文件
                     stop();
-                    if(Config.playlistIndex >= List.Items.Count - 1) {
+                    if(config.playlistIndex >= List.Items.Count - 1) {
                         //时钟们
                         clocks(false);
-                        List.SelectedIndex = Config.playlistIndex = 0;
+                        List.SelectedIndex = config.playlistIndex = 0;
                         List.ScrollIntoView(List.SelectedItem);
                     } else {
-                        List.SelectedIndex = ++Config.playlistIndex;
+                        List.SelectedIndex = ++config.playlistIndex;
                         List.ScrollIntoView(List.SelectedItem);
                         PlaylistOpen(sender, null);
                     }
@@ -380,10 +414,10 @@ namespace SunshinePlayer {
                 case Config.PlayModel.CirculationList:  //列表循环
                     //停止播放关闭文件
                     stop();
-                    if(Config.playlistIndex >= List.Items.Count - 1) {
-                        List.SelectedIndex = Config.playlistIndex = 0;
+                    if(config.playlistIndex >= List.Items.Count - 1) {
+                        List.SelectedIndex = config.playlistIndex = 0;
                     } else {
-                        List.SelectedIndex = ++Config.playlistIndex;
+                        List.SelectedIndex = ++config.playlistIndex;
                     }
                     List.ScrollIntoView(List.SelectedItem);
                     PlaylistOpen(sender, null);
@@ -394,7 +428,7 @@ namespace SunshinePlayer {
                     int rand;
                     do {
                         rand = Helper.random.Next(0, List.Items.Count);
-                    } while(List.Items.Count > 1 && rand == Config.playlistIndex);  //避免重复
+                    } while(List.Items.Count > 1 && rand == config.playlistIndex);  //避免重复
                     List.SelectedIndex = rand;
                     List.ScrollIntoView(List.SelectedItem);
                     PlaylistOpen(sender, null);
@@ -512,18 +546,19 @@ namespace SunshinePlayer {
         /// 播放模式改变
         /// </summary>
         private void Model_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            Config config = Config.getInstance();
             switch(Model.SelectedIndex) {
             case 0:  //列表循环
-                Config.playModel = Config.PlayModel.CirculationList;
+                config.playModel = Config.PlayModel.CirculationList;
                 break;
             case 1:  //顺序播放
-                Config.playModel = Config.PlayModel.OrderPlay;
+                config.playModel = Config.PlayModel.OrderPlay;
                 break;
             case 2:  //单曲循环
-                Config.playModel = Config.PlayModel.SingleCycle;
+                config.playModel = Config.PlayModel.SingleCycle;
                 break;
             case 3:  //随机播放
-                Config.playModel = Config.PlayModel.ShufflePlayback;
+                config.playModel = Config.PlayModel.ShufflePlayback;
                 break;
             }
         }
@@ -531,12 +566,13 @@ namespace SunshinePlayer {
         /// 上一曲
         /// </summary>
         private void LastButton_Click(object sender, RoutedEventArgs e) {
+            Config config = Config.getInstance();
             //停止播放关闭文件
             stop();
-            if(Config.playlistIndex <= 0) {
-                List.SelectedIndex = Config.playlistIndex = List.Items.Count - 1;
+            if(config.playlistIndex <= 0) {
+                List.SelectedIndex = config.playlistIndex = List.Items.Count - 1;
             } else {
-                List.SelectedIndex = --Config.playlistIndex;
+                List.SelectedIndex = --config.playlistIndex;
             }
             List.ScrollIntoView(List.SelectedItem);
             PlaylistOpen(sender, null);
@@ -545,12 +581,13 @@ namespace SunshinePlayer {
         /// 下一曲
         /// </summary>
         private void NextButton_Click(object sender, RoutedEventArgs e) {
+            Config config = Config.getInstance();
             //停止播放关闭文件
             stop();
-            if(Config.playlistIndex >= List.Items.Count - 1) {
-                List.SelectedIndex = Config.playlistIndex = 0;
+            if(config.playlistIndex >= List.Items.Count - 1) {
+                List.SelectedIndex = config.playlistIndex = 0;
             } else {
-                List.SelectedIndex = ++Config.playlistIndex;
+                List.SelectedIndex = ++config.playlistIndex;
             }
             List.ScrollIntoView(List.SelectedItem);
             PlaylistOpen(sender, null);
@@ -604,6 +641,7 @@ namespace SunshinePlayer {
                 return;
             }
             Player player = Player.getInstance(Handle);
+            Config config = Config.getInstance();
             //打开文件
             if(List.SelectedIndex < 0) {
                 List.SelectedIndex = 0;
@@ -611,7 +649,7 @@ namespace SunshinePlayer {
             player.openFile((string)((ListBoxItem)List.Items.GetItemAt(List.SelectedIndex)).ToolTip);
             if(player.play(true)) {
                 //记录
-                Config.playlistIndex = List.SelectedIndex;
+                config.playlistIndex = List.SelectedIndex;
                 //进度条最大值
                 Progress.Maximum = player.length;
                 //音乐长度
