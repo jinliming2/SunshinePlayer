@@ -229,6 +229,7 @@ namespace SunshinePlayer {
         /// </summary>
         private void close(object sender, RoutedEventArgs e) {
             //保存配置
+            Config.getInstance().volumn = (int)Math.Round(VolumeBar.Value);
             Config.saveConfig(App.workPath + "\\config.db");
             //停止频谱
             spectrumWorker.CancelAsync();
