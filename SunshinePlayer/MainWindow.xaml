@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SunshinePlayer"
         mc:Ignorable="d"
-        Title="Sunshine Player 10.0.0.0 Alpha" Height="600" Width="800" Icon="Sun.ico" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" AllowDrop="True" Background="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{DynamicResource windowStyle}" Loaded="Window_Loaded">
+        Title="Sunshine Player 10.0.0.0 Alpha" Height="600" Width="800" Icon="Sun.ico" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" AllowDrop="True" Background="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{DynamicResource windowStyle}" Loaded="Window_Loaded" DragEnter="dragEnter" Drop="drop">
     <Window.Resources>
         <ResourceDictionary Source="mainWindowResources.xaml"></ResourceDictionary>
     </Window.Resources>
@@ -313,7 +313,7 @@
         <!-- 播放列表 -->
         <Canvas x:Name="PlayList" Canvas.Left="10" Height="392" Width="766" Background="#CC000000" Opacity="0.9" ClipToBounds="True" d:IsLocked="False" d:IsHidden="True">
             <!-- 播放列表 -->
-            <ListBox x:Name="List" Height="342" Canvas.Left="10" Canvas.Top="10" Width="746" Background="#4CFFFFFF" Foreground="White" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionMode="Extended"/>
+            <ListBox x:Name="List" Height="342" Canvas.Left="10" Canvas.Top="10" Width="746" Background="#4CFFFFFF" Foreground="White" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionMode="Extended" DragEnter="dragEnter" Drop="drop"/>
             <!-- 播放模式 -->
             <ComboBox x:Name="Model" Height="30" Canvas.Left="434" Canvas.Top="357" Width="106" Background="#CCFFFFFF" BorderBrush="Transparent" Opacity="0.8" IsReadOnly="True" SelectedIndex="0" FontSize="20" FontFamily="Consolas" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="Model_SelectionChanged">
                 <ComboBoxItem Content="列表循环" FontSize="20" FontFamily="Consolas" Opacity="0.8" ToolTip="列表循环" IsTabStop="False"/>

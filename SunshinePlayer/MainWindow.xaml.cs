@@ -740,5 +740,31 @@ namespace SunshinePlayer {
             //保存播放列表
             Playlist.saveFile(ref play_list, App.workPath + "\\Playlist.db");
         }
+        /// <summary>
+        /// 文件拖入
+        /// </summary>
+        private void dragEnter(object sender, DragEventArgs e) {
+            if(e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effects = DragDropEffects.All;
+            else
+                e.Effects = DragDropEffects.None;
+        }
+        /// <summary>
+        /// 得到文件
+        /// </summary>
+        private void drop(object sender, DragEventArgs e) {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            if(files.Length == 0)  //没有选择文件
+                return;
+            //添加到播放列表
+            List.SelectedIndex = addToPlaylist(files);
+            List.ScrollIntoView(List.SelectedItem);
+            if(sender != List) {  //不是播放列表得到的
+                //打开第一个文件
+                PlaylistOpen(sender, null);
+            }
+            //已处理，防止冒泡事件
+            e.Handled = true;
+        }
     }
 }
