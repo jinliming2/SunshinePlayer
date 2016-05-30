@@ -26,98 +26,42 @@ namespace SunshinePlayer {
         /// 原时间偏移
         /// </summary>
         private int offsetOld = 0;
-        private FontFamily fontFamily;
-        private FontStyle fontStyle;
-        private FontWeight fontWeight;
-        private FontStretch fontStretch;
-        private double fontSize;
+        #region 字体数据
+        private FontFamily fontFamily = new FontFamily("Courier New");
+        private FontStyle fontStyle = FontStyles.Normal;
+        private FontWeight fontWeight = FontWeights.Bold;
+        private FontStretch fontStretch = FontStretches.Normal;
+        private double fontSize = 20;
         private Brush foreground = Brushes.Black;
+        #endregion
 
         /// <summary>
-        /// 构造函数
+        /// 构造函数 - 直接解析歌词文本
         /// </summary>
         /// <param name="lrc">歌词数据文本</param>
         /// <param name="src">是否为src精准歌词</param>
         public Lyric(string lrc, bool src = true) {
-            //时间偏移
-            Regex regOffset = new Regex(@"^\[offset:(-*\d+)\]", RegexOptions.Multiline | RegexOptions.CultureInvariant);
-            MatchCollection mc = regOffset.Matches(lrc);
-            if(mc.Count > 0) {
-                offset = offsetOld = int.Parse(mc[0].Groups[1].Value.Trim());
-            }
+            //计算时间偏移
+            analyzeOffset(lrc);
+            //解析歌词
             if(src) {  //src精准歌词文件
-                //行匹配
-                Regex regLine = new Regex(@"^\[(\d+),(\d+)\](.*?)$", RegexOptions.Multiline | RegexOptions.CultureInvariant);
-                //单词匹配
-                Regex regWords = new Regex(@"<(\d+),(\d+),\d+>([^<\[]+)", RegexOptions.Multiline | RegexOptions.CultureInvariant);
-                //歌词表
-                text = new List<SingleLrc>();
-                foreach(Match line in regLine.Matches(lrc)) {
-                    //单行歌词
-                    SingleLrc sl;
-                    sl.width = double.MinValue;
-                    sl.time = int.Parse(line.Groups[1].Value.Trim());
-                    sl.during = int.Parse(line.Groups[2].Value.Trim());
-                    sl.content = new List<LrcWord>();
-                    //每个单词
-                    foreach(Match word in regWords.Matches(line.Groups[3].Value.Trim())) {
-                        LrcWord lw;
-                        lw.time = int.Parse(word.Groups[1].Value.Trim());
-                        lw.during = int.Parse(word.Groups[2].Value.Trim());
-                        lw.word = word.Groups[3].Value;
-                        lw.width = double.MinValue;
-                        lw.widthBefore = double.MinValue;
-                        sl.content.Add(lw);
-                    }
-                    text.Add(sl);
-                }
+                analyzeSRC(lrc);
             } else {  //lrc普通歌词文件
-                //行匹配
-                Regex regLine = new Regex(@"^((\[\d+:\d+\.\d+\])+)(.*?)$", RegexOptions.Multiline | RegexOptions.CultureInvariant);
-                //时间匹配
-                Regex regTime = new Regex(@"\[\d+:\d+.\d+\]", RegexOptions.Multiline | RegexOptions.CultureInvariant);
-                //歌词表
-                text = new List<SingleLrc>();
-                foreach(Match line in regLine.Matches(lrc)) {
-                    //歌词文本
-                    LrcWord lw;
-                    lw.word = line.Groups[3].Value.Trim();
-                    lw.time = 0;
-                    lw.during = 0;
-                    lw.width = double.MinValue;
-                    lw.widthBefore = double.MinValue;
-                    //这一行歌词出现的时间们
-                    foreach(Match time in regTime.Matches(line.Groups[1].Value.Trim())) {
-                        //单行歌词
-                        SingleLrc sl;
-                        sl.time = getmm(time.Groups[0].Value.Trim());
-                        sl.content = new List<LrcWord>();
-                        sl.content.Add(lw);
-                        sl.width = double.MinValue;
-                        sl.time = 0;
-                        sl.during = 0;
-                        text.Add(sl);
-                    }
-                }
-                //起始时间排序
-                sort();
-                //每一句
-                SingleLrc[] slArray = text.ToArray();
-                for(int i = 0; i < slArray.Length - 1; i++) {
-                    //每一句
-                    LrcWord[] lwArray = slArray[i].content.ToArray();
-                    for(int j = 0; j < lwArray.Length; j++) {
-                        slArray[i].during = lwArray[j].during = slArray[i + 1].time - slArray[i].time;
-                    }
-                    slArray[i].content.Clear();
-                    slArray[i].content.AddRange(lwArray);
-                }
-                //更新歌词数据
-                text.Clear();
-                text.AddRange(slArray);
+                analyzeLRC(lrc);
             }
-            //歌词全排序
-            sort();
+        }
+        /// <summary>
+        /// 构造函数 - 加载歌词文件，通过扩展名判断src或lrc
+        /// </summary>
+        /// <param name="path">歌词文件路径</param>
+        public Lyric(string path) {
+        }
+        /// <summary>
+        /// 构造函数 - 自动搜索歌词（来源：酷狗音乐）
+        /// </summary>
+        /// <param name="title">音乐标题</param>
+        /// <param name="singer">艺术家</param>
+        public Lyric(string title, string singer) {
         }
         /// <summary>
         /// 析构函数
@@ -128,7 +72,7 @@ namespace SunshinePlayer {
                 //TODO: 保存修改到歌词文件
             }
         }
-        
+
         /// <summary>
         /// 总时长
         /// </summary>
@@ -303,9 +247,127 @@ namespace SunshinePlayer {
                 });
             }
         }
-        public void setFont() {
+        /// <summary>
+        /// 设置字体 - 用于歌词文本宽度检测
+        /// </summary>
+        public void setFont(FontFamily fontFamily, FontStyle fontStyle, FontWeight fontWeight, FontStretch fontStretch, double fontSize, Brush foreground = null) {
+            //设置字体
+            this.fontFamily = fontFamily;
+            this.fontStyle = fontStyle;
+            this.fontWeight = fontWeight;
+            this.fontStretch = fontStretch;
+            this.fontSize = fontSize;
+            this.foreground = foreground == null ? Brushes.Black : foreground;
+            //重置计算
+            for(int i = 0; i < text.Count; i++) {
+                SingleLrc line = text[i];
+                line.width = double.MinValue;
+                for(int j = 0; j < line.content.Count; j++) {
+                    LrcWord word = line.content[j];
+                    word.widthBefore = double.MinValue;
+                    word.width = double.MinValue;
+                    line.content[j] = word;
+                }
+                text[i] = line;
+            }
         }
 
+        /// <summary>
+        /// 解析时间偏移
+        /// </summary>
+        /// <param name="lrc">歌词数据文本</param>
+        private void analyzeOffset(string lrc) {
+            //时间偏移
+            Regex regOffset = new Regex(@"^\[offset:(-*\d+)\]", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+            MatchCollection mc = regOffset.Matches(lrc);
+            if(mc.Count > 0) {
+                offset = offsetOld = int.Parse(mc[0].Groups[1].Value.Trim());
+            }
+        }
+        /// <summary>
+        /// 解析LRC普通歌词
+        /// </summary>
+        /// <param name="lrc">歌词数据文本</param>
+        private void analyzeLRC(string lrc) {
+            //行匹配
+            Regex regLine = new Regex(@"^((\[\d+:\d+\.\d+\])+)(.*?)$", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+            //时间匹配
+            Regex regTime = new Regex(@"\[\d+:\d+.\d+\]", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+            //歌词表
+            text = new List<SingleLrc>();
+            foreach(Match line in regLine.Matches(lrc)) {
+                //歌词文本
+                LrcWord lw;
+                lw.word = line.Groups[3].Value.Trim();
+                lw.time = 0;
+                lw.during = 0;
+                lw.width = double.MinValue;
+                lw.widthBefore = double.MinValue;
+                //这一行歌词出现的时间们
+                foreach(Match time in regTime.Matches(line.Groups[1].Value.Trim())) {
+                    //单行歌词
+                    SingleLrc sl;
+                    sl.time = getmm(time.Groups[0].Value.Trim());
+                    sl.content = new List<LrcWord>();
+                    sl.content.Add(lw);
+                    sl.width = double.MinValue;
+                    sl.time = 0;
+                    sl.during = 0;
+                    text.Add(sl);
+                }
+            }
+            //起始时间排序
+            sort();
+            //每一句
+            SingleLrc[] slArray = text.ToArray();
+            for(int i = 0; i < slArray.Length - 1; i++) {
+                //每一句
+                LrcWord[] lwArray = slArray[i].content.ToArray();
+                for(int j = 0; j < lwArray.Length; j++) {
+                    slArray[i].during = lwArray[j].during = slArray[i + 1].time - slArray[i].time;
+                }
+                slArray[i].content.Clear();
+                slArray[i].content.AddRange(lwArray);
+            }
+            //更新歌词数据
+            text.Clear();
+            text.AddRange(slArray);
+            //歌词全排序
+            sort();
+        }
+        /// <summary>
+        /// 解析SRC精准歌词
+        /// </summary>
+        /// <param name="lrc">歌词数据文本</param>
+        private void analyzeSRC(string lrc) {
+            //行匹配
+            Regex regLine = new Regex(@"^\[(\d+),(\d+)\](.*?)$", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+            //单词匹配
+            Regex regWords = new Regex(@"<(\d+),(\d+),\d+>([^<\[]+)", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+            //歌词表
+            text = new List<SingleLrc>();
+            foreach(Match line in regLine.Matches(lrc)) {
+                //单行歌词
+                SingleLrc sl;
+                sl.width = double.MinValue;
+                sl.time = int.Parse(line.Groups[1].Value.Trim());
+                sl.during = int.Parse(line.Groups[2].Value.Trim());
+                sl.content = new List<LrcWord>();
+                //每个单词
+                foreach(Match word in regWords.Matches(line.Groups[3].Value.Trim())) {
+                    LrcWord lw;
+                    lw.time = int.Parse(word.Groups[1].Value.Trim());
+                    lw.during = int.Parse(word.Groups[2].Value.Trim());
+                    lw.word = word.Groups[3].Value;
+                    lw.width = double.MinValue;
+                    lw.widthBefore = double.MinValue;
+                    sl.content.Add(lw);
+                }
+                text.Add(sl);
+            }
+            //歌词全排序
+            sort();
+        }
         /// <summary>
         /// 时间转毫秒
         /// </summary>
