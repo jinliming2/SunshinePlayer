@@ -852,33 +852,35 @@ namespace SunshinePlayer {
             if(!Directory.Exists(App.workPath + "\\lyrics")) {
                 Directory.CreateDirectory(App.workPath + "\\lyrics");
             }
+            string t = Helper.pathClear(title);
+            string a = Helper.pathClear(artist);
             //查找歌词文件
-            if(File.Exists(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx")) {
-                lyric = Lyric.loadSRCX(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx");
+            if(File.Exists(App.workPath + "\\lyrics\\" + a + " - " + t + ".srcx")) {
+                lyric = Lyric.loadSRCX(App.workPath + "\\lyrics\\" + a + " - " + t + ".srcx");
                 if(lyric != null) {
                     return;
                 }
             }
-            if(File.Exists(App.workPath + "\\lyrics\\" + artist + " - " + title + ".src")) {
-                lyric = new Lyric(App.workPath + "\\lyrics\\" + artist + " - " + title + ".src");
+            if(File.Exists(App.workPath + "\\lyrics\\" + a + " - " + t + ".src")) {
+                lyric = new Lyric(App.workPath + "\\lyrics\\" + a + " - " + t + ".src");
                 //序列化保存
-                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx", lyric);
-            } else if(File.Exists(App.workPath + "\\lyrics\\" + artist + " - " + title + ".lrc")) {
-                lyric = new Lyric(App.workPath + "\\lyrics\\" + artist + " - " + title + ".lrc");
+                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + a + " - " + t + ".srcx", lyric);
+            } else if(File.Exists(App.workPath + "\\lyrics\\" + a + " - " + t + ".lrc")) {
+                lyric = new Lyric(App.workPath + "\\lyrics\\" + a + " - " + t + ".lrc");
                 //序列化保存
-                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx", lyric);
+                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + a + " - " + t + ".srcx", lyric);
             } else if(File.Exists(path.Remove(path.LastIndexOf('.') + 1) + "src")) {
                 lyric = new Lyric(path.Remove(path.LastIndexOf('.') + 1) + "src");
                 //序列化保存
-                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx", lyric);
+                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + a + " - " + t + ".srcx", lyric);
             } else if(File.Exists(path.Remove(path.LastIndexOf('.') + 1) + "lrc")) {
                 lyric = new Lyric(path.Remove(path.LastIndexOf('.') + 1) + "lrc");
                 //序列化保存
-                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx", lyric);
+                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + a + " - " + t + ".srcx", lyric);
             } else {
-                lyric = new Lyric(title, artist, hash, time, App.workPath + "\\lyrics\\" + artist + " - " + title + ".src");
+                lyric = new Lyric(title, artist, hash, time, App.workPath + "\\lyrics\\" + a + " - " + t + ".src");
                 //序列化保存
-                lyric.srcxPath = App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx";
+                lyric.srcxPath = App.workPath + "\\lyrics\\" + a + " - " + t + ".srcx";
             }
         }
         /// <summary>
@@ -903,7 +905,19 @@ namespace SunshinePlayer {
         private void LyricWorker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
             Config config = Config.getInstance();
             if(!addedLyric) {
-                if(lyric.Lines == 0) {
+                if(!lyric.Ready) {
+                    Lrc.Children.Clear();
+                    ProgressBar pb = new ProgressBar();
+                    pb.SetResourceReference(StyleProperty, "LyricText");
+                    pb.Value = 1;
+                    pb.Tag = "正在加载歌词";
+                    pb.Foreground = new SolidColorBrush(Colors.Yellow);
+                    pb.Background = new SolidColorBrush(Colors.White);
+                    pb.HorizontalAlignment = HorizontalAlignment.Right;
+                    pb.Maximum = 1;
+                    Lrc.Children.Add(pb);
+                } else if(lyric.Lines == 0) {
+                    Lrc.Children.Clear();
                     ProgressBar pb = new ProgressBar();
                     pb.SetResourceReference(StyleProperty, "LyricText");
                     pb.Value = 0;
@@ -913,7 +927,9 @@ namespace SunshinePlayer {
                     pb.HorizontalAlignment = HorizontalAlignment.Right;
                     pb.Maximum = 1;
                     Lrc.Children.Add(pb);
+                    addedLyric = true;
                 } else {
+                    Lrc.Children.Clear();
                     for(int i = 0; i < lyric.Lines; i++) {
                         ProgressBar pb = new ProgressBar();
                         pb.SetResourceReference(StyleProperty, "LyricText");
@@ -925,8 +941,8 @@ namespace SunshinePlayer {
                         pb.Maximum = 1;
                         Lrc.Children.Add(pb);
                     }
+                    addedLyric = true;
                 }
-                addedLyric = true;
             } else {
                 foreach(ProgressBar p in Lrc.Children) {
                     p.Value = 0;

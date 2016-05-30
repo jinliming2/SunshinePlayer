@@ -68,5 +68,21 @@ namespace SunshinePlayer {
             .Replace("\\", "%5C")
             .Replace("|", "%7C");
         }
+        /// <summary>
+        /// 文件名非法字符清理
+        /// </summary>
+        /// <param name="path">文件名</param>
+        /// <returns>清理后的结果</returns>
+        public static string pathClear(string path) {
+            return path.Replace("\\", " ")
+                .Replace("/", " ")
+                .Replace(":", " ")
+                .Replace("*", " ")
+                .Replace("?", " ")
+                .Replace("\"", " ")
+                .Replace("<", " ")
+                .Replace(">", " ")
+                .Replace("|", " ");
+        }
     }
 }
