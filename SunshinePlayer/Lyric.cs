@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace SunshinePlayer {
     /// <summary>
     /// 歌词类
     /// </summary>
+    [Serializable]
     class Lyric {
         /// <summary>
         /// 全部歌词
@@ -34,6 +37,7 @@ namespace SunshinePlayer {
         private double fontSize = 20;
         private Brush foreground = Brushes.Black;
         #endregion
+        private string filePath = null;
 
         /// <summary>
         /// 构造函数 - 直接解析歌词文本
@@ -55,13 +59,42 @@ namespace SunshinePlayer {
         /// </summary>
         /// <param name="path">歌词文件路径</param>
         public Lyric(string path) {
+            //文件类型
+            Regex ext = new Regex(@".+\.(.+)$", RegexOptions.Singleline | RegexOptions.CultureInvariant);
+            MatchCollection mc = ext.Matches(path);
+            string name = string.Empty;
+            if(mc.Count > 0) {
+                name = mc[0].Groups[1].Value.Trim().ToLower();
+            }
+            if(name != "src" && name != "lrc") {
+                throw new Exception("无效的歌词文件格式！");
+            }
+            //打开文件
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            //读入文件
+            byte[] data = new byte[fs.Length];
+            fs.Read(data, 0, (int)fs.Length);
+            //关闭文件
+            fs.Flush();
+            fs.Close();
+            fs.Dispose();
+            string lrc = Encoding.UTF8.GetString(data);
+            //解析歌词
+            analyzeOffset(lrc);
+            if(name == "src") {
+                analyzeSRC(lrc);
+            } else if(name == "lrc") {
+                analyzeLRC(lrc);
+            }
+            filePath = path;
         }
         /// <summary>
         /// 构造函数 - 自动搜索歌词（来源：酷狗音乐）
         /// </summary>
         /// <param name="title">音乐标题</param>
         /// <param name="singer">艺术家</param>
-        public Lyric(string title, string singer) {
+        /// <param name="savePath">是否保存为文本文件，保存路径</param>
+        public Lyric(string title, string singer, string savePath = null) {
         }
         /// <summary>
         /// 析构函数
@@ -71,6 +104,37 @@ namespace SunshinePlayer {
             if(offset != offsetOld) {
                 //TODO: 保存修改到歌词文件
             }
+        }
+        /// <summary>
+        /// 加载序列化歌词
+        /// </summary>
+        /// <param name="path">文件路径param>
+        /// <returns>歌词对象</returns>
+        public static Lyric loadSRCX(string path) {
+            //文件流
+            Stream fStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            //二进制反序列化器
+            BinaryFormatter binFormat = new BinaryFormatter();
+            //反序列化对象
+            Lyric obj = (Lyric)binFormat.Deserialize(fStream);
+            //关闭文件
+            fStream.Close();
+            return obj;
+        }
+        /// <summary>
+        /// 序列化存储歌词
+        /// </summary>
+        /// <param name="path">保存路径</param>
+        public static void saveSRCX(string path, Lyric obj) {
+            //文件流
+            Stream fStream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
+            //二进制序列化器
+            BinaryFormatter binFormat = new BinaryFormatter();
+            //序列化对象
+            binFormat.Serialize(fStream, obj);
+            //关闭文件
+            fStream.Flush();
+            fStream.Close();
         }
 
         /// <summary>
@@ -290,9 +354,9 @@ namespace SunshinePlayer {
         /// <param name="lrc">歌词数据文本</param>
         private void analyzeLRC(string lrc) {
             //行匹配
-            Regex regLine = new Regex(@"^((\[\d+:\d+\.\d+\])+)(.*?)$", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+            Regex regLine = new Regex(@"^((\[\d+:\d+\.\d+\])+)(.*?)$", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.CultureInvariant);
             //时间匹配
-            Regex regTime = new Regex(@"\[\d+:\d+.\d+\]", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+            Regex regTime = new Regex(@"\[\d+:\d+.\d+\]", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.CultureInvariant);
             //歌词表
             text = new List<SingleLrc>();
             foreach(Match line in regLine.Matches(lrc)) {
@@ -341,9 +405,9 @@ namespace SunshinePlayer {
         /// <param name="lrc">歌词数据文本</param>
         private void analyzeSRC(string lrc) {
             //行匹配
-            Regex regLine = new Regex(@"^\[(\d+),(\d+)\](.*?)$", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+            Regex regLine = new Regex(@"^\[(\d+),(\d+)\](.*?)$", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.CultureInvariant);
             //单词匹配
-            Regex regWords = new Regex(@"<(\d+),(\d+),\d+>([^<\[]+)", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+            Regex regWords = new Regex(@"<(\d+),(\d+),\d+>([^<\[]+)", RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.CultureInvariant);
             //歌词表
             text = new List<SingleLrc>();
             foreach(Match line in regLine.Matches(lrc)) {
@@ -399,6 +463,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 单行歌词
         /// </summary>
+        [Serializable]
         private struct SingleLrc {
             /// <summary>
             /// 开始时间
@@ -420,6 +485,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 每个单词
         /// </summary>
+        [Serializable]
         private struct LrcWord {
             /// <summary>
             /// 开始时间
