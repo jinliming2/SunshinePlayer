@@ -35,7 +35,7 @@ namespace SunshinePlayer {
         /// 获取单例实例
         /// </summary>
         /// <returns>播放器</returns>
-        public static Player getInstance(System.IntPtr windowHandle) {
+        public static Player getInstance(IntPtr windowHandle) {
             //外层判断
             if(instance == null) {
                 //互斥锁

@@ -4,16 +4,16 @@ namespace SunshinePlayer.Template {
     [DataContract]
     class krcInfo {
         [DataMember]
-        public string kid { get; }
+        public string kid { get; set; }
         [DataMember]
-        public int timelength { get; }
+        public int timelength { get; set; }
         [DataMember]
-        public string uid { get; }
+        public string uid { get; set; }
         [DataMember]
-        public int grade { get; }
+        public int grade { get; set; }
         [DataMember]
-        public string singer { get; }
+        public string singer { get; set; }
         [DataMember]
-        public string song { get; }
+        public string song { get; set; }
     }
 }

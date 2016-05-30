@@ -41,6 +41,10 @@ namespace SunshinePlayer {
         private Brush foreground = Brushes.Black;
         #endregion
         private string filePath = null;
+        /// <summary>
+        /// 歌词已加载完毕
+        /// </summary>
+        private bool ready = false;
 
         /// <summary>
         /// 构造函数 - 直接解析歌词文本
@@ -113,6 +117,7 @@ namespace SunshinePlayer {
                 //下载歌词
                 using(WebClient wc = new WebClient()) {
                     //查询歌词
+                    wc.Encoding = Encoding.UTF8;
                     wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(
                         (object sender, DownloadStringCompletedEventArgs e)=> {
                             if(!e.Cancelled && e.Error == null) {
@@ -134,7 +139,7 @@ namespace SunshinePlayer {
                                                 //保存歌词
                                                 if(savePath != null) {
                                                     FileStream fs = new FileStream(savePath, FileMode.Create, FileAccess.Write, FileShare.None);
-                                                    fs.Write(data, 0, (int)data.Length);
+                                                    fs.Write(data, 0, data.Length);
                                                     fs.Flush();
                                                     fs.Close();
                                                     fs.Dispose();
@@ -199,6 +204,10 @@ namespace SunshinePlayer {
             fStream.Close();
         }
 
+        /// <summary>
+        /// 歌词加载完毕
+        /// </summary>
+        public bool Ready { get { return ready; } }
         /// <summary>
         /// 总时长
         /// </summary>
@@ -460,6 +469,8 @@ namespace SunshinePlayer {
             text.AddRange(slArray);
             //歌词全排序
             sort();
+            //就绪
+            ready = true;
         }
         /// <summary>
         /// 解析SRC精准歌词
@@ -493,6 +504,8 @@ namespace SunshinePlayer {
             }
             //歌词全排序
             sort();
+            //就绪
+            ready = true;
         }
         /// <summary>
         /// 时间转毫秒
@@ -546,7 +559,6 @@ namespace SunshinePlayer {
                 ret = outfile.ToArray();
             } finally {
                 outZStream.Close();
-                outZStream.Dispose();
                 outfile.Close();
                 outfile.Dispose();
             }
