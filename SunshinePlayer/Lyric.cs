@@ -141,6 +141,27 @@ namespace SunshinePlayer {
             set { offset = value; }
         }
         /// <summary>
+        /// 歌词行数
+        /// </summary>
+        public int Lines { get { return text.Count; } }
+        /// <summary>
+        /// 取行歌词文本
+        /// </summary>
+        /// <param name="index">歌词行索引</param>
+        /// <returns>行歌词</returns>
+        public string GetLine(uint index) {
+            //超过最大行
+            if(index >= Lines) {
+                return string.Empty;
+            }
+            //拼接当前行
+            StringBuilder sb = new StringBuilder();
+            foreach(LrcWord word in text[(int)index].content) {
+                sb.Append(word.word);
+            }
+            return sb.ToString();
+        }
+        /// <summary>
         /// 全部歌词文本
         /// </summary>
         public string Text {
@@ -156,9 +177,106 @@ namespace SunshinePlayer {
             }
         }
         /// <summary>
-        /// 歌词行数
+        /// 查询当前时间所对应的那一句歌词
         /// </summary>
-        public int Lines { get { return text.Count; } }
+        /// <param name="time">时间（毫秒）</param>
+        /// <param name="index">行序号</param>
+        /// <param name="lrc">歌词</param>
+        /// <param name="len">当前句全长</param>
+        /// <param name="progress">已过当前句时间进度</param>
+        /// <param name="label">测量宽度使用的Label</param>
+        /// <returns>当前歌词已经过的进度</returns>
+        public double FindLrc(int time, out int index, out string lrc, out double len, out double progress) {
+            if(Lines == 0) {  //没有歌词
+                lrc = "无歌词";
+                index = 0;
+                len = 0;
+                progress = 0;
+                return 0;
+            }
+            //偏移
+            time += offset;
+            //寻找当前所在行
+            for(index = 0; index < text.Count; index++) {
+                if(
+                    text[index].time + text[index].during >= time ||  //处于当前行结尾之前
+                    index == text.Count - 1 ||  //已是寻找的最后一句
+                    text[index + 1].time > time  //还未到下一句
+                ) {
+                    break;
+                }
+            }
+            if(index == text.Count) {  //查找失败
+                lrc = string.Empty;
+                index = Lines;
+                len = 0;
+                progress = 1;
+                return 0;
+            }
+            //找到当前行
+            StringBuilder sb = new StringBuilder();
+            foreach(LrcWord word in text[index].content) {
+                sb.Append(word.word);
+            }
+            lrc = sb.ToString();
+            //显示宽度
+            if(text[index].width == double.MinValue) {  //还未计算显示宽度
+                SingleLrc tmp = text[index];
+                //计算显示宽度
+                tmp.width = getTextWidth(lrc);
+                text[index] = tmp;
+            }
+            len = text[index].width;
+            if(text[index].time > time || len == 0) {  //还未到当前行
+                progress = 0;
+                return 0;
+            }
+            //已到当前行
+            //当前句已过时间
+            time -= text[index].time;
+            //时间进度
+            progress = (double)time / text[index].during;
+            string tt = string.Empty;
+            //寻找当前所在词
+            for(int n = 0; n < text[index].content.Count; n++) {
+                if(text[index].content[n].time + text[index].content[n].during >= time) {  //处于当前词结尾之前
+                    //当前词已过时间
+                    time -= text[index].content[n].time;
+                    //之前词显示宽度
+                    if(text[index].content[n].widthBefore == double.MinValue) {
+                        //取出
+                        SingleLrc tmpS = text[index];
+                        LrcWord tmpL = tmpS.content[n];
+                        //计算
+                        tmpL.widthBefore = getTextWidth(tt);
+                        //放回
+                        tmpS.content[n] = tmpL;
+                        text[index] = tmpS;
+                    }
+                    //当前词显示宽度
+                    if(text[index].content[n].width == double.MinValue) {
+                        //取出
+                        SingleLrc tmpS = text[index];
+                        LrcWord tmpL = tmpS.content[n];
+                        //计算
+                        tmpL.width = getTextWidth(text[index].content[n].word);
+                        //放回
+                        tmpS.content[n] = tmpL;
+                        text[index] = tmpS;
+                    }
+                    //当前词已过百分比
+                    double p = text[index].content[n].width * time / text[index].content[n].during;
+                    p += text[index].content[n].widthBefore;
+                    //当前句已过显示百分比
+                    return p / len;
+                }
+                //已过当前词
+                tt += text[index].content[n].word;
+            }
+            //已过当前句
+            progress = 1;
+            return 1;
+        }
 
         /// <summary>
         /// 歌词排序
@@ -261,122 +379,6 @@ namespace SunshinePlayer {
             /// 当前词显示宽度
             /// </summary>
             public double width;
-        }
-        
-        /// <summary>
-        /// 查询当前时间所对应的那一句歌词
-        /// </summary>
-        /// <param name="time">时间（毫秒）</param>
-        /// <param name="index">行序号</param>
-        /// <param name="lrc">歌词</param>
-        /// <param name="len">当前句全长</param>
-        /// <param name="progress">已过当前句时间进度</param>
-        /// <param name="label">测量宽度使用的Label</param>
-        /// <returns>当前歌词已经过的进度</returns>
-        public double FindLrc(int time, out int index, out string lrc, out double len, out double progress) {
-            if(Lines == 0) {  //没有歌词
-                lrc = "无歌词";
-                index = 0;
-                len = 0;
-                progress = 0;
-                return 0;
-            }
-            //偏移
-            time += offset;
-            //寻找当前所在行
-            for(index = 0; index < text.Count; index++) {
-                if(
-                    text[index].time + text[index].during >= time ||  //处于当前行结尾之前
-                    index == text.Count - 1 ||  //已是寻找的最后一句
-                    text[index + 1].time > time  //还未到下一句
-                ) {
-                    break;
-                }
-            }
-            if(index == text.Count) {  //查找失败
-                lrc = "";
-                index = Lines;
-                len = 0;
-                progress = 1;
-                return 0;
-            }
-            //找到当前行
-            StringBuilder sb = new StringBuilder();
-            foreach(LrcWord word in text[index].content) {
-                sb.Append(word.word);
-            }
-            lrc = sb.ToString();
-            //显示宽度
-            if(text[index].width == double.MinValue) {  //还未计算显示宽度
-                SingleLrc tmp = text[index];
-                //计算显示宽度
-                tmp.width = getTextWidth(lrc);
-                text[index] = tmp;
-            }
-            len = text[index].width;
-            if(text[index].time > time || len == 0) {  //还未到当前行
-                progress = 0;
-                return 0;
-            }
-            //已到当前行
-            //当前句已过时间
-            time -= text[index].time;
-            //时间进度
-            progress = (double)time / text[index].during;
-            string tt = "";
-            //寻找当前所在词
-            for(int n = 0; n < text[index].content.Count; n++) {
-                if(text[index].content[n].time + text[index].content[n].during >= time) {  //处于当前词结尾之前
-                    //当前词已过时间
-                    time -= text[index].content[n].time;
-                    //之前词显示宽度
-                    if(text[index].content[n].widthBefore == double.MinValue) {
-                        //取出
-                        SingleLrc tmpS = text[index];
-                        LrcWord tmpL = tmpS.content[n];
-                        //计算
-                        tmpL.widthBefore = getTextWidth(tt);
-                        //放回
-                        tmpS.content[n] = tmpL;
-                        text[index] = tmpS;
-                    }
-                    //当前词显示宽度
-                    if(text[index].content[n].width == double.MinValue) {
-                        //取出
-                        SingleLrc tmpS = text[index];
-                        LrcWord tmpL = tmpS.content[n];
-                        //计算
-                        tmpL.width = getTextWidth(text[index].content[n].word);
-                        //放回
-                        tmpS.content[n] = tmpL;
-                        text[index] = tmpS;
-                    }
-                    //当前词已过百分比
-                    double p = text[index].content[n].width * time / text[index].content[n].during;
-                    p += text[index].content[n].widthBefore;
-                    //当前句已过显示百分比
-                    return p / len;
-                }
-                //已过当前词
-                tt += text[index].content[n].word;
-            }
-            //已过当前句
-            progress = 1;
-            return 1;
-        }
-
-        /// <summary>
-        /// 取行歌词文本
-        /// </summary>
-        /// <param name="index">歌词行索引</param>
-        /// <returns>行歌词</returns>
-        public string GetLine(uint index) {
-            if(index >= Lines)
-                return "";
-            string lrc = "";
-            for(int i = 0; i < text[(int)index].content.Count; i++)
-                lrc += text[(int)index].content[i].word;
-            return lrc;
         }
     }
 }
