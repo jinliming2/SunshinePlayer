@@ -33,11 +33,17 @@ namespace SunshinePlayer {
         /// </summary>
         private int offsetOld = 0;
         #region 字体数据
+        [NonSerialized]
         private FontFamily fontFamily = new FontFamily("Courier New");
+        [NonSerialized]
         private FontStyle fontStyle = FontStyles.Normal;
+        [NonSerialized]
         private FontWeight fontWeight = FontWeights.Bold;
+        [NonSerialized]
         private FontStretch fontStretch = FontStretches.Normal;
+        [NonSerialized]
         private double fontSize = 20;
+        [NonSerialized]
         private Brush foreground = Brushes.Black;
         #endregion
         private string filePath = null;
@@ -45,13 +51,18 @@ namespace SunshinePlayer {
         /// 歌词已加载完毕
         /// </summary>
         private bool ready = false;
+        /// <summary>
+        /// 序列文件保存路径
+        /// </summary>
+        [NonSerialized]
+        public string srcxPath = null;
 
         /// <summary>
         /// 构造函数 - 直接解析歌词文本
         /// </summary>
         /// <param name="lrc">歌词数据文本</param>
         /// <param name="src">是否为src精准歌词</param>
-        public Lyric(string lrc, bool src = true) {
+        public Lyric(string lrc, bool src) {
             //计算时间偏移
             analyzeOffset(lrc);
             //解析歌词
@@ -180,12 +191,25 @@ namespace SunshinePlayer {
         public static Lyric loadSRCX(string path) {
             //文件流
             Stream fStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            //二进制反序列化器
-            BinaryFormatter binFormat = new BinaryFormatter();
-            //反序列化对象
-            Lyric obj = (Lyric)binFormat.Deserialize(fStream);
-            //关闭文件
-            fStream.Close();
+            Lyric obj;
+            try {
+                //二进制反序列化器
+                BinaryFormatter binFormat = new BinaryFormatter();
+                //反序列化对象
+                obj = (Lyric)binFormat.Deserialize(fStream);
+            } catch(Exception) {
+                return null;
+            } finally {
+                //关闭文件
+                fStream.Close();
+            }
+            //默认字体
+            obj.fontFamily = new FontFamily("Courier New");
+            obj.fontStyle = FontStyles.Normal;
+            obj.fontWeight = FontWeights.Bold;
+            obj.fontStretch = FontStretches.Normal;
+            obj.fontSize = 20;
+            obj.foreground = Brushes.Black;
             return obj;
         }
         /// <summary>
@@ -222,7 +246,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 歌词行数
         /// </summary>
-        public int Lines { get { return text.Count; } }
+        public int Lines { get { return text == null ? 0 : text.Count; } }
         /// <summary>
         /// 取行歌词文本
         /// </summary>
@@ -471,6 +495,10 @@ namespace SunshinePlayer {
             sort();
             //就绪
             ready = true;
+            //保存序列文件
+            if(srcxPath != null) {
+                saveSRCX(srcxPath, this);
+            }
         }
         /// <summary>
         /// 解析SRC精准歌词
@@ -506,6 +534,10 @@ namespace SunshinePlayer {
             sort();
             //就绪
             ready = true;
+            //保存序列文件
+            if(srcxPath != null) {
+                saveSRCX(srcxPath, this);
+            }
         }
         /// <summary>
         /// 时间转毫秒

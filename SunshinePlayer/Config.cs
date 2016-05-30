@@ -79,6 +79,10 @@ namespace SunshinePlayer {
         /// 自动播放
         /// </summary>
         public bool autoPlay = false;
+        /// <summary>
+        /// 歌词卡拉OK效果
+        /// </summary>
+        public bool lyricAnimation = true;
 
         /// <summary>
         /// 保存配置

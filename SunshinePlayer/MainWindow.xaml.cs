@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -75,7 +76,25 @@ namespace SunshinePlayer {
         /// <summary>
         /// 播放列表
         /// </summary>
-        public Playlist play_list;
+        private Playlist play_list;
+        /// <summary>
+        /// 歌词对象
+        /// </summary>
+        private Lyric lyric;
+        /// <summary>
+        /// 后台歌词处理线程
+        /// </summary>
+        private BackgroundWorker lyricWorker = new BackgroundWorker();
+        /// <summary>
+        /// 用于歌词线程访问的player对象
+        /// </summary>
+        private Player playerForLyric;
+        #region 歌词数据
+        private bool addedLyric = false;
+        private int indexLyric;
+        private string lrcLyric;
+        private double lenLyric, progressLyric, valueLyric;
+        #endregion
         /// <summary>
         /// 构造函数 初始化程序
         /// </summary>
@@ -160,6 +179,14 @@ namespace SunshinePlayer {
             spectrumWorker.ProgressChanged += spectrum_change;
             spectrumWorker.DoWork += spectrum_caculator;
             spectrumWorker.RunWorkerAsync();
+
+            //歌词线程
+            playerForLyric = Player.getInstance(Handle);
+            lyricWorker.WorkerReportsProgress = true;
+            lyricWorker.WorkerSupportsCancellation = true;
+            lyricWorker.ProgressChanged += LyricWorker_ProgressChanged;
+            lyricWorker.DoWork += LyricWorker_DoWork;
+            lyricWorker.RunWorkerAsync();
         }
         /// <summary>
         /// 窗口加载完成
@@ -647,7 +674,8 @@ namespace SunshinePlayer {
             if(List.SelectedIndex < 0) {
                 List.SelectedIndex = 0;
             }
-            player.openFile((string)((ListBoxItem)List.Items.GetItemAt(List.SelectedIndex)).ToolTip);
+            string file = (string)((ListBoxItem)List.Items.GetItemAt(List.SelectedIndex)).ToolTip;
+            player.openFile(file);
             if(player.play(true)) {
                 //记录
                 config.playlistIndex = List.SelectedIndex;
@@ -663,6 +691,8 @@ namespace SunshinePlayer {
                 TitleLabel.Content = information.title;
                 SingerLabel.Content = information.artist;
                 AlbumLabel.Content = information.album;
+                //歌词
+                loadLyric(information.title, information.artist, Helper.getHash(file), (int)Math.Round(player.length * 1000), file);
                 //时钟们
                 clocks(true);
             } else {
@@ -804,6 +834,111 @@ namespace SunshinePlayer {
             }
             //已处理，防止冒泡事件
             e.Handled = true;
+        }
+        /// <summary>
+        /// 加载歌词到窗口显示
+        /// </summary>
+        /// <param name="title">标题</param>
+        /// <param name="artist">艺术家</param>
+        /// <param name="hash">文件Hash</param>
+        /// <param name="time">音乐时长</param>
+        /// <param name="path">文件路径</param>
+        private void loadLyric(string title, string artist, string hash, int time, string path) {
+            //删除歌词
+            lyric = null;
+            Lrc.Children.Clear();
+            addedLyric = false;
+            //序列化路径不存在
+            if(!Directory.Exists(App.workPath + "\\lyrics")) {
+                Directory.CreateDirectory(App.workPath + "\\lyrics");
+            }
+            //查找歌词文件
+            if(File.Exists(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx")) {
+                lyric = Lyric.loadSRCX(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx");
+                if(lyric != null) {
+                    return;
+                }
+            }
+            if(File.Exists(App.workPath + "\\lyrics\\" + artist + " - " + title + ".src")) {
+                lyric = new Lyric(App.workPath + "\\lyrics\\" + artist + " - " + title + ".src");
+                //序列化保存
+                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx", lyric);
+            } else if(File.Exists(App.workPath + "\\lyrics\\" + artist + " - " + title + ".lrc")) {
+                lyric = new Lyric(App.workPath + "\\lyrics\\" + artist + " - " + title + ".lrc");
+                //序列化保存
+                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx", lyric);
+            } else if(File.Exists(path.Remove(path.LastIndexOf('.') + 1) + "src")) {
+                lyric = new Lyric(path.Remove(path.LastIndexOf('.') + 1) + "src");
+                //序列化保存
+                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx", lyric);
+            } else if(File.Exists(path.Remove(path.LastIndexOf('.') + 1) + "lrc")) {
+                lyric = new Lyric(path.Remove(path.LastIndexOf('.') + 1) + "lrc");
+                //序列化保存
+                Lyric.saveSRCX(App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx", lyric);
+            } else {
+                lyric = new Lyric(title, artist, hash, time, App.workPath + "\\lyrics\\" + artist + " - " + title + ".src");
+                //序列化保存
+                lyric.srcxPath = App.workPath + "\\lyrics\\" + artist + " - " + title + ".srcx";
+            }
+        }
+        /// <summary>
+        /// 歌词处理线程
+        /// </summary>
+        private void LyricWorker_DoWork(object sender, DoWorkEventArgs e) {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            Player player = playerForLyric;
+            while(true) {
+                if(lyric != null && lyric.Ready) {
+                    if(addedLyric) {
+                        valueLyric = lyric.FindLrc((int)(player.position * 1000), out indexLyric, out lrcLyric, out lenLyric, out progressLyric);
+                    }
+                    worker.ReportProgress(0);
+                }
+                System.Threading.Thread.Sleep(50);
+            }
+        }
+        /// <summary>
+        /// 歌词变化处理
+        /// </summary>
+        private void LyricWorker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
+            Config config = Config.getInstance();
+            if(!addedLyric) {
+                if(lyric.Lines == 0) {
+                    ProgressBar pb = new ProgressBar();
+                    pb.SetResourceReference(StyleProperty, "LyricText");
+                    pb.Value = 0;
+                    pb.Tag = "无歌词";
+                    pb.Foreground = new SolidColorBrush(Colors.Yellow);
+                    pb.Background = new SolidColorBrush(Colors.White);
+                    pb.HorizontalAlignment = HorizontalAlignment.Right;
+                    pb.Maximum = 1;
+                    Lrc.Children.Add(pb);
+                } else {
+                    for(int i = 0; i < lyric.Lines; i++) {
+                        ProgressBar pb = new ProgressBar();
+                        pb.SetResourceReference(StyleProperty, "LyricText");
+                        pb.Value = 0;
+                        pb.Tag = lyric.GetLine((uint)i);
+                        pb.Foreground = new SolidColorBrush(Colors.Yellow);
+                        pb.Background = new SolidColorBrush(Colors.White);
+                        pb.HorizontalAlignment = HorizontalAlignment.Right;
+                        pb.Maximum = 1;
+                        Lrc.Children.Add(pb);
+                    }
+                }
+                addedLyric = true;
+            } else {
+                foreach(ProgressBar p in Lrc.Children) {
+                    p.Value = 0;
+                }
+                ProgressBar pb = (ProgressBar)Lrc.Children[indexLyric];
+                pb.Value = config.lyricAnimation ? valueLyric : 1;
+                if(indexLyric > 3) {
+                    Lrc.SetValue(Canvas.TopProperty, -(indexLyric - 4) * 68 / 3 - (config.lyricAnimation ? progressLyric * 68 / 3 : 0));
+                } else {
+                    Lrc.SetValue(Canvas.TopProperty, 0.0);
+                }
+            }
         }
     }
 }

@@ -245,4 +245,27 @@
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="AllowsTransparency" Value="True" />
     </Style>
+    <Style x:Key="LyricText" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Foreground" Value="#01D328"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                    <Grid x:Name="Background" SnapsToDevicePixels="true">
+                        <TextBlock Text="{TemplateBinding Tag}" Foreground="{TemplateBinding Background}" Opacity="0.8" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="20" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Left">
+								<!--<TextBlock.Effect>
+									<DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="20"/>
+								</TextBlock.Effect>-->
+                        </TextBlock>
+                        <Rectangle x:Name="PART_Track"/>
+                        <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
+                            <Grid x:Name="Foreground">
+                                <TextBlock x:Name="Indicator" Text="{TemplateBinding Tag}" Foreground="{TemplateBinding Foreground}" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="20" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Left" />
+                            </Grid>
+                        </Decorator>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
