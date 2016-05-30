@@ -1,11 +1,14 @@
-﻿using System;
+﻿using SunshinePlayer.Template;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
+using zlib;
 
 namespace SunshinePlayer {
     /// <summary>
@@ -93,8 +96,67 @@ namespace SunshinePlayer {
         /// </summary>
         /// <param name="title">音乐标题</param>
         /// <param name="singer">艺术家</param>
+        /// <param name="fileHash">文件MD5校验</param>
+        /// <param name="time">音乐时长（毫秒）</param>
         /// <param name="savePath">是否保存为文本文件，保存路径</param>
-        public Lyric(string title, string singer, string savePath = null) {
+        public Lyric(string title, string singer, string fileHash, int time, string savePath = null) {
+            try {
+                //查询地址
+                string url = string.Format(
+                    @"http://mobilecdn.kugou.com/new/app/i/krc.php?cmd=201&keyword={0}-{1}&timelength={2}&hash={3}",
+                    Helper.urlEncode(singer, "%20"),
+                    Helper.urlEncode(title, "%20"),
+                    "" + time,
+                    fileHash
+                );
+                string urlDownload = @"http://mobilecdn.kugou.com/new/app/i/krc.php?cmd=201&kid={0}";
+                //下载歌词
+                using(WebClient wc = new WebClient()) {
+                    //查询歌词
+                    wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(
+                        (object sender, DownloadStringCompletedEventArgs e)=> {
+                            if(!e.Cancelled && e.Error == null) {
+                                //解析查询结果
+                                krc list = Json.parse<krc>(e.Result);
+                                if(list.@default == null || list.@default.Length == 0) {
+                                    return;
+                                }
+                                //下载歌词
+                                using(WebClient download = new WebClient()) {
+                                    download.DownloadDataCompleted += new DownloadDataCompletedEventHandler(
+                                        (object s, DownloadDataCompletedEventArgs ed) => {
+                                            if(!ed.Cancelled && ed.Error == null) {
+                                                //歌词解密
+                                                byte[] data = decodeKRC(ed.Result);
+                                                if(data == null) {
+                                                    return;
+                                                }
+                                                //保存歌词
+                                                if(savePath != null) {
+                                                    FileStream fs = new FileStream(savePath, FileMode.Create, FileAccess.Write, FileShare.None);
+                                                    fs.Write(data, 0, (int)data.Length);
+                                                    fs.Flush();
+                                                    fs.Close();
+                                                    fs.Dispose();
+                                                    filePath = savePath;
+                                                }
+                                                string lrc = Encoding.UTF8.GetString(data);
+                                                //解析歌词
+                                                analyzeOffset(lrc);
+                                                analyzeSRC(lrc);
+                                            }
+                                        }
+                                    );
+                                    download.DownloadDataAsync(new Uri(string.Format(urlDownload, list.@default)));
+                                }
+                            }
+                        }
+                    );
+                    //异步执行
+                    wc.DownloadStringAsync(new Uri(url));
+                }
+            } catch(Exception) {
+            }
         }
         /// <summary>
         /// 析构函数
@@ -458,6 +520,37 @@ namespace SunshinePlayer {
                     new Typeface(fontFamily, fontStyle, fontWeight, fontStretch),
                     fontSize,
                     foreground).Width;
+        }
+        /// <summary>
+        /// KRC歌词解密
+        /// </summary>
+        /// <param name="data">歌词加密数据</param>
+        /// <returns></returns>
+        private byte[] decodeKRC(byte[] data) {
+            if(data[0] != 107 || data[1] != 114 || data[2] != 99 || data[3] != 49) {
+                return null;
+            }
+            byte[] key = { 64, 71, 97, 119, 94, 50, 116, 71, 81, 54, 49, 45, 206, 210, 110, 105 };  //密钥
+            //解密
+            for(int i = 4; i < data.Length; i++) {
+                data[i - 4] = (byte)(data[i] ^ key[(i - 4) % 16]);
+            }
+            //zlib解压
+            MemoryStream outfile = new MemoryStream();
+            ZOutputStream outZStream = new ZOutputStream(outfile);
+            byte[] ret;
+            try {
+                outZStream.Write(data, 0, data.Length - 4);
+                outZStream.Flush();
+                outfile.Flush();
+                ret = outfile.ToArray();
+            } finally {
+                outZStream.Close();
+                outZStream.Dispose();
+                outfile.Close();
+                outfile.Dispose();
+            }
+            return ret;
         }
 
         /// <summary>
