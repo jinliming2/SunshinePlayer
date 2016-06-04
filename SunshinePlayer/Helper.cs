@@ -50,7 +50,7 @@ namespace SunshinePlayer {
         public static string urlEncode(string URL, string Space) {
             return URL.Replace("%", "%25")
             .Replace("+", "%2B")
-            .Replace(" ", Space)
+            .Replace(string.Empty, Space)
             .Replace("\"", "%22")
             .Replace("#", "%23")
             .Replace("&", "%26")
@@ -74,15 +74,15 @@ namespace SunshinePlayer {
         /// <param name="path">文件名</param>
         /// <returns>清理后的结果</returns>
         public static string pathClear(string path) {
-            return path.Replace("\\", " ")
-                .Replace("/", " ")
-                .Replace(":", " ")
-                .Replace("*", " ")
-                .Replace("?", " ")
-                .Replace("\"", " ")
-                .Replace("<", " ")
-                .Replace(">", " ")
-                .Replace("|", " ");
+            return path.Replace("\\", string.Empty)
+                .Replace("/", string.Empty)
+                .Replace(":", string.Empty)
+                .Replace("*", string.Empty)
+                .Replace("?", string.Empty)
+                .Replace("\"", string.Empty)
+                .Replace("<", string.Empty)
+                .Replace(">", string.Empty)
+                .Replace("|", string.Empty);
         }
     }
 }

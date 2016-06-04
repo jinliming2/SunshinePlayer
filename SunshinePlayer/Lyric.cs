@@ -179,7 +179,7 @@ namespace SunshinePlayer {
         /// </summary>
         ~Lyric() {
             //时间偏移被修改
-            if(offset != offsetOld) {
+            if(offset != offsetOld && filePath != null) {
                 //TODO: 保存修改到歌词文件
             }
         }
