@@ -16,7 +16,7 @@ namespace SunshinePlayer {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window, IDisposable {
         /// <summary>
         /// 歌词开关按钮
         /// </summary>
@@ -94,6 +94,36 @@ namespace SunshinePlayer {
         private int indexLyric;
         private string lrcLyric;
         private double lenLyric, progressLyric, valueLyric;
+        #endregion
+        #region IDisposable Support
+        private bool disposedValue = false; // 要检测冗余调用
+        /// <summary>
+        /// 资源释放
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing) {
+            if(!disposedValue) {
+                if(disposing) {
+                    //托管资源释放
+                    this.spectrumWorker.Dispose();
+                    this.lyricWorker.Dispose();
+                }
+                //未托管资源释放
+                //this.abc = null;
+                disposedValue = true;
+            }
+        }
+        // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
+        // ~MainWindow() {
+        //   Dispose(false);
+        // }
+        /// <summary>
+        /// 实现IDisposable接口
+        /// </summary>
+        public void Dispose() {
+            Dispose(true);
+            // GC.SuppressFinalize(this);
+        }
         #endregion
         /// <summary>
         /// 构造函数 初始化程序
