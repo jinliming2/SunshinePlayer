@@ -28,10 +28,6 @@ namespace SunshinePlayer {
         /// 时间偏移
         /// </summary>
         private int offset = 0;
-        /// <summary>
-        /// 原时间偏移
-        /// </summary>
-        private int offsetOld = 0;
         #region 字体数据
         [NonSerialized]
         private FontFamily fontFamily = new FontFamily("Courier New");
@@ -95,7 +91,6 @@ namespace SunshinePlayer {
             //关闭文件
             fs.Flush();
             fs.Close();
-            fs.Dispose();
             string lrc = Encoding.UTF8.GetString(data);
             //解析歌词
             analyzeOffset(lrc);
@@ -153,7 +148,6 @@ namespace SunshinePlayer {
                                                     fs.Write(data, 0, data.Length);
                                                     fs.Flush();
                                                     fs.Close();
-                                                    fs.Dispose();
                                                     filePath = savePath;
                                                 }
                                                 string lrc = Encoding.UTF8.GetString(data);
@@ -172,15 +166,6 @@ namespace SunshinePlayer {
                     wc.DownloadStringAsync(new Uri(url));
                 }
             } catch(Exception) {
-            }
-        }
-        /// <summary>
-        /// 析构函数
-        /// </summary>
-        ~Lyric() {
-            //时间偏移被修改
-            if(offset != offsetOld && filePath != null) {
-                //TODO: 保存修改到歌词文件
             }
         }
         /// <summary>
@@ -241,7 +226,7 @@ namespace SunshinePlayer {
         /// </summary>
         public int Offset {
             get { return offset; }
-            set { offset = value; }
+            set { offset = value; saveOffset(); }
         }
         /// <summary>
         /// 歌词行数
@@ -440,7 +425,7 @@ namespace SunshinePlayer {
             Regex regOffset = new Regex(@"^\[offset:(-*\d+)\]", RegexOptions.Multiline | RegexOptions.CultureInvariant);
             MatchCollection mc = regOffset.Matches(lrc);
             if(mc.Count > 0) {
-                offset = offsetOld = int.Parse(mc[0].Groups[1].Value.Trim());
+                offset = int.Parse(mc[0].Groups[1].Value.Trim());
             }
         }
         /// <summary>
@@ -591,10 +576,19 @@ namespace SunshinePlayer {
                 ret = outfile.ToArray();
             } finally {
                 outZStream.Close();
-                outfile.Close();
-                outfile.Dispose();
             }
             return ret;
+        }
+        /// <summary>
+        /// 将偏移保存到原歌词文件
+        /// </summary>
+        private void saveOffset() {
+            if(filePath != null) {
+                //TODO: 保存修改到歌词文件
+            }
+            if(srcxPath != null) {
+                saveSRCX(srcxPath, this);
+            }
         }
 
         /// <summary>

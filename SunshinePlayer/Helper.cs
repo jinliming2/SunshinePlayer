@@ -35,7 +35,6 @@ namespace SunshinePlayer {
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] retVal = md5.ComputeHash(fs);
             fs.Close();
-            fs.Dispose();
             StringBuilder sb = new StringBuilder();
             for(int i = 0; i < retVal.Length; i++)
                 sb.Append(retVal[i].ToString("x2"));

@@ -909,9 +909,9 @@ namespace SunshinePlayer {
                 Lyric.saveSRCX(App.workPath + "\\lyrics\\" + a + " - " + t + ".srcx", lyric);
             } else {
                 lyric = new Lyric(title, artist, hash, time, App.workPath + "\\lyrics\\" + a + " - " + t + ".src");
-                //序列化保存
-                lyric.srcxPath = App.workPath + "\\lyrics\\" + a + " - " + t + ".srcx";
             }
+            //序列化保存
+            lyric.srcxPath = App.workPath + "\\lyrics\\" + a + " - " + t + ".srcx";
         }
         /// <summary>
         /// 歌词处理线程
