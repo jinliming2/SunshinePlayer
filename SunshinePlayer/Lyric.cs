@@ -583,8 +583,34 @@ namespace SunshinePlayer {
         /// 将偏移保存到原歌词文件
         /// </summary>
         private void saveOffset() {
-            if(filePath != null) {
-                //TODO: 保存修改到歌词文件
+            if(filePath != null && File.Exists(filePath)) {
+                FileStream fs = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+                byte[] textlrc = new byte[fs.Length];
+                fs.Read(textlrc, 0, (int)fs.Length);
+                string str;
+                if(filePath.ToLower().EndsWith("src")) {
+                    str = Encoding.UTF8.GetString(textlrc);
+                } else {
+                    str = Encoding.Default.GetString(textlrc);
+                }
+                //时间偏移
+                Regex regex = new Regex(@"^\[offset:(-*\d+)\]", RegexOptions.Multiline | RegexOptions.CultureInvariant);
+                MatchCollection mc = regex.Matches(str);
+                if(mc.Count > 0) {
+                    str = regex.Replace(str, "[offset:" + offset.ToString() + "]");
+                } else {
+                    str = "[offset:" + offset.ToString() + "]\r\n" + str;
+                }
+                fs.Seek(0, SeekOrigin.Begin);
+                fs.SetLength(0);
+                if(filePath.ToLower().EndsWith("src")) {  //写出修改后的数据
+                    fs.Write(Encoding.UTF8.GetBytes(str), 0, Encoding.UTF8.GetByteCount(str));
+                } else {
+                    fs.Write(Encoding.Default.GetBytes(str), 0, Encoding.Default.GetByteCount(str));
+                }
+                fs.Flush();
+                fs.Close();
+                fs.Dispose();
             }
             if(srcxPath != null) {
                 saveSRCX(srcxPath, this);

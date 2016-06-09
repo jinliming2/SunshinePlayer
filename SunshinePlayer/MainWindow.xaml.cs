@@ -297,11 +297,17 @@ namespace SunshinePlayer {
         /// 歌词提前
         /// </summary>
         private void lrcAdvance(object sender, RoutedEventArgs e) {
+            if(lyric != null) {
+                lyric.Offset += 100;
+            }
         }
         /// <summary>
         /// 歌词延后
         /// </summary>
         private void lrcDdelay(object sender, RoutedEventArgs e) {
+            if(lyric != null) {
+                lyric.Offset -= 100;
+            }
         }
         /// <summary>
         /// 设置
