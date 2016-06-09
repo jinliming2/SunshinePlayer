@@ -610,7 +610,6 @@ namespace SunshinePlayer {
                 }
                 fs.Flush();
                 fs.Close();
-                fs.Dispose();
             }
             if(srcxPath != null) {
                 saveSRCX(srcxPath, this);
