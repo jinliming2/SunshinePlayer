@@ -49,7 +49,7 @@ namespace SunshinePlayer {
         public static string urlEncode(string URL, string Space) {
             return URL.Replace("%", "%25")
             .Replace("+", "%2B")
-            .Replace(string.Empty, Space)
+            .Replace(" ", Space)
             .Replace("\"", "%22")
             .Replace("#", "%23")
             .Replace("&", "%26")
