@@ -222,6 +222,9 @@ namespace SunshinePlayer {
         /// 窗口加载完成
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e) {
+            //歌手图片保存路径
+            SingerImage.path = App.workPath + "\\singer";
+            //加载配置
             Config config = Config.getInstance();
             //窗口位置
             if(
