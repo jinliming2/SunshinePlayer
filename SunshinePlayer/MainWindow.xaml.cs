@@ -1018,7 +1018,7 @@ namespace SunshinePlayer {
         /// </summary>
         /// <param name="artist">歌手</param>
         private void loadImage(string artist) {
-            SingerImage.getImage(artist, (string filepath) => {
+            SingerImage.getImage(artist, ++SingerImage.getid, (string filepath) => {
                 singerBackground.ImageSource = new BitmapImage(new Uri(filepath));
                 this.Background = singerBackground;
             });

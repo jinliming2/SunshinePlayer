@@ -16,6 +16,10 @@ namespace SunshinePlayer {
         /// </summary>
         public static string path;
         /// <summary>
+        /// 当前获取的id
+        /// </summary>
+        public static int getid = 0;
+        /// <summary>
         /// 歌手图片回调函数
         /// </summary>
         /// <param name="filepath">文件路径</param>
@@ -25,7 +29,7 @@ namespace SunshinePlayer {
         /// </summary>
         /// <param name="singer">歌手</param>
         /// <returns>本地保存路径</returns>
-        public static void getImage(string artist, imageFile ret) {
+        public static void getImage(string artist, int getid, imageFile ret) {
             if(!Directory.Exists(path)) {
                 Directory.CreateDirectory(path);
             }
@@ -36,7 +40,7 @@ namespace SunshinePlayer {
             //本地查找
             artist = Helper.pathClear(artist);
             string[] files = Directory.GetFiles(path, artist + "_*.jpg", SearchOption.TopDirectoryOnly);
-            if(files.Length > 0) {
+            if(files.Length > 0 && getid == SingerImage.getid) {
                 ret(files[Helper.random.Next(files.Length)]);
                 return;
             }
@@ -71,7 +75,7 @@ namespace SunshinePlayer {
                                                     fs.Flush();
                                                     fs.Close();
                                                     //返回第一个文件的路径
-                                                    if(id == 1) {
+                                                    if(id == 1 && getid == SingerImage.getid) {
                                                         ret(path + "\\" + artist + "_0.jpg");
                                                     }
                                                 }
@@ -86,8 +90,7 @@ namespace SunshinePlayer {
                     //异步执行
                     wc.DownloadStringAsync(new Uri(url));
                 }
-            } catch(Exception e) {
-                Console.WriteLine(e.Message);
+            } catch(Exception) {
             }
         }
     }
