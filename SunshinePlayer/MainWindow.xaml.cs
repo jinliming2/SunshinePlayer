@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -95,6 +96,15 @@ namespace SunshinePlayer {
         private string lrcLyric;
         private double lenLyric, progressLyric, valueLyric;
         #endregion
+        /// <summary>
+        /// 默认黑色背景
+        /// </summary>
+        private SolidColorBrush defaultBackground = new SolidColorBrush(Colors.Black);
+        /// <summary>
+        /// 歌手图片背景对象
+        /// </summary>
+        private ImageBrush singerBackground = new ImageBrush();
+
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
         /// <summary>
@@ -134,6 +144,10 @@ namespace SunshinePlayer {
             //窗口初始化事件
             this.Loaded += initialize;
             InitializeComponent();
+            //初始化背景图片对象
+            singerBackground.Stretch = Stretch.UniformToFill;
+            singerBackground.AlignmentX = AlignmentX.Center;
+            singerBackground.AlignmentY = AlignmentY.Center;
         }
         /// <summary>
         /// 窗口初始化
@@ -716,6 +730,8 @@ namespace SunshinePlayer {
             string file = (string)((ListBoxItem)List.Items.GetItemAt(List.SelectedIndex)).ToolTip;
             player.openFile(file);
             if(player.play(true)) {
+                //清除背景图片
+                this.Background = defaultBackground;
                 //记录
                 config.playlistIndex = List.SelectedIndex;
                 //进度条最大值
@@ -734,6 +750,8 @@ namespace SunshinePlayer {
                 loadLyric(information.title, information.artist, Helper.getHash(file), (int)Math.Round(player.length * 1000), file);
                 //时钟们
                 clocks(true);
+                //加载背景图片
+                loadImage(information.artist);
             } else {
                 Error error = player.error;
                 MessageBox.Show(error.content, error.title, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -994,6 +1012,16 @@ namespace SunshinePlayer {
                     Lrc.SetValue(Canvas.TopProperty, 0.0);
                 }
             }
+        }
+        /// <summary>
+        /// 加载歌手图片到窗口显示
+        /// </summary>
+        /// <param name="artist">歌手</param>
+        private void loadImage(string artist) {
+            SingerImage.getImage(artist, (string filepath) => {
+                singerBackground.ImageSource = new BitmapImage(new Uri(filepath));
+                this.Background = singerBackground;
+            });
         }
     }
 }

@@ -86,7 +86,8 @@ namespace SunshinePlayer {
                     //异步执行
                     wc.DownloadStringAsync(new Uri(url));
                 }
-            } catch(Exception) {
+            } catch(Exception e) {
+                Console.WriteLine(e.Message);
             }
         }
     }
