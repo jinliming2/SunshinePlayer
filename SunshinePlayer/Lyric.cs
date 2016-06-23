@@ -113,7 +113,7 @@ namespace SunshinePlayer {
             try {
                 //查询地址
                 string url = string.Format(
-                    @"http://mobilecdn.kugou.com/new/app/i/krc.php?cmd=201&keyword={0}-{1}&timelength={2}&hash={3}",
+                    @"http://mobilecdn.kugou.com/new/app/i/krc.php?cmd=201&keyword=""{0}""-""{1}""&timelength={2}&hash={3}",
                     Helper.urlEncode(singer, "%20"),
                     Helper.urlEncode(title, "%20"),
                     "" + time,
