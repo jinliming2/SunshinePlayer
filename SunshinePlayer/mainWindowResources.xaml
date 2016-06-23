@@ -11,7 +11,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Fill="#4f535d" Stroke="White" />
+                        <Ellipse Width="18" Height="18" Opacity=".1" StrokeThickness="2" Fill="#4f535d" Stroke="White" />
+                        <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Stroke="White" />
                         <!-- 按钮内容 -->
                         <Grid>
                             <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
@@ -39,7 +40,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Fill="#4f535d" Stroke="White" />
+                        <Ellipse Width="18" Height="18" Opacity=".1" StrokeThickness="2" Fill="#4f535d" Stroke="White" />
+                        <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Stroke="White" />
                         <!-- 按钮内容 -->
                         <Grid>
                             <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
