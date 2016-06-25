@@ -270,4 +270,44 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--任务栏播放按钮-->
+    <DrawingImage x:Key="PlayButtonImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="Green" Geometry="M 50,25 L 0,0 L 0,50 Z"/>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <!--任务栏暂停按钮-->
+    <DrawingImage x:Key="PauseButtonImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="Yellow" Geometry="F1 M 0,0 V 50 H 20 V 0 Z M 30,0 V 50 H 50 V 0 Z"/>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <!--任务栏上一曲按钮-->
+    <DrawingImage x:Key="LastButtonImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="White" Geometry="F1 M 0,25 L 24.5,50 V 0 Z M 25.5,25 L 50,50 V 0 Z"/>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <!--任务栏下一曲按钮-->
+    <DrawingImage x:Key="NextButtonImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="White" Geometry="F1 M 0,0 V 50 L 24.5,25 Z M 25.5,0 V 50 L 50,25 Z"/>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
 </ResourceDictionary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Windows.Shell;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.IO;
@@ -104,6 +105,10 @@ namespace SunshinePlayer {
         /// 歌手图片背景对象
         /// </summary>
         private ImageBrush singerBackground = new ImageBrush();
+        /// <summary>
+        /// 任务栏预览按钮
+        /// </summary>
+        private TaskbarItemInfo tii = new TaskbarItemInfo();
 
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
@@ -176,6 +181,25 @@ namespace SunshinePlayer {
             //打开文件按钮
             OpenButton = (Button)baseWindowTemplate.FindName("OpenButton", this);
             OpenButton.Click += openFile;  //打开文件
+
+            //事件绑定
+            this.CommandBindings.Add(new CommandBinding(MediaCommands.Play, (object m_sender, ExecutedRoutedEventArgs m_e) => {
+                PlayButton_Click(m_sender, null);
+                m_e.Handled = true;
+            }));  //播放
+            this.CommandBindings.Add(new CommandBinding(MediaCommands.Pause, (object m_sender, ExecutedRoutedEventArgs m_e) => {
+                PauseButton_Click(m_sender, null);
+                m_e.Handled = true;
+            }));  //暂停
+            this.CommandBindings.Add(new CommandBinding(MediaCommands.PreviousTrack, (object m_sender, ExecutedRoutedEventArgs m_e) => {
+                LastButton_Click(m_sender, null);
+                m_e.Handled = true;
+            }));  //上一曲
+            this.CommandBindings.Add(new CommandBinding(MediaCommands.NextTrack, (object m_sender, ExecutedRoutedEventArgs m_e) => {
+                NextButton_Click(m_sender, null);
+                m_e.Handled = true;
+            }));  //下一曲
+
             //频谱
             for(int i = 1; i <= 42; i++) {
                 spectrum_t[i - 1] = (Rectangle)Spectrum.FindName("ppt" + i);
@@ -291,6 +315,35 @@ namespace SunshinePlayer {
             } else if(config.autoPlay) {  //启动自动播放
                 PlaylistOpen(sender, null);
             }
+            //任务栏预览按钮
+            tii.Description = "Sunshine Player";
+            tii.ProgressState = TaskbarItemProgressState.None;
+            tii.ProgressValue = 0;
+            //上一曲按钮
+            ThumbButtonInfo tbi_Last = new ThumbButtonInfo();
+            tbi_Last.Command = MediaCommands.PreviousTrack;
+            tbi_Last.CommandTarget = this;
+            tbi_Last.Description = "上一曲";
+            tbi_Last.DismissWhenClicked = false;
+            tbi_Last.ImageSource = (DrawingImage)Resources["LastButtonImage"];
+            tii.ThumbButtonInfos.Add(tbi_Last);
+            //播放按钮
+            ThumbButtonInfo tbi_Play = new ThumbButtonInfo();
+            tbi_Play.Command = MediaCommands.Play;
+            tbi_Play.CommandTarget = this;
+            tbi_Play.Description = "播放";
+            tbi_Play.DismissWhenClicked = false;
+            tbi_Play.ImageSource = (DrawingImage)Resources["PlayButtonImage"];
+            tii.ThumbButtonInfos.Add(tbi_Play);
+            //下一曲按钮
+            ThumbButtonInfo tbi_Next = new ThumbButtonInfo();
+            tbi_Next.Command = MediaCommands.NextTrack;
+            tbi_Next.CommandTarget = this;
+            tbi_Next.Description = "下一曲";
+            tbi_Next.DismissWhenClicked = false;
+            tbi_Next.ImageSource = (DrawingImage)Resources["NextButtonImage"];
+            tii.ThumbButtonInfos.Add(tbi_Next);
+            TaskbarItemInfo.SetTaskbarItemInfo(this, tii);
         }
         /// <summary>
         /// 窗口最小化
@@ -419,6 +472,10 @@ namespace SunshinePlayer {
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Visible;
             PlayButton.Visibility = Visibility.Hidden;
+            tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PauseButtonImage"];
+            tii.ThumbButtonInfos[1].Command = MediaCommands.Pause;
+            //任务栏进度条
+            tii.ProgressState = TaskbarItemProgressState.Normal;
         }
         /// <summary>
         /// 暂停按钮
@@ -429,6 +486,10 @@ namespace SunshinePlayer {
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Hidden;
             PlayButton.Visibility = Visibility.Visible;
+            tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PlayButtonImage"];
+            tii.ThumbButtonInfos[1].Command = MediaCommands.Play;
+            //任务栏进度条
+            tii.ProgressState = TaskbarItemProgressState.Paused;
             //时钟们
             clocks(false);
         }
@@ -441,8 +502,13 @@ namespace SunshinePlayer {
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Hidden;
             PlayButton.Visibility = Visibility.Visible;
+            tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PlayButtonImage"];
+            tii.ThumbButtonInfos[1].Command = MediaCommands.Play;
+            //任务栏进度条
+            tii.ProgressState = TaskbarItemProgressState.None;
             //播放进度
             Progress.Value = 0;
+            tii.ProgressValue = 0;
             //播放时间
             time_now.Text = Helper.Seconds2Time(Progress.Value);
             //时钟们
@@ -470,6 +536,8 @@ namespace SunshinePlayer {
                 Progress.Value = player.position;
                 //播放时间
                 time_now.Text = Helper.Seconds2Time(Progress.Value);
+                //任务栏进度条
+                tii.ProgressValue = Progress.Value / Progress.Maximum;
             }
             if(player.status == Un4seen.Bass.BASSActive.BASS_ACTIVE_STOPPED) {
                 switch(config.playModel) {
@@ -741,11 +809,17 @@ namespace SunshinePlayer {
                 //暂停播放按钮
                 PauseButton.Visibility = Visibility.Visible;
                 PlayButton.Visibility = Visibility.Hidden;
+                tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PauseButtonImage"];
+                tii.ThumbButtonInfos[1].Command = MediaCommands.Pause;
+                //任务栏进度条
+                tii.ProgressState = TaskbarItemProgressState.Normal;
                 //音乐信息
                 MusicID3 information = player.information;
                 TitleLabel.Content = information.title;
                 SingerLabel.Content = information.artist;
                 AlbumLabel.Content = information.album;
+                //任务栏描述
+                tii.Description = information.title + " - " + information.artist;
                 //歌词
                 loadLyric(information.title, information.artist, Helper.getHash(file), (int)Math.Round(player.length * 1000), file);
                 //时钟们
