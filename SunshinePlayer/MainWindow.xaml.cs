@@ -310,7 +310,6 @@ namespace SunshinePlayer {
             if(App.Args.Length > 0) {
                 //添加到播放列表
                 List.SelectedIndex = addToPlaylist(App.Args);
-                List.ScrollIntoView(List.SelectedItem);
                 PlaylistOpen(sender, null);
             } else if(config.autoPlay) {  //启动自动播放
                 PlaylistOpen(sender, null);
@@ -420,7 +419,6 @@ namespace SunshinePlayer {
                 string[] files = ofd.FileNames;
                 //添加到播放列表
                 List.SelectedIndex = addToPlaylist(files);
-                List.ScrollIntoView(List.SelectedItem);
                 //打开第一个文件
                 PlaylistOpen(sender, null);
             }
@@ -543,7 +541,6 @@ namespace SunshinePlayer {
                 switch(config.playModel) {
                 case Config.PlayModel.SingleCycle:  //单曲循环
                     List.SelectedIndex = config.playlistIndex;
-                    List.ScrollIntoView(List.SelectedItem);
                     PlaylistOpen(sender, null);
                     break;
                 case Config.PlayModel.OrderPlay:  //顺序播放
@@ -553,10 +550,8 @@ namespace SunshinePlayer {
                         //时钟们
                         clocks(false);
                         List.SelectedIndex = config.playlistIndex = 0;
-                        List.ScrollIntoView(List.SelectedItem);
                     } else {
                         List.SelectedIndex = ++config.playlistIndex;
-                        List.ScrollIntoView(List.SelectedItem);
                         PlaylistOpen(sender, null);
                     }
                     break;
@@ -568,7 +563,6 @@ namespace SunshinePlayer {
                     } else {
                         List.SelectedIndex = ++config.playlistIndex;
                     }
-                    List.ScrollIntoView(List.SelectedItem);
                     PlaylistOpen(sender, null);
                     break;
                 case Config.PlayModel.ShufflePlayback:  //随机播放
@@ -579,7 +573,6 @@ namespace SunshinePlayer {
                         rand = Helper.random.Next(0, List.Items.Count);
                     } while(List.Items.Count > 1 && rand == config.playlistIndex);  //避免重复
                     List.SelectedIndex = rand;
-                    List.ScrollIntoView(List.SelectedItem);
                     PlaylistOpen(sender, null);
                     break;
                 }
@@ -723,7 +716,6 @@ namespace SunshinePlayer {
             } else {
                 List.SelectedIndex = --config.playlistIndex;
             }
-            List.ScrollIntoView(List.SelectedItem);
             PlaylistOpen(sender, null);
         }
         /// <summary>
@@ -738,7 +730,6 @@ namespace SunshinePlayer {
             } else {
                 List.SelectedIndex = ++config.playlistIndex;
             }
-            List.ScrollIntoView(List.SelectedItem);
             PlaylistOpen(sender, null);
         }
         /// <summary>
@@ -796,6 +787,7 @@ namespace SunshinePlayer {
                 List.SelectedIndex = 0;
             }
             string file = (string)((ListBoxItem)List.Items.GetItemAt(List.SelectedIndex)).ToolTip;
+            List.ScrollIntoView(List.SelectedItem);
             player.openFile(file);
             if(player.play(true)) {
                 //清除背景图片
@@ -958,7 +950,6 @@ namespace SunshinePlayer {
                 return;
             //添加到播放列表
             List.SelectedIndex = addToPlaylist(files);
-            List.ScrollIntoView(List.SelectedItem);
             if(sender != List) {  //不是播放列表得到的
                 //打开第一个文件
                 PlaylistOpen(sender, null);
