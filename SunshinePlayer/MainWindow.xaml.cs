@@ -1012,7 +1012,7 @@ namespace SunshinePlayer {
             BackgroundWorker worker = sender as BackgroundWorker;
             Player player = playerForLyric;
             while(true) {
-                if(lyric != null && lyric.Ready) {
+                if(lyric != null) {
                     if(addedLyric) {
                         valueLyric = lyric.FindLrc((int)(player.position * 1000), out indexLyric, out lrcLyric, out lenLyric, out progressLyric);
                     }

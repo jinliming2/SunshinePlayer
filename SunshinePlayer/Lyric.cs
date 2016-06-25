@@ -130,6 +130,7 @@ namespace SunshinePlayer {
                                 //解析查询结果
                                 krc list = Json.parse<krc>(e.Result);
                                 if(list.@default == null || list.@default.Length == 0) {
+                                    ready = true;
                                     return;
                                 }
                                 //下载歌词
