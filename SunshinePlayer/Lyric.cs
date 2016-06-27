@@ -323,13 +323,15 @@ namespace SunshinePlayer {
             //当前句已过时间
             time -= text[index].time;
             //时间进度
-            progress = (double)time / text[index].during;
+            if(index == text.Count - 1) {
+                progress = (double)time / text[index].during;
+            } else {
+                progress = (double)time / (text[index + 1].time - text[index].time);
+            }
             string tt = string.Empty;
             //寻找当前所在词
             for(int n = 0; n < text[index].content.Count; n++) {
                 if(text[index].content[n].time + text[index].content[n].during >= time) {  //处于当前词结尾之前
-                    //当前词已过时间
-                    time -= text[index].content[n].time;
                     //之前词显示宽度
                     if(text[index].content[n].widthBefore == double.MinValue) {
                         //取出
@@ -352,8 +354,13 @@ namespace SunshinePlayer {
                         tmpS.content[n] = tmpL;
                         text[index] = tmpS;
                     }
+                    //当前词已过时间
+                    time -= text[index].content[n].time;
                     //当前词已过百分比
-                    double p = text[index].content[n].width * time / text[index].content[n].during;
+                    double p = 0;
+                    if(time > 0) {
+                        p = text[index].content[n].width * time / text[index].content[n].during;
+                    }
                     p += text[index].content[n].widthBefore;
                     //当前句已过显示百分比
                     return p / len;
@@ -362,7 +369,6 @@ namespace SunshinePlayer {
                 tt += text[index].content[n].word;
             }
             //已过当前句
-            progress = 1;
             return 1;
         }
 
