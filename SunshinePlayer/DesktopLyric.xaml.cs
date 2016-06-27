@@ -72,11 +72,9 @@ namespace SunshinePlayer {
             }
             //显示颜色
             if(config.lyricAnimation) {
-                LrcTop.Background = new SolidColorBrush(Color.FromArgb(238, 50, 50, 50));
-                LrcBottom.Background = new SolidColorBrush(Color.FromArgb(238, 50, 50, 50));
+                LrcTop.Background = LrcBottom.Background = new SolidColorBrush(Color.FromArgb(238, 136, 136, 136));
             } else {
-                LrcTop.Background = new SolidColorBrush(Color.FromArgb(255, 0, 255, 197));
-                LrcBottom.Background = new SolidColorBrush(Color.FromArgb(255, 0, 255, 197));
+                LrcTop.Background = LrcBottom.Background = new SolidColorBrush(Color.FromArgb(255, 0, 255, 197));
             }
             //播放对象
             player = Player.getInstance(MainWindow._this.Handle);
@@ -138,16 +136,27 @@ namespace SunshinePlayer {
             current.UpdateLayout();
             if(progressLyric < 0.5) {
                 //uint在小于0时溢出，得到最大值
-                another.Tag = MainWindow.lyric.GetLine((uint)indexLyric - 1);
+                string tag = MainWindow.lyric.GetLine((uint)indexLyric - 1);
+                if((string)another.Tag != tag) {
+                    another.Tag = tag;
+                    another.Value = 0.99;
+                    another.UpdateLayout();
+                }
                 another.Value = 1;
             } else {
-                another.Tag = MainWindow.lyric.GetLine((uint)indexLyric + 1);
+                string tag = MainWindow.lyric.GetLine((uint)indexLyric + 1);
+                if((string)another.Tag != tag) {
+                    another.Tag = tag;
+                    another.Value = 0.01;
+                    another.UpdateLayout();
+                }
                 another.Value = 0;
             }
             another.UpdateLayout();
             if(another.ActualWidth < this.Width) {
                 if(another == LrcTop) {
                     another.SetValue(Canvas.LeftProperty, 0d);
+                    another.ClearValue(Canvas.RightProperty);
                 } else {
                     another.SetValue(Canvas.RightProperty, 0d);
                     another.ClearValue(Canvas.LeftProperty);
@@ -155,6 +164,7 @@ namespace SunshinePlayer {
             } else {
                 if(another.Value == 0) {
                     another.SetValue(Canvas.LeftProperty, 0d);
+                    another.ClearValue(Canvas.RightProperty);
                 } else {
                     another.SetValue(Canvas.RightProperty, 0d);
                     another.ClearValue(Canvas.LeftProperty);
@@ -169,12 +179,10 @@ namespace SunshinePlayer {
                 current.ClearValue(Canvas.RightProperty);
             } else if(current.ActualWidth - valueLyric * current.ActualWidth < this.Width / 2) {
                 current.SetValue(Canvas.LeftProperty, this.Width - current.ActualWidth);
-                current.SetValue(Canvas.RightProperty, this.Width - current.ActualWidth);
-                LrcBottom.ClearValue(Canvas.LeftProperty);
+                current.ClearValue(Canvas.RightProperty);
             } else {
                 current.SetValue(Canvas.LeftProperty, this.Width / 2 - valueLyric * current.ActualWidth);
-                current.SetValue(Canvas.RightProperty, this.Width / 2 - valueLyric * current.ActualWidth);
-                LrcBottom.ClearValue(Canvas.LeftProperty);
+                current.ClearValue(Canvas.RightProperty);
             }
         }
         /// <summary>

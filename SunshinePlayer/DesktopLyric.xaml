@@ -32,7 +32,7 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
         </StackPanel>
         <!--两行歌词-->
-        <ProgressBar x:Name="LrcTop" Style="{DynamicResource 歌词}" Value="0" Tag="Sunshine Player" Foreground="#FF00FFC5" Background="#EE323232" Maximum="1"/>
-        <ProgressBar x:Name="LrcBottom" Style="{DynamicResource 歌词}" Value="0" Tag="" Foreground="#FF00FFC5" Background="#EE323232" Maximum="1"/>
+        <ProgressBar x:Name="LrcTop" Style="{DynamicResource 歌词}" Value="0" Tag="Sunshine Player" Foreground="#FF00FFC5" Background="#EE888888" Maximum="1"/>
+        <ProgressBar x:Name="LrcBottom" Style="{DynamicResource 歌词}" Value="0" Tag="" Foreground="#FF00FFC5" Background="#EE888888" Maximum="1"/>
     </Canvas>
 </Window>
