@@ -15,7 +15,7 @@ namespace SunshinePlayer {
     /// 歌词类
     /// </summary>
     [Serializable]
-    class Lyric {
+    public class Lyric {
         /// <summary>
         /// 全部歌词
         /// </summary>
@@ -273,7 +273,6 @@ namespace SunshinePlayer {
         /// <param name="lrc">歌词</param>
         /// <param name="len">当前句全长</param>
         /// <param name="progress">已过当前句时间进度</param>
-        /// <param name="label">测量宽度使用的Label</param>
         /// <returns>当前歌词已经过的进度</returns>
         public double FindLrc(int time, out int index, out string lrc, out double len, out double progress) {
             if(Lines == 0) {  //没有歌词

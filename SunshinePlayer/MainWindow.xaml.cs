@@ -20,6 +20,10 @@ namespace SunshinePlayer {
     /// </summary>
     public partial class MainWindow : Window, IDisposable {
         /// <summary>
+        /// 当前实例
+        /// </summary>
+        public static MainWindow _this = null;
+        /// <summary>
         /// 歌词开关按钮
         /// </summary>
         private static CheckBox LrcButton;
@@ -82,7 +86,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 歌词对象
         /// </summary>
-        private Lyric lyric;
+        public static Lyric lyric = null;
         /// <summary>
         /// 后台歌词处理线程
         /// </summary>
@@ -126,6 +130,9 @@ namespace SunshinePlayer {
                     //托管资源释放
                     this.spectrumWorker.Dispose();
                     this.lyricWorker.Dispose();
+                    if(this.desktopLyric != null) {
+                        this.desktopLyric.Dispose();
+                    }
                 }
                 //未托管资源释放
                 //this.abc = null;
@@ -148,6 +155,7 @@ namespace SunshinePlayer {
         /// 构造函数 初始化程序
         /// </summary>
         public MainWindow() {
+            _this = this;
             //加载配置
             Config.loadConfig(App.workPath + "\\config.db");
             //窗口初始化事件
@@ -372,6 +380,7 @@ namespace SunshinePlayer {
             //关闭桌面歌词
             if(desktopLyric != null) {
                 desktopLyric.Close();
+                desktopLyric.Dispose();
                 desktopLyric = null;
             }
             //关闭窗口
@@ -411,6 +420,7 @@ namespace SunshinePlayer {
             } else if(desktopLyric != null) {
                 //关闭桌面歌词
                 desktopLyric.Close();
+                desktopLyric.Dispose();
                 desktopLyric = null;
             }
         }

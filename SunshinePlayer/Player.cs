@@ -18,7 +18,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 构造函数私有化
         /// </summary>
-        private Player(System.IntPtr windowHandle) {
+        private Player(IntPtr windowHandle) {
             //注册 BassNet 库
             if(BassNetRegistration.eMail != null && BassNetRegistration.registrationKey != null) {
                 BassNet.Registration(BassNetRegistration.eMail, BassNetRegistration.registrationKey);
