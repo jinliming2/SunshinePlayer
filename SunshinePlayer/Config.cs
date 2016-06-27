@@ -83,6 +83,14 @@ namespace SunshinePlayer {
         /// 歌词卡拉OK效果
         /// </summary>
         public bool lyricAnimation = true;
+        /// <summary>
+        /// 是否显示桌面歌词
+        /// </summary>
+        public bool showDesktopLyric = true;
+        /// <summary>
+        /// 桌面歌词位置
+        /// </summary>
+        public Point desktopLyricPosition = new Point(double.MinValue, double.MinValue);
 
         /// <summary>
         /// 保存配置
