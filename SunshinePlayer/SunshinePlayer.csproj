@@ -78,6 +78,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DesktopLyric.xaml.cs">
+      <DependentUpon>DesktopLyric.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SingerImage.cs" />
     <Compile Include="Template\krc.cs" />
     <Compile Include="Template\krcInfo.cs" />
@@ -94,6 +97,10 @@
     <Compile Include="Third\zlib\ZOutputStream.cs" />
     <Compile Include="Third\zlib\ZStream.cs" />
     <Compile Include="Third\zlib\ZStreamException.cs" />
+    <Page Include="DesktopLyric.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
