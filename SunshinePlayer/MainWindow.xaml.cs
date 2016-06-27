@@ -20,6 +20,10 @@ namespace SunshinePlayer {
     /// </summary>
     public partial class MainWindow : Window, IDisposable {
         /// <summary>
+        /// 当前实例
+        /// </summary>
+        public static MainWindow _this = null;
+        /// <summary>
         /// 歌词开关按钮
         /// </summary>
         private static CheckBox LrcButton;
@@ -82,7 +86,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 歌词对象
         /// </summary>
-        private Lyric lyric;
+        public static Lyric lyric = null;
         /// <summary>
         /// 后台歌词处理线程
         /// </summary>
@@ -109,6 +113,10 @@ namespace SunshinePlayer {
         /// 任务栏预览按钮
         /// </summary>
         private TaskbarItemInfo tii = new TaskbarItemInfo();
+        /// <summary>
+        /// 桌面歌词窗口
+        /// </summary>
+        private DesktopLyric desktopLyric = null;
 
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
@@ -122,6 +130,9 @@ namespace SunshinePlayer {
                     //托管资源释放
                     this.spectrumWorker.Dispose();
                     this.lyricWorker.Dispose();
+                    if(this.desktopLyric != null) {
+                        this.desktopLyric.Dispose();
+                    }
                 }
                 //未托管资源释放
                 //this.abc = null;
@@ -144,6 +155,7 @@ namespace SunshinePlayer {
         /// 构造函数 初始化程序
         /// </summary>
         public MainWindow() {
+            _this = this;
             //加载配置
             Config.loadConfig(App.workPath + "\\config.db");
             //窗口初始化事件
@@ -343,6 +355,12 @@ namespace SunshinePlayer {
             tbi_Next.ImageSource = (DrawingImage)Resources["NextButtonImage"];
             tii.ThumbButtonInfos.Add(tbi_Next);
             TaskbarItemInfo.SetTaskbarItemInfo(this, tii);
+            //桌面歌词
+            if(config.showDesktopLyric) {
+                desktopLyric = new DesktopLyric();
+                desktopLyric.Show();
+            }
+            LrcButton.IsChecked = config.showDesktopLyric;
         }
         /// <summary>
         /// 窗口最小化
@@ -359,6 +377,12 @@ namespace SunshinePlayer {
             Config.saveConfig(App.workPath + "\\config.db");
             //停止频谱
             spectrumWorker.CancelAsync();
+            //关闭桌面歌词
+            if(desktopLyric != null) {
+                desktopLyric.Close();
+                desktopLyric.Dispose();
+                desktopLyric = null;
+            }
             //关闭窗口
             this.Close();
         }
@@ -387,6 +411,18 @@ namespace SunshinePlayer {
         /// 桌面歌词开关切换
         /// </summary>
         private void lrcSwitch(object sender, RoutedEventArgs e) {
+            Config config = Config.getInstance();
+            LrcButton.IsChecked = config.showDesktopLyric = !config.showDesktopLyric;
+            if(config.showDesktopLyric) {
+                //载入桌面歌词窗口
+                desktopLyric = new DesktopLyric();
+                desktopLyric.Show();
+            } else if(desktopLyric != null) {
+                //关闭桌面歌词
+                desktopLyric.Close();
+                desktopLyric.Dispose();
+                desktopLyric = null;
+            }
         }
         /// <summary>
         /// 打开文件
