@@ -62,13 +62,16 @@ namespace SunshinePlayer {
         #region 窗口鼠标穿透相关
         private const int WS_EX_TRANSPARENT = 0x20;
         private const int GWL_EXSTYLE = (-20);
+        private uint extendedStyle;
         /// <summary>
-        /// 资源初始化
+        /// 资源初始化 - 锁定桌面歌词
         /// </summary>
         private void Window_SourceInitialized(object sender, EventArgs e) {
             IntPtr hwnd = new WindowInteropHelper(this).Handle;
-            uint extendedStyle = NativeMethods.GetWindowLong(hwnd, GWL_EXSTYLE);
-            NativeMethods.SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+            extendedStyle = NativeMethods.GetWindowLong(hwnd, GWL_EXSTYLE);
+            if(Config.getInstance().desktopLyricLocked) {
+                NativeMethods.SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+            }
         }
         #endregion
         /// <summary>
@@ -136,7 +139,6 @@ namespace SunshinePlayer {
                 LrcTop.SetValue(Canvas.LeftProperty, (this.Width - LrcTop.ActualWidth) / 2);
                 return;
             }
-            Config config = Config.getInstance();
             ProgressBar current, another;
             if(indexLyric % 2 == 0) {
                 current = LrcBottom;
@@ -146,7 +148,7 @@ namespace SunshinePlayer {
                 another = LrcBottom;
             }
             current.Tag = MainWindow.lyric.GetLine((uint)indexLyric);
-            current.Value = config.lyricAnimation ? valueLyric : 0;
+            current.Value = Config.getInstance().lyricAnimation ? valueLyric : 0;
             current.UpdateLayout();
             if(progressLyric < 0.5) {
                 //uint在小于0时溢出，得到最大值

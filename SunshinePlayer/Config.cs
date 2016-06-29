@@ -91,6 +91,10 @@ namespace SunshinePlayer {
         /// 桌面歌词位置
         /// </summary>
         public Point desktopLyricPosition = new Point(double.MinValue, double.MinValue);
+        /// <summary>
+        /// 锁定桌面歌词
+        /// </summary>
+        public bool desktopLyricLocked = false;
 
         /// <summary>
         /// 保存配置
