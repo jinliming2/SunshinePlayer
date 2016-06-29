@@ -303,8 +303,8 @@ namespace SunshinePlayer {
             }
             //找到当前行
             StringBuilder sb = new StringBuilder();
-            foreach(LrcWord word in text[index].content) {
-                sb.Append(word.word);
+            for(int i = 0; i < text[index].content.Count; i++) {
+                sb.Append(text[index].content[i].word);
             }
             lrc = sb.ToString();
             //显示宽度
