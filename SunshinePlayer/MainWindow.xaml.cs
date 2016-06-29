@@ -170,6 +170,8 @@ namespace SunshinePlayer {
         /// 窗口初始化
         /// </summary>
         private void initialize(object sender, RoutedEventArgs e) {
+            //标题栏版本号
+            this.Title = this.Title.Replace("{$Version}", App.version);
             //窗口样式模板
             ControlTemplate baseWindowTemplate = (ControlTemplate)this.Resources["mainWindowTemplate"];
             //关闭按钮

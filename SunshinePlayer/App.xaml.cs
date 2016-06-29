@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media.Animation;
 
@@ -27,6 +28,14 @@ namespace SunshinePlayer {
         public static string workPath {
             get {
                 return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+            }
+        }
+        /// <summary>
+        /// 当前程序版本号
+        /// </summary>
+        public static string version {
+            get {
+                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
             }
         }
         /// <summary>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SunshinePlayer"
         mc:Ignorable="d"
-        Title="Sunshine Player 10.0.0.0 Alpha" Height="600" Width="800" Icon="Sun.ico" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" AllowDrop="True" Background="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{DynamicResource windowStyle}" Loaded="Window_Loaded" DragEnter="dragEnter" Drop="drop">
+        Title="Sunshine Player {$Version} Alpha" Height="600" Width="800" Icon="Sun.ico" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" AllowDrop="True" Background="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{DynamicResource windowStyle}" Loaded="Window_Loaded" DragEnter="dragEnter" Drop="drop">
     <Window.Resources>
         <ResourceDictionary Source="mainWindowResources.xaml"></ResourceDictionary>
     </Window.Resources>
