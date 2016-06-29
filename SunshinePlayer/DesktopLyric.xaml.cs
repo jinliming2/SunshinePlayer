@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 
@@ -81,8 +82,6 @@ namespace SunshinePlayer {
             //位置
             if(config.desktopLyricPosition.X == double.MinValue || config.desktopLyricPosition.Y == double.MinValue) {
                 move((SystemParameters.WorkArea.Width - this.Width) / 2, SystemParameters.WorkArea.Bottom - this.Height);
-                config.desktopLyricPosition.Y = this.Top;
-                config.desktopLyricPosition.X = this.Left;
             } else {
                 move(config.desktopLyricPosition.X, config.desktopLyricPosition.Y);
             }
@@ -100,6 +99,8 @@ namespace SunshinePlayer {
             timer.ProgressChanged += display;
             timer.DoWork += tick;
             timer.RunWorkerAsync();
+            //歌词拖动
+            this.MouseLeftButtonDown += delegate { this.MouseMove += dragWindow; };
         }
         /// <summary>
         /// 移动窗口
@@ -121,6 +122,9 @@ namespace SunshinePlayer {
             }
             this.Top = y;
             this.Left = x;
+            Config config = Config.getInstance();
+            config.desktopLyricPosition.X = this.Left;
+            config.desktopLyricPosition.Y = this.Top;
         }
         /// <summary>
         /// 更新显示
@@ -128,8 +132,14 @@ namespace SunshinePlayer {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void display(object sender, ProgressChangedEventArgs e) {
-            LrcTop.SetValue(Canvas.TopProperty, this.Height - 2 * LrcTop.ActualHeight - 8);
-            LrcBottom.SetValue(Canvas.TopProperty, this.Height - LrcTop.ActualHeight);
+            double h = 2 * LrcTop.ActualHeight + 10;
+            if(this.Height != h) {
+                double d = this.Height - h;
+                this.Height = h;
+                move(this.Left, this.Top + d);
+                LrcTop.SetValue(Canvas.TopProperty, this.Height - 2 * LrcTop.ActualHeight - 8);
+                LrcBottom.SetValue(Canvas.TopProperty, this.Height - LrcTop.ActualHeight);
+            }
             if(e.ProgressPercentage == 1 || MainWindow.lyric.Lines == 0) {
                 LrcTop.Tag = "Sunshine Player";
                 LrcTop.Value = 1;
@@ -213,6 +223,17 @@ namespace SunshinePlayer {
                     worker.ReportProgress(1);
                 }
                 System.Threading.Thread.Sleep(50);
+            }
+        }
+        /// <summary>
+        /// 窗口拖动
+        /// </summary>
+        private void dragWindow(object sender, MouseEventArgs e) {
+            if(e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+                move(this.Left, this.Top);
+            } else {
+                this.MouseMove -= dragWindow;
             }
         }
     }
