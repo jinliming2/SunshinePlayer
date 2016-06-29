@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,6 +20,14 @@ namespace SunshinePlayer {
         /// 播放对象
         /// </summary>
         private Player player;
+        /// <summary>
+        /// 鼠标进入窗口延迟计算器
+        /// </summary>
+        private BackgroundWorker moveTimer = new BackgroundWorker();
+        /// <summary>
+        /// 半透明背景
+        /// </summary>
+        Brush backgroundBrush = new SolidColorBrush(Color.FromArgb(100, 0, 0, 0));
         #region 歌词数据
         private int indexLyric;
         private string lrcLyric;
@@ -35,6 +44,7 @@ namespace SunshinePlayer {
                 if(disposing) {
                     //托管资源释放
                     this.timer.Dispose();
+                    this.moveTimer.Dispose();
                 }
                 //未托管资源释放
                 //this.abc = null;
@@ -99,8 +109,30 @@ namespace SunshinePlayer {
             timer.ProgressChanged += display;
             timer.DoWork += tick;
             timer.RunWorkerAsync();
+
+            moveTimer.WorkerReportsProgress = true;
+            moveTimer.WorkerSupportsCancellation = true;
+            moveTimer.ProgressChanged += (object m_s, ProgressChangedEventArgs m_e) => {
+                this.Background = backgroundBrush;
+            };
+            moveTimer.DoWork += (object m_s, DoWorkEventArgs m_e) => {
+                Thread.Sleep(500);
+                BackgroundWorker worker = m_s as BackgroundWorker;
+                if(!worker.CancellationPending) {
+                    worker.ReportProgress(0);
+                }
+            };
             //歌词拖动
             this.MouseLeftButtonDown += delegate { this.MouseMove += dragWindow; };
+            this.MouseEnter += delegate {
+                if(!moveTimer.IsBusy) {
+                    moveTimer.RunWorkerAsync();
+                }
+            };
+            this.MouseLeave += delegate {
+                moveTimer.CancelAsync();
+                this.Background = null;
+            };
         }
         /// <summary>
         /// 移动窗口
