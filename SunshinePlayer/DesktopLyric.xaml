@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="DesktopLyric" Width="800" WindowStyle="None" Background="{x:Null}" Foreground="{x:Null}" AllowsTransparency="True" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" Focusable="False" IsHitTestVisible="False" IsTabStop="False" MinHeight="90" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalContentAlignment="Bottom" FontFamily="宋体" FontSize="36" FontWeight="Bold" Loaded="Window_Loaded" VerticalAlignment="Bottom" Height="250" IsEnabled="False" SourceInitialized="Window_SourceInitialized">
     <Window.Resources>
-        <Style x:Key="歌词" TargetType="{x:Type ProgressBar}">
+        <Style x:Key="DesktopLyric" TargetType="{x:Type ProgressBar}">
             <Setter Property="Foreground" Value="#01D328"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Template">
@@ -32,7 +32,7 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" IsHitTestVisible="False">
         </StackPanel>
         <!--两行歌词-->
-        <ProgressBar x:Name="LrcTop" Style="{DynamicResource 歌词}" Value="0" Tag="Sunshine Player" Foreground="#FF00FFC5" Background="#EE888888" Maximum="1" IsHitTestVisible="False" IsTabStop="False"/>
-        <ProgressBar x:Name="LrcBottom" Style="{DynamicResource 歌词}" Value="0" Tag="" Foreground="#FF00FFC5" Background="#EE888888" Maximum="1" IsHitTestVisible="False" IsTabStop="False"/>
+        <ProgressBar x:Name="LrcTop" Style="{DynamicResource DesktopLyric}" Value="0" Tag="Sunshine Player" Foreground="#FF00FFC5" Background="#EE888888" Maximum="1" IsHitTestVisible="False" IsTabStop="False"/>
+        <ProgressBar x:Name="LrcBottom" Style="{DynamicResource DesktopLyric}" Value="0" Tag="" Foreground="#FF00FFC5" Background="#EE888888" Maximum="1" IsHitTestVisible="False" IsTabStop="False"/>
     </Canvas>
 </Window>
