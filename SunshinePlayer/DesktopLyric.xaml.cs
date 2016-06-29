@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace SunshinePlayer {
@@ -57,6 +59,18 @@ namespace SunshinePlayer {
         public DesktopLyric() {
             InitializeComponent();
         }
+        #region 窗口鼠标穿透相关
+        private const int WS_EX_TRANSPARENT = 0x20;
+        private const int GWL_EXSTYLE = (-20);
+        /// <summary>
+        /// 资源初始化
+        /// </summary>
+        private void Window_SourceInitialized(object sender, EventArgs e) {
+            IntPtr hwnd = new WindowInteropHelper(this).Handle;
+            uint extendedStyle = NativeMethods.GetWindowLong(hwnd, GWL_EXSTYLE);
+            NativeMethods.SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+        }
+        #endregion
         /// <summary>
         /// 窗口加载完成
         /// </summary>

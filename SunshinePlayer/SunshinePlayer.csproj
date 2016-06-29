@@ -81,6 +81,7 @@
     <Compile Include="DesktopLyric.xaml.cs">
       <DependentUpon>DesktopLyric.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="SingerImage.cs" />
     <Compile Include="Template\krc.cs" />
     <Compile Include="Template\krcInfo.cs" />
