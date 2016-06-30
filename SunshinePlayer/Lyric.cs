@@ -52,6 +52,11 @@ namespace SunshinePlayer {
         /// </summary>
         [NonSerialized]
         public string srcxPath = null;
+        /// <summary>
+        /// 歌词数据已被修改
+        /// </summary>
+        [NonSerialized]
+        private bool lrcUpdated = false;
 
         /// <summary>
         /// 构造函数 - 直接解析歌词文本
@@ -167,6 +172,15 @@ namespace SunshinePlayer {
                     wc.DownloadStringAsync(new Uri(url));
                 }
             } catch(Exception) {
+            }
+        }
+        /// <summary>
+        /// 析构函数
+        /// </summary>
+        ~Lyric() {
+            //保存序列文件
+            if(lrcUpdated && srcxPath != null) {
+                saveSRCX(srcxPath, this);
             }
         }
         /// <summary>
@@ -313,6 +327,7 @@ namespace SunshinePlayer {
                 //计算显示宽度
                 tmp.width = getTextWidth(lrc);
                 text[index] = tmp;
+                lrcUpdated = true;
             }
             len = text[index].width;
             if(text[index].time > time || len == 0) {  //还未到当前行
@@ -342,6 +357,7 @@ namespace SunshinePlayer {
                         //放回
                         tmpS.content[n] = tmpL;
                         text[index] = tmpS;
+                        lrcUpdated = true;
                     }
                     //当前词显示宽度
                     if(text[index].content[n].width == double.MinValue) {
@@ -353,6 +369,7 @@ namespace SunshinePlayer {
                         //放回
                         tmpS.content[n] = tmpL;
                         text[index] = tmpS;
+                        lrcUpdated = true;
                     }
                     //当前词已过时间
                     time -= text[index].content[n].time;
@@ -396,6 +413,7 @@ namespace SunshinePlayer {
                         return 0;
                 });
             }
+            lrcUpdated = true;
         }
         /// <summary>
         /// 设置字体 - 用于歌词文本宽度检测
@@ -420,6 +438,7 @@ namespace SunshinePlayer {
                 }
                 text[i] = line;
             }
+            lrcUpdated = true;
         }
 
         /// <summary>
