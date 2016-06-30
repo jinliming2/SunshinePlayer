@@ -320,14 +320,6 @@ namespace SunshinePlayer {
                 Model.SelectedIndex = 3;  //随机播放
                 break;
             }
-            //启动参数
-            if(App.Args.Length > 0) {
-                //添加到播放列表
-                List.SelectedIndex = addToPlaylist(App.Args);
-                PlaylistOpen(sender, null);
-            } else if(config.autoPlay) {  //启动自动播放
-                PlaylistOpen(sender, null);
-            }
             //任务栏预览按钮
             tii.Description = "Sunshine Player";
             tii.ProgressState = TaskbarItemProgressState.None;
@@ -357,6 +349,14 @@ namespace SunshinePlayer {
             tbi_Next.ImageSource = (DrawingImage)Resources["NextButtonImage"];
             tii.ThumbButtonInfos.Add(tbi_Next);
             TaskbarItemInfo.SetTaskbarItemInfo(this, tii);
+            //启动参数
+            if(App.Args.Length > 0) {
+                //添加到播放列表
+                List.SelectedIndex = addToPlaylist(App.Args);
+                PlaylistOpen(sender, null);
+            } else if(config.autoPlay) {  //启动自动播放
+                PlaylistOpen(sender, null);
+            }
             //桌面歌词
             if(config.showDesktopLyric) {
                 desktopLyric = new DesktopLyric();
