@@ -245,8 +245,8 @@ namespace SunshinePlayer {
             }
             //拼接当前行
             StringBuilder sb = new StringBuilder();
-            foreach(LrcWord word in text[(int)index].content) {
-                sb.Append(word.word);
+            for(int i = 0; i < text[(int)index].content.Count; i++) {
+                sb.Append(text[(int)index].content[i].word);
             }
             return sb.ToString();
         }
