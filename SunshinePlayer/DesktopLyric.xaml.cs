@@ -250,6 +250,9 @@ namespace SunshinePlayer {
             while(true) {
                 if(MainWindow.lyric != null) {
                     valueLyric = MainWindow.lyric.FindLrc((int)(player.position * 1000), out indexLyric, out lrcLyric, out lenLyric, out progressLyric);
+                    if(double.IsInfinity(valueLyric)) {
+                        valueLyric = 0;
+                    }
                     worker.ReportProgress(0);
                 } else {
                     worker.ReportProgress(1);
