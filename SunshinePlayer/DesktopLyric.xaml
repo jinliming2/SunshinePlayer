@@ -12,7 +12,7 @@
                         <Grid x:Name="Background" SnapsToDevicePixels="true">
                             <Label Content="{TemplateBinding Tag}" Height="{TemplateBinding Height}" HorizontalAlignment="Left" VerticalAlignment="Center" MinHeight="{TemplateBinding MinHeight}" MaxHeight="{TemplateBinding MaxHeight}" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalContentAlignment="Center" Padding="0" Foreground="{TemplateBinding Background}">
                                 <Label.Effect>
-                                    <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="10"/>
+                                    <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="1" BlurRadius="10"/>
                                 </Label.Effect>
                             </Label>
                             <Rectangle x:Name="PART_Track"/>

@@ -203,7 +203,7 @@
             <!--border元素：实现窗体四周半透明的环绕-->
             <Border BorderThickness="5" CornerRadius="6" BorderBrush="#000000" Opacity="0.08" />
             <!--borderBg实现半透明-->
-            <Border x:Name="borderBg" Margin="5" Background="{TemplateBinding Background}" BorderBrush="#ffffff" Opacity="0.85" BorderThickness="2" CornerRadius="{StaticResource winCorner}" Style="{StaticResource winBorderStyle}">
+            <Border x:Name="borderBg" Margin="5" Background="{TemplateBinding Background}" BorderBrush="#ffffff" Opacity="0.9" BorderThickness="2" CornerRadius="{StaticResource winCorner}" Style="{StaticResource winBorderStyle}">
                 <!--定义窗口的元素，Grid分别为标题栏、内容-->
                 <Grid>
                     <Grid.RowDefinitions>

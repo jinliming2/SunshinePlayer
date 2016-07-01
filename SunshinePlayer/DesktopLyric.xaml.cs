@@ -27,7 +27,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 半透明背景
         /// </summary>
-        Brush backgroundBrush = new SolidColorBrush(Color.FromArgb(100, 0, 0, 0));
+        Brush backgroundBrush = new SolidColorBrush(Color.FromArgb(100, 100, 100, 100));
         #region 歌词数据
         private int indexLyric;
         private string lrcLyric;
