@@ -117,6 +117,10 @@ namespace SunshinePlayer {
         /// 桌面歌词窗口
         /// </summary>
         private DesktopLyric desktopLyric = null;
+        /// <summary>
+        /// 托盘图标
+        /// </summary>
+        private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
 
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
@@ -133,6 +137,7 @@ namespace SunshinePlayer {
                     if(this.desktopLyric != null) {
                         this.desktopLyric.Dispose();
                     }
+                    this.notifyIcon.Dispose();
                 }
                 //未托管资源释放
                 //this.abc = null;
@@ -349,6 +354,15 @@ namespace SunshinePlayer {
             tbi_Next.ImageSource = (DrawingImage)Resources["NextButtonImage"];
             tii.ThumbButtonInfos.Add(tbi_Next);
             TaskbarItemInfo.SetTaskbarItemInfo(this, tii);
+            //托盘图标
+            notifyIcon.BalloonTipTitle = "Sunshine Player " + App.version;
+            notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            notifyIcon.BalloonTipText = "欢迎使用！";
+            notifyIcon.Text = "Sunshine Player " + App.version;
+            notifyIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("Sun.ico", UriKind.Relative)).Stream);
+            notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
+            notifyIcon.Visible = true;	//显示托盘图标
+            notifyIcon.MouseClick += notifyIcon_MouseClick;
             //启动参数
             if(App.Args.Length > 0) {
                 //添加到播放列表
@@ -1125,6 +1139,23 @@ namespace SunshinePlayer {
                 singerBackground.ImageSource = new BitmapImage(new Uri(filepath));
                 this.Background = singerBackground;
             });
+        }
+        /// <summary>
+        /// 托盘图标点击
+        /// </summary>
+        private void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) {
+            if(e.Button == System.Windows.Forms.MouseButtons.Left) {  //左键
+                if(this.Visibility == Visibility.Visible) {
+                    //隐藏窗口
+                    this.Hide();
+                } else {
+                    //显示窗口
+                    this.Show();
+                    this.Activate();
+                }
+            } else if(e.Button == System.Windows.Forms.MouseButtons.Right) {  //右键
+                ((ContextMenu)MainBody.FindResource("notifyIconMenu")).IsOpen = true;
+            }
         }
     }
 }

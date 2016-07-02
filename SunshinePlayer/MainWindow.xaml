@@ -17,7 +17,7 @@
             <BeginStoryboard x:Name="hideVolume_BeginStoryboard1" Storyboard="{StaticResource hideVolume}"/>
         </EventTrigger>
     </Window.Triggers>
-    <Canvas>
+    <Canvas x:Name="MainBody">
         <!-- 播放按钮 -->
         <Button x:Name="PlayButton" Content="Play" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Canvas.Top="392" Canvas.Left="343" Style="{DynamicResource btnPlayStyle}" Cursor="Hand" ToolTip="播放" IsTabStop="False" d:IsLocked="False" Click="PlayButton_Click">
             <Button.Resources>
@@ -362,5 +362,11 @@
                 </Button.Resources>
             </Button>
         </Canvas>
+        <Canvas.Resources>
+            <!--托盘菜单-->
+            <ContextMenu x:Key="notifyIconMenu" Style="{StaticResource notifyIconMenuStyle}">
+                <MenuItem Header="退出"></MenuItem>
+            </ContextMenu>
+        </Canvas.Resources>
     </Canvas>
 </Window>
