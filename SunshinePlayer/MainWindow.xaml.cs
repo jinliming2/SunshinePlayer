@@ -32,6 +32,22 @@ namespace SunshinePlayer {
         /// </summary>
         private static Button OpenButton;
         /// <summary>
+        /// 菜单
+        /// </summary>
+        private static ContextMenu menu;
+        /// <summary>
+        /// 菜单播放项
+        /// </summary>
+        private static MenuItem menuPlay;
+        /// <summary>
+        /// 菜单暂停项
+        /// </summary>
+        private static MenuItem menuPause;
+        /// <summary>
+        /// 菜单桌面歌词开关项
+        /// </summary>
+        private static MenuItem menuDesktopLyric;
+        /// <summary>
         /// 窗口句柄
         /// </summary>
         public IntPtr Handle { get { return new WindowInteropHelper(this).Handle; } }
@@ -200,7 +216,15 @@ namespace SunshinePlayer {
             //打开文件按钮
             OpenButton = (Button)baseWindowTemplate.FindName("OpenButton", this);
             OpenButton.Click += openFile;  //打开文件
-
+            //菜单
+            menu = (ContextMenu)MainBody.FindResource("notifyIconMenu");
+            //菜单播放项
+            menuPlay = (MenuItem)this.FindName("menuPlay");
+            //菜单暂停项
+            menuPause = (MenuItem)this.FindName("menuPause");
+            //菜单桌面歌词开关项
+            menuDesktopLyric = (MenuItem)this.FindName("menuDesktopLyric");
+            
             //事件绑定
             this.CommandBindings.Add(new CommandBinding(MediaCommands.Play, (object m_sender, ExecutedRoutedEventArgs m_e) => {
                 PlayButton_Click(m_sender, null);
@@ -542,6 +566,8 @@ namespace SunshinePlayer {
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Visible;
             PlayButton.Visibility = Visibility.Hidden;
+            menuPause.Visibility = Visibility.Visible;
+            menuPlay.Visibility = Visibility.Collapsed;
             tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PauseButtonImage"];
             tii.ThumbButtonInfos[1].Command = MediaCommands.Pause;
             //任务栏进度条
@@ -556,6 +582,8 @@ namespace SunshinePlayer {
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Hidden;
             PlayButton.Visibility = Visibility.Visible;
+            menuPause.Visibility = Visibility.Collapsed;
+            menuPlay.Visibility = Visibility.Visible;
             tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PlayButtonImage"];
             tii.ThumbButtonInfos[1].Command = MediaCommands.Play;
             //任务栏进度条
@@ -572,6 +600,8 @@ namespace SunshinePlayer {
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Hidden;
             PlayButton.Visibility = Visibility.Visible;
+            menuPause.Visibility = Visibility.Collapsed;
+            menuPlay.Visibility = Visibility.Visible;
             tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PlayButtonImage"];
             tii.ThumbButtonInfos[1].Command = MediaCommands.Play;
             //任务栏进度条
@@ -871,6 +901,8 @@ namespace SunshinePlayer {
                 //暂停播放按钮
                 PauseButton.Visibility = Visibility.Visible;
                 PlayButton.Visibility = Visibility.Hidden;
+                menuPause.Visibility = Visibility.Visible;
+                menuPlay.Visibility = Visibility.Collapsed;
                 tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PauseButtonImage"];
                 tii.ThumbButtonInfos[1].Command = MediaCommands.Pause;
                 //任务栏进度条

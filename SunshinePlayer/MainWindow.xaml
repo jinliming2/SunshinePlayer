@@ -366,7 +366,7 @@
             <!--托盘菜单-->
             <ContextMenu x:Key="notifyIconMenu" Style="{StaticResource notifyIconMenuStyle}">
                 <MenuItem x:Name="menuPlay" Header="播放" Click="PlayButton_Click" Style="{StaticResource notifyIconMenuItem}"/>
-                <MenuItem x:Name="menuPause" Header="暂停" Click="PauseButton_Click" Style="{StaticResource notifyIconMenuItem}"/>
+                <MenuItem x:Name="menuPause" Header="暂停" Click="PauseButton_Click" Visibility="Collapsed" Style="{StaticResource notifyIconMenuItem}"/>
                 <Separator Style="{StaticResource notifyIconMenuSeparator}"/>
                 <MenuItem Header="上一曲" Click="LastButton_Click" Style="{StaticResource notifyIconMenuItem}"/>
                 <MenuItem Header="下一曲" Click="NextButton_Click" Style="{StaticResource notifyIconMenuItem}"/>
