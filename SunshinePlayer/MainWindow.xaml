@@ -374,7 +374,7 @@
                 <MenuItem x:Name="menuDesktopLyric" Header="显示桌面歌词" IsCheckable="True" IsChecked="True" Style="{StaticResource notifyIconMenuItem}"/>
                 <Separator Style="{StaticResource notifyIconMenuSeparator}"/>
                 <MenuItem Header="关于" Style="{StaticResource notifyIconMenuItem}"/>
-                <MenuItem Header="退出" Style="{StaticResource notifyIconMenuItem}"/>
+                <MenuItem Header="退出" Click="exit" Style="{StaticResource notifyIconMenuItem}"/>
             </ContextMenu>
         </Canvas.Resources>
     </Canvas>

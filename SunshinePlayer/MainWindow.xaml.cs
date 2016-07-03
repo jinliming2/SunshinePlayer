@@ -265,7 +265,6 @@ namespace SunshinePlayer {
             spectrumWorker.WorkerSupportsCancellation = true;
             spectrumWorker.ProgressChanged += spectrum_change;
             spectrumWorker.DoWork += spectrum_caculator;
-            spectrumWorker.RunWorkerAsync();
 
             //歌词线程
             playerForLyric = Player.getInstance(Handle);
@@ -273,12 +272,14 @@ namespace SunshinePlayer {
             lyricWorker.WorkerSupportsCancellation = true;
             lyricWorker.ProgressChanged += LyricWorker_ProgressChanged;
             lyricWorker.DoWork += LyricWorker_DoWork;
-            lyricWorker.RunWorkerAsync();
         }
         /// <summary>
         /// 窗口加载完成
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e) {
+            //频谱线程和窗口歌词线程
+            spectrumWorker.RunWorkerAsync();
+            lyricWorker.RunWorkerAsync();
             //歌手图片保存路径
             SingerImage.path = App.workPath + "\\singer";
             //加载配置
@@ -363,6 +364,7 @@ namespace SunshinePlayer {
             notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
             notifyIcon.Visible = true;	//显示托盘图标
             notifyIcon.MouseClick += notifyIcon_MouseClick;
+            notifyIcon.ShowBalloonTip(3000);  //显示欢迎提示
             //启动参数
             if(App.Args.Length > 0) {
                 //添加到播放列表
@@ -393,6 +395,20 @@ namespace SunshinePlayer {
             Config.saveConfig(App.workPath + "\\config.db");
             //停止频谱
             spectrumWorker.CancelAsync();
+            //窗口歌词
+            lyricWorker.CancelAsync();
+            //隐藏窗口
+            this.Hide();
+        }
+        /// <summary>
+        /// 退出程序
+        /// </summary>
+        private void exit(object sender, RoutedEventArgs e) {
+            //托盘图标处理
+            notifyIcon.Visible = false;
+            //保存配置
+            Config.getInstance().volumn = (int)Math.Round(VolumeBar.Value);
+            Config.saveConfig(App.workPath + "\\config.db");
             //关闭桌面歌词
             if(desktopLyric != null) {
                 desktopLyric.Close();
@@ -401,6 +417,8 @@ namespace SunshinePlayer {
             }
             //关闭窗口
             this.Close();
+            //结束程序
+            Application.Current.Shutdown();
         }
         /// <summary>
         /// 歌词提前
@@ -602,6 +620,7 @@ namespace SunshinePlayer {
                         //时钟们
                         clocks(false);
                         List.SelectedIndex = config.playlistIndex = 0;
+                        this.Background = defaultBackground;
                     } else {
                         List.SelectedIndex = ++config.playlistIndex;
                         PlaylistOpen(sender, null);
@@ -689,10 +708,7 @@ namespace SunshinePlayer {
             Player player = playerForSpectrum;
             //频谱显示最大高度
             int max_height = 295;
-            while(true) {
-                if(worker.CancellationPending) {
-                    break;
-                }
+            while(!worker.CancellationPending) {
                 //频谱数据
                 float[] spectrum = player.spectrum;
                 for(int i = 0; i < 42; i++) {
@@ -1063,7 +1079,7 @@ namespace SunshinePlayer {
         private void LyricWorker_DoWork(object sender, DoWorkEventArgs e) {
             BackgroundWorker worker = sender as BackgroundWorker;
             Player player = playerForLyric;
-            while(true) {
+            while(!worker.CancellationPending) {
                 if(lyric != null) {
                     if(addedLyric) {
                         valueLyric = lyric.FindLrc((int)(player.position * 1000), out indexLyric, out lrcLyric, out lenLyric, out progressLyric);
@@ -1146,9 +1162,11 @@ namespace SunshinePlayer {
         private void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) {
             if(e.Button == System.Windows.Forms.MouseButtons.Left) {  //左键
                 if(this.Visibility == Visibility.Visible) {
-                    //隐藏窗口
-                    this.Hide();
+                    close(sender, null);
                 } else {
+                    //频谱线程和窗口歌词线程
+                    spectrumWorker.RunWorkerAsync();
+                    lyricWorker.RunWorkerAsync();
                     //显示窗口
                     this.Show();
                     this.Activate();
