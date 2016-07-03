@@ -1209,5 +1209,16 @@ namespace SunshinePlayer {
                 ((ContextMenu)MainBody.FindResource("notifyIconMenu")).IsOpen = true;
             }
         }
+        /// <summary>
+        /// 托盘菜单 - 关于
+        /// </summary>
+        private void about(object sender, EventArgs e) {
+            DateTime time = File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath);
+            notifyIcon.ShowBalloonTip(10000, string.Format("关于 SunshinePlayer {0}", App.version),
+                string.Format(@"{0:0000}-{1:00}-{2:00} {3:00}:{4:00}:{5:00}
+Powered by Bass.Net C#
+https://github.com/772807886/SunshinePlayer", time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second),
+				System.Windows.Forms.ToolTipIcon.Info);
+        }
     }
 }
