@@ -379,6 +379,8 @@ namespace SunshinePlayer {
                 desktopLyric.Show();
             }
             LrcButton.IsChecked = config.showDesktopLyric;
+            //配置加载完成
+            Config.loaded = true;
         }
         /// <summary>
         /// 窗口最小化
