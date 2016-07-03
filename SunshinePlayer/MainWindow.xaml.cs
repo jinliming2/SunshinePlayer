@@ -32,6 +32,22 @@ namespace SunshinePlayer {
         /// </summary>
         private static Button OpenButton;
         /// <summary>
+        /// 菜单
+        /// </summary>
+        private static ContextMenu menu;
+        /// <summary>
+        /// 菜单播放项
+        /// </summary>
+        private static MenuItem menuPlay;
+        /// <summary>
+        /// 菜单暂停项
+        /// </summary>
+        private static MenuItem menuPause;
+        /// <summary>
+        /// 菜单桌面歌词开关项
+        /// </summary>
+        private static MenuItem menuDesktopLyric;
+        /// <summary>
         /// 窗口句柄
         /// </summary>
         public IntPtr Handle { get { return new WindowInteropHelper(this).Handle; } }
@@ -117,6 +133,10 @@ namespace SunshinePlayer {
         /// 桌面歌词窗口
         /// </summary>
         private DesktopLyric desktopLyric = null;
+        /// <summary>
+        /// 托盘图标
+        /// </summary>
+        private System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
 
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用
@@ -133,6 +153,7 @@ namespace SunshinePlayer {
                     if(this.desktopLyric != null) {
                         this.desktopLyric.Dispose();
                     }
+                    this.notifyIcon.Dispose();
                 }
                 //未托管资源释放
                 //this.abc = null;
@@ -195,7 +216,15 @@ namespace SunshinePlayer {
             //打开文件按钮
             OpenButton = (Button)baseWindowTemplate.FindName("OpenButton", this);
             OpenButton.Click += openFile;  //打开文件
-
+            //菜单
+            menu = (ContextMenu)MainBody.FindResource("notifyIconMenu");
+            //菜单播放项
+            menuPlay = (MenuItem)this.FindName("menuPlay");
+            //菜单暂停项
+            menuPause = (MenuItem)this.FindName("menuPause");
+            //菜单桌面歌词开关项
+            menuDesktopLyric = (MenuItem)this.FindName("menuDesktopLyric");
+            
             //事件绑定
             this.CommandBindings.Add(new CommandBinding(MediaCommands.Play, (object m_sender, ExecutedRoutedEventArgs m_e) => {
                 PlayButton_Click(m_sender, null);
@@ -260,7 +289,6 @@ namespace SunshinePlayer {
             spectrumWorker.WorkerSupportsCancellation = true;
             spectrumWorker.ProgressChanged += spectrum_change;
             spectrumWorker.DoWork += spectrum_caculator;
-            spectrumWorker.RunWorkerAsync();
 
             //歌词线程
             playerForLyric = Player.getInstance(Handle);
@@ -268,12 +296,14 @@ namespace SunshinePlayer {
             lyricWorker.WorkerSupportsCancellation = true;
             lyricWorker.ProgressChanged += LyricWorker_ProgressChanged;
             lyricWorker.DoWork += LyricWorker_DoWork;
-            lyricWorker.RunWorkerAsync();
         }
         /// <summary>
         /// 窗口加载完成
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e) {
+            //频谱线程和窗口歌词线程
+            spectrumWorker.RunWorkerAsync();
+            lyricWorker.RunWorkerAsync();
             //歌手图片保存路径
             SingerImage.path = App.workPath + "\\singer";
             //加载配置
@@ -349,6 +379,16 @@ namespace SunshinePlayer {
             tbi_Next.ImageSource = (DrawingImage)Resources["NextButtonImage"];
             tii.ThumbButtonInfos.Add(tbi_Next);
             TaskbarItemInfo.SetTaskbarItemInfo(this, tii);
+            //托盘图标
+            notifyIcon.BalloonTipTitle = "Sunshine Player " + App.version;
+            notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            notifyIcon.BalloonTipText = "欢迎使用！";
+            notifyIcon.Text = "Sunshine Player " + App.version;
+            notifyIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(new Uri("Sun.ico", UriKind.Relative)).Stream);
+            notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
+            notifyIcon.Visible = true;	//显示托盘图标
+            notifyIcon.MouseClick += notifyIcon_MouseClick;
+            notifyIcon.ShowBalloonTip(3000);  //显示欢迎提示
             //启动参数
             if(App.Args.Length > 0) {
                 //添加到播放列表
@@ -362,7 +402,9 @@ namespace SunshinePlayer {
                 desktopLyric = new DesktopLyric();
                 desktopLyric.Show();
             }
-            LrcButton.IsChecked = config.showDesktopLyric;
+            LrcButton.IsChecked = menuDesktopLyric.IsChecked = config.showDesktopLyric;
+            //配置加载完成
+            Config.loaded = true;
         }
         /// <summary>
         /// 窗口最小化
@@ -379,6 +421,20 @@ namespace SunshinePlayer {
             Config.saveConfig(App.workPath + "\\config.db");
             //停止频谱
             spectrumWorker.CancelAsync();
+            //窗口歌词
+            lyricWorker.CancelAsync();
+            //隐藏窗口
+            this.Hide();
+        }
+        /// <summary>
+        /// 退出程序
+        /// </summary>
+        private void exit(object sender, RoutedEventArgs e) {
+            //托盘图标处理
+            notifyIcon.Visible = false;
+            //保存配置
+            Config.getInstance().volumn = (int)Math.Round(VolumeBar.Value);
+            Config.saveConfig(App.workPath + "\\config.db");
             //关闭桌面歌词
             if(desktopLyric != null) {
                 desktopLyric.Close();
@@ -387,6 +443,8 @@ namespace SunshinePlayer {
             }
             //关闭窗口
             this.Close();
+            //结束程序
+            Application.Current.Shutdown();
         }
         /// <summary>
         /// 歌词提前
@@ -414,7 +472,7 @@ namespace SunshinePlayer {
         /// </summary>
         private void lrcSwitch(object sender, RoutedEventArgs e) {
             Config config = Config.getInstance();
-            LrcButton.IsChecked = config.showDesktopLyric = !config.showDesktopLyric;
+            LrcButton.IsChecked = menuDesktopLyric.IsChecked = config.showDesktopLyric = !config.showDesktopLyric;
             if(config.showDesktopLyric) {
                 //载入桌面歌词窗口
                 desktopLyric = new DesktopLyric();
@@ -508,6 +566,8 @@ namespace SunshinePlayer {
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Visible;
             PlayButton.Visibility = Visibility.Hidden;
+            menuPause.Visibility = Visibility.Visible;
+            menuPlay.Visibility = Visibility.Collapsed;
             tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PauseButtonImage"];
             tii.ThumbButtonInfos[1].Command = MediaCommands.Pause;
             //任务栏进度条
@@ -522,6 +582,8 @@ namespace SunshinePlayer {
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Hidden;
             PlayButton.Visibility = Visibility.Visible;
+            menuPause.Visibility = Visibility.Collapsed;
+            menuPlay.Visibility = Visibility.Visible;
             tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PlayButtonImage"];
             tii.ThumbButtonInfos[1].Command = MediaCommands.Play;
             //任务栏进度条
@@ -538,6 +600,8 @@ namespace SunshinePlayer {
             //暂停播放按钮
             PauseButton.Visibility = Visibility.Hidden;
             PlayButton.Visibility = Visibility.Visible;
+            menuPause.Visibility = Visibility.Collapsed;
+            menuPlay.Visibility = Visibility.Visible;
             tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PlayButtonImage"];
             tii.ThumbButtonInfos[1].Command = MediaCommands.Play;
             //任务栏进度条
@@ -588,6 +652,7 @@ namespace SunshinePlayer {
                         //时钟们
                         clocks(false);
                         List.SelectedIndex = config.playlistIndex = 0;
+                        this.Background = defaultBackground;
                     } else {
                         List.SelectedIndex = ++config.playlistIndex;
                         PlaylistOpen(sender, null);
@@ -675,10 +740,7 @@ namespace SunshinePlayer {
             Player player = playerForSpectrum;
             //频谱显示最大高度
             int max_height = 295;
-            while(true) {
-                if(worker.CancellationPending) {
-                    break;
-                }
+            while(!worker.CancellationPending) {
                 //频谱数据
                 float[] spectrum = player.spectrum;
                 for(int i = 0; i < 42; i++) {
@@ -839,6 +901,8 @@ namespace SunshinePlayer {
                 //暂停播放按钮
                 PauseButton.Visibility = Visibility.Visible;
                 PlayButton.Visibility = Visibility.Hidden;
+                menuPause.Visibility = Visibility.Visible;
+                menuPlay.Visibility = Visibility.Collapsed;
                 tii.ThumbButtonInfos[1].ImageSource = (DrawingImage)Resources["PauseButtonImage"];
                 tii.ThumbButtonInfos[1].Command = MediaCommands.Pause;
                 //任务栏进度条
@@ -1049,7 +1113,7 @@ namespace SunshinePlayer {
         private void LyricWorker_DoWork(object sender, DoWorkEventArgs e) {
             BackgroundWorker worker = sender as BackgroundWorker;
             Player player = playerForLyric;
-            while(true) {
+            while(!worker.CancellationPending) {
                 if(lyric != null) {
                     if(addedLyric) {
                         valueLyric = lyric.FindLrc((int)(player.position * 1000), out indexLyric, out lrcLyric, out lenLyric, out progressLyric);
@@ -1125,6 +1189,36 @@ namespace SunshinePlayer {
                 singerBackground.ImageSource = new BitmapImage(new Uri(filepath));
                 this.Background = singerBackground;
             });
+        }
+        /// <summary>
+        /// 托盘图标点击
+        /// </summary>
+        private void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) {
+            if(e.Button == System.Windows.Forms.MouseButtons.Left) {  //左键
+                if(this.Visibility == Visibility.Visible) {
+                    close(sender, null);
+                } else {
+                    //频谱线程和窗口歌词线程
+                    spectrumWorker.RunWorkerAsync();
+                    lyricWorker.RunWorkerAsync();
+                    //显示窗口
+                    this.Show();
+                    this.Activate();
+                }
+            } else if(e.Button == System.Windows.Forms.MouseButtons.Right) {  //右键
+                ((ContextMenu)MainBody.FindResource("notifyIconMenu")).IsOpen = true;
+            }
+        }
+        /// <summary>
+        /// 托盘菜单 - 关于
+        /// </summary>
+        private void about(object sender, EventArgs e) {
+            DateTime time = File.GetLastWriteTime(System.Windows.Forms.Application.ExecutablePath);
+            notifyIcon.ShowBalloonTip(10000, string.Format("关于 SunshinePlayer {0}", App.version),
+                string.Format(@"{0:0000}-{1:00}-{2:00} {3:00}:{4:00}:{5:00}
+Powered by Bass.Net C#
+https://github.com/772807886/SunshinePlayer", time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second),
+				System.Windows.Forms.ToolTipIcon.Info);
         }
     }
 }

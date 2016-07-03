@@ -32,6 +32,10 @@ namespace SunshinePlayer {
             /// </summary>
             ShufflePlayback
         }
+        /// <summary>
+        /// 加载完成标识
+        /// </summary>
+        public static bool loaded = false;
         #region 单例模式
         /// <summary>
         /// 单例模式实例
@@ -70,7 +74,20 @@ namespace SunshinePlayer {
         /// <summary>
         /// 播放模式
         /// </summary>
-        public PlayModel playModel = PlayModel.CirculationList;
+        public PlayModel _playModel = PlayModel.CirculationList;
+        /// <summary>
+        /// 播放模式
+        /// </summary>
+        public PlayModel playModel {
+            get {
+                return _playModel;
+            }
+            set {
+                if(loaded) {
+                    _playModel = value;
+                }
+            }
+        }
         /// <summary>
         /// 窗口位置
         /// </summary>
