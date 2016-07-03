@@ -310,77 +310,17 @@
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
-    <!--托盘菜单资源-->
-    <!--Control colors.-->
-    <Color x:Key="WindowColor">#FFE8EDF9</Color>
-    <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
-    <Color x:Key="ContentAreaColorDark">#FF7381F9</Color>
-
-    <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
-    <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color>
-    <Color x:Key="DisabledForegroundColor">#FF888888</Color>
-
-    <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
-    <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
-
-    <Color x:Key="ControlLightColor">White</Color>
-    <Color x:Key="ControlMediumColor">#FF7381F9</Color>
-    <Color x:Key="ControlDarkColor">#FF211AA9</Color>
-
-    <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
-    <Color x:Key="ControlPressedColor">#FF211AA9</Color>
-
-    <Color x:Key="GlyphColor">#FF444444</Color>
-    <Color x:Key="GlyphMouseOver">sc#1, 0.004391443, 0.002428215, 0.242281124</Color>
-
-    <!--Border colors-->
-    <Color x:Key="BorderLightColor">#FFCCCCCC</Color>
-    <Color x:Key="BorderMediumColor">#FF888888</Color>
-    <Color x:Key="BorderDarkColor">#FF444444</Color>
-
-    <Color x:Key="PressedBorderLightColor">#FF888888</Color>
-    <Color x:Key="PressedBorderDarkColor">#FF444444</Color>
-
-    <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color>
-    <Color x:Key="DisabledBorderDarkColor">#FF888888</Color>
-
-    <Color x:Key="DefaultBorderBrushDarkColor">Black</Color>
-
-    <!--Control-specific resources.-->
-    <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
-    <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
-    <Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color>
-
-    <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
-
-    <LinearGradientBrush x:Key="MenuPopupBrush" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Color="{DynamicResource ControlLightColor}" Offset="0" />
-        <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="0.5" />
-        <GradientStop Color="{DynamicResource ControlLightColor}" Offset="1" />
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0">
-        <LinearGradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#000000FF" Offset="0" />
-                <GradientStop Color="#600000FF" Offset="0.4" />
-                <GradientStop Color="#600000FF" Offset="0.6" />
-                <GradientStop Color="#000000FF" Offset="1" />
-            </GradientStopCollection>
-        </LinearGradientBrush.GradientStops>
-    </LinearGradientBrush>
     <!--托盘菜单样式-->
     <Style x:Key="notifyIconMenuStyle" TargetType="ContextMenu">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
         <Setter Property="HasDropShadow" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
-                    <Border x:Name="Border" Background="{StaticResource MenuPopupBrush}" BorderThickness="1">
+                    <Border x:Name="Border" Background="Black" BorderThickness="1">
                         <Border.BorderBrush>
-                            <SolidColorBrush Color="{StaticResource BorderMediumColor}"/>
+                            <SolidColorBrush Color="#FF888888"/>
                         </Border.BorderBrush>
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                     </Border>
@@ -394,246 +334,172 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--托盘菜单项资源-->
-    <!-- Fill Brushes -->
-    <LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#CCC" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="HorizontalNormalBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#CCC" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#EEE" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="HorizontalLightBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#EEE" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="DarkBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#FFF" Offset="0.0"/>
-                <GradientStop Color="#AAA" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="PressedBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#BBB" Offset="0.0"/>
-                <GradientStop Color="#EEE" Offset="0.1"/>
-                <GradientStop Color="#EEE" Offset="0.9"/>
-                <GradientStop Color="#FFF" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
-    <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" />
-    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFF" />
-    <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="#DDD" />
-    <!-- Border Brushes -->
-    <LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#CCC" Offset="0.0"/>
-                <GradientStop Color="#444" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="HorizontalNormalBorderBrush" StartPoint="0,0" EndPoint="1,0">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#CCC" Offset="0.0"/>
-                <GradientStop Color="#444" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="DefaultedBorderBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#777" Offset="0.0"/>
-                <GradientStop Color="#000" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="PressedBorderBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#444" Offset="0.0"/>
-                <GradientStop Color="#888" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
-    <SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
-    <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
-    <SolidColorBrush x:Key="LightBorderBrush" Color="#AAA" />
-    <!-- Miscellaneous Brushes -->
-    <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
-    <SolidColorBrush x:Key="LightColorBrush" Color="#DDD" />
     <!--托盘菜单项样式-->
-    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="Separator">
+    <!--分割条-->
+    <Style x:Key="notifyIconMenuSeparator" TargetType="Separator">
         <Setter Property="Height" Value="1"/>
         <Setter Property="Margin" Value="0,4,0,4"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Separator">
-                    <Border BorderBrush="{StaticResource SolidBorderBrush}"
-                BorderThickness="1"/>
+                    <Border BorderBrush="#888" BorderThickness="1"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <!-- TopLevelHeader -->
-    <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="MenuItem">
-        <Border Name="Border" >
-            <Grid>
-                <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True"/>
-                <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                    <Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1">
-                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
-                    </Border>
-                </Popup>
-            </Grid>
-        </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsSuspendingPopupAnimation" Value="true">
-                <Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
-            </Trigger>
-            <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}"/>
-                <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
-            </Trigger>
-            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
-                <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,4,4"/>
-                <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-    <!-- TopLevelItem -->
-    <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="MenuItem">
-        <Border Name="Border">
-            <Grid>
-                <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True"/>
-            </Grid>
-        </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}"/>
-                <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-    <!-- SubmenuItem -->
+    <!--菜单项-->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="MenuItem">
-        <Border Name="Border">
-            <Grid>
+        <!--整个背景，带一点透明保证在没有文字的地方也能接受到焦点-->
+        <Border Name="Border" Background="#01000000">
+            <Grid Margin="0,2">
                 <Grid.ColumnDefinitions>
+                    <!--图标或勾选框-->
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/>
+                    <!--内容-->
                     <ColumnDefinition Width="*"/>
+                    <!--快捷键-->
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
+                    <!--空出（与带子菜单的菜单项对齐）-->
                     <ColumnDefinition Width="13"/>
                 </Grid.ColumnDefinitions>
-                <ContentPresenter Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
-                <Border Name="Check" Width="13" Height="13" Visibility="Collapsed" Margin="6,0,6,0" Background="{StaticResource NormalBrush}" BorderThickness="1" BorderBrush="{StaticResource NormalBorderBrush}">
-                    <Path Name="CheckMark" Width="7" Height="7" Visibility="Hidden" SnapsToDevicePixels="False" Stroke="{StaticResource GlyphBrush}" StrokeThickness="2" Data="M 0 0 L 7 7 M 0 7 L 7 0"/>
+                <!--图标-->
+                <ContentPresenter Grid.Column="0" Width="13" Height="13" Name="Icon" Margin="6,1,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
+                <!--勾选框-->
+                <Border Name="Check" Grid.Column="0" Width="13" Height="13" Visibility="Collapsed" Margin="6,1,6,0">
+                    <!--勾选图标-->
+                    <Path Name="CheckMark" Width="7" Height="7" Visibility="Hidden" SnapsToDevicePixels="False" Stroke="White" StrokeThickness="2" Data="M 0 4 L 3 7 L 7 0"/>
                 </Border>
-                <ContentPresenter Name="HeaderHost" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True"/>
-                <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5,2,0,2" DockPanel.Dock="Right"/>
+                <!--内容-->
+                <ContentPresenter Name="Content" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" Margin="0,2">
+                    <ContentPresenter.ContentTemplate>
+                        <DataTemplate>
+                            <TextBlock Foreground="White" Text="{TemplateBinding Content}"/>
+                        </DataTemplate>
+                    </ContentPresenter.ContentTemplate>
+                </ContentPresenter>
+                <!--快捷键信息显示-->
+                <TextBlock Name="InputGestureText" Grid.Column="2" Foreground="White" Text="{TemplateBinding InputGestureText}" Margin="20,3,0,2" DockPanel.Dock="Right"/>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
+            <!--图标为空时隐藏-->
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden"/>
             </Trigger>
-            <Trigger Property="IsChecked" Value="true">
-                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
-            </Trigger>
+            <!--为选择框则隐藏图标-->
             <Trigger Property="IsCheckable" Value="true">
                 <Setter TargetName="Check" Property="Visibility" Value="Visible"/>
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden"/>
             </Trigger>
-            <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedBackgroundBrush}"/>
+            <!--是否勾选选择框-->
+            <Trigger Property="IsChecked" Value="true">
+                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
             </Trigger>
-            <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+            <!--获取焦点状态-->
+            <Trigger Property="IsHighlighted" Value="true">
+                <Setter TargetName="Border" Property="Background" Value="#DDD"/>
+                <Setter TargetName="InputGestureText" Property="Foreground" Value="Black"/>
+                <Setter TargetName="Content" Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock Foreground="Black" Text="{TemplateBinding Content}"/>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="CheckMark" Property="Stroke" Value="Black"/>
+            </Trigger>
+            <!--不可用状态-->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="InputGestureText" Property="Foreground" Value="#888"/>
+                <Setter TargetName="Content" Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock Foreground="#888" Text="{TemplateBinding Content}"/>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="CheckMark" Property="Stroke" Value="#888"/>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    <!-- SubmenuHeader -->
+    <!--带子菜单的菜单项-->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" TargetType="MenuItem">
-        <Border Name="Border" >
-            <Grid>
+        <!--整个背景，带一点透明保证在没有文字的地方也能接受到焦点-->
+        <Border Name="Border" Background="#01000000">
+            <Grid Margin="0,2">
                 <Grid.ColumnDefinitions>
+                    <!--图标-->
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Icon"/>
+                    <!--内容-->
                     <ColumnDefinition Width="*"/>
+                    <!--快捷键-->
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
+                    <!--下一级箭头-->
                     <ColumnDefinition Width="13"/>
                 </Grid.ColumnDefinitions>
-                <ContentPresenter Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
-                <ContentPresenter Name="HeaderHost" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True"/>
-                <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5,2,2,2" DockPanel.Dock="Right"/>
-                <Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource GlyphBrush}"/>
+                <!--图标-->
+                <ContentPresenter Grid.Column="0" Width="13" Height="13" Name="Icon" Margin="6,1,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
+                <!--内容-->
+                <ContentPresenter Name="Content" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" Margin="0,2">
+                    <ContentPresenter.ContentTemplate>
+                        <DataTemplate>
+                            <TextBlock Foreground="White" Text="{TemplateBinding Content}"/>
+                        </DataTemplate>
+                    </ContentPresenter.ContentTemplate>
+                </ContentPresenter>
+                <!--快捷键信息显示-->
+                <TextBlock Name="InputGestureText" Grid.Column="2" Foreground="White" Text="{TemplateBinding InputGestureText}" Margin="20,3,0,2" DockPanel.Dock="Right"/>
+                <!--下一级箭头-->
+                <Path Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="#444"/>
+                <!--下一级菜单-->
                 <Popup Name="Popup" Placement="Right" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                    <Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1">
+                    <Border Name="SubmenuBorder" Background="Black" BorderThickness="1">
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="#FF888888"/>
+                        </Border.BorderBrush>
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                     </Border>
                 </Popup>
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
+            <!--图标为空时隐藏-->
             <Trigger Property="Icon" Value="{x:Null}">
-                <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="Icon" Property="Visibility" Value="Hidden"/>
             </Trigger>
+            <!--获取焦点状态-->
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background"
-              Value="{StaticResource SelectedBackgroundBrush}"/>
+                <Setter TargetName="Border" Property="Background" Value="#DDD"/>
+                <Setter TargetName="InputGestureText" Property="Foreground" Value="Black"/>
+                <Setter TargetName="Content" Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock Foreground="Black" Text="{TemplateBinding Content}"/>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <!--不可用状态-->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="InputGestureText" Property="Foreground" Value="#888"/>
+                <Setter TargetName="Content" Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock Foreground="#888" Text="{TemplateBinding Content}"/>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4"/>
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
             </Trigger>
-            <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
-            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    <!-- MenuItem Style -->
-    <Style x:Key="{x:Type MenuItem}" TargetType="MenuItem">
+    <!--菜单样式-->
+    <Style x:Key="notifyIconMenuItem" TargetType="MenuItem">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Style.Triggers>
-            <Trigger Property="Role" Value="TopLevelHeader">
-                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelHeaderTemplateKey}}"/>
-                <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
-            </Trigger>
-            <Trigger Property="Role" Value="TopLevelItem">
-                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelItemTemplateKey}}"/>
-            </Trigger>
             <Trigger Property="Role" Value="SubmenuHeader">
                 <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuHeaderTemplateKey}}"/>
             </Trigger>

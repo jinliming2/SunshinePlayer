@@ -365,7 +365,16 @@
         <Canvas.Resources>
             <!--托盘菜单-->
             <ContextMenu x:Key="notifyIconMenu" Style="{StaticResource notifyIconMenuStyle}">
-                <MenuItem Header="退出"></MenuItem>
+                <MenuItem x:Name="menuPlay" Header="播放" Click="PlayButton_Click" Style="{StaticResource notifyIconMenuItem}"/>
+                <MenuItem x:Name="menuPause" Header="暂停" Click="PauseButton_Click" Style="{StaticResource notifyIconMenuItem}"/>
+                <Separator Style="{StaticResource notifyIconMenuSeparator}"/>
+                <MenuItem Header="上一曲" Click="LastButton_Click" Style="{StaticResource notifyIconMenuItem}"/>
+                <MenuItem Header="下一曲" Click="NextButton_Click" Style="{StaticResource notifyIconMenuItem}"/>
+                <Separator Style="{StaticResource notifyIconMenuSeparator}"/>
+                <MenuItem x:Name="menuDesktopLyric" Header="显示桌面歌词" IsCheckable="True" IsChecked="True" Style="{StaticResource notifyIconMenuItem}"/>
+                <Separator Style="{StaticResource notifyIconMenuSeparator}"/>
+                <MenuItem Header="关于" Style="{StaticResource notifyIconMenuItem}"/>
+                <MenuItem Header="退出" Style="{StaticResource notifyIconMenuItem}"/>
             </ContextMenu>
         </Canvas.Resources>
     </Canvas>
