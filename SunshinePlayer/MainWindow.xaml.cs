@@ -402,7 +402,7 @@ namespace SunshinePlayer {
                 desktopLyric = new DesktopLyric();
                 desktopLyric.Show();
             }
-            LrcButton.IsChecked = config.showDesktopLyric;
+            LrcButton.IsChecked = menuDesktopLyric.IsChecked = config.showDesktopLyric;
             //配置加载完成
             Config.loaded = true;
         }
@@ -472,7 +472,7 @@ namespace SunshinePlayer {
         /// </summary>
         private void lrcSwitch(object sender, RoutedEventArgs e) {
             Config config = Config.getInstance();
-            LrcButton.IsChecked = config.showDesktopLyric = !config.showDesktopLyric;
+            LrcButton.IsChecked = menuDesktopLyric.IsChecked = config.showDesktopLyric = !config.showDesktopLyric;
             if(config.showDesktopLyric) {
                 //载入桌面歌词窗口
                 desktopLyric = new DesktopLyric();
