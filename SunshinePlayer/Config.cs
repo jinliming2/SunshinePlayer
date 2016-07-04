@@ -66,7 +66,20 @@ namespace SunshinePlayer {
         /// <summary>
         /// 音量
         /// </summary>
-        public int volumn = 100;
+        public int _volumn = 100;
+        /// <summary>
+        /// 音量
+        /// </summary>
+        public int volumn {
+            get {
+                return _volumn;
+            }
+            set {
+                if(loaded) {
+                    _volumn = value;
+                }
+            }
+        }
         /// <summary>
         /// 播放列表当前
         /// </summary>
@@ -74,7 +87,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 播放模式
         /// </summary>
-        public PlayModel _playModel = PlayModel.CirculationList;
+        private PlayModel _playModel = PlayModel.CirculationList;
         /// <summary>
         /// 播放模式
         /// </summary>

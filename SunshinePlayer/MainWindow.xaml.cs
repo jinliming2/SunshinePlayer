@@ -417,7 +417,6 @@ namespace SunshinePlayer {
         /// </summary>
         private void close(object sender, RoutedEventArgs e) {
             //保存配置
-            Config.getInstance().volumn = (int)Math.Round(VolumeBar.Value);
             Config.saveConfig(App.workPath + "\\config.db");
             //停止频谱
             spectrumWorker.CancelAsync();
@@ -433,7 +432,6 @@ namespace SunshinePlayer {
             //托盘图标处理
             notifyIcon.Visible = false;
             //保存配置
-            Config.getInstance().volumn = (int)Math.Round(VolumeBar.Value);
             Config.saveConfig(App.workPath + "\\config.db");
             //关闭桌面歌词
             if(desktopLyric != null) {
@@ -688,6 +686,8 @@ namespace SunshinePlayer {
             Player player = Player.getInstance(Handle);
             //调整音量
             player.volumn = (int)Math.Round(e.NewValue);
+            //保存音量
+            Config.getInstance().volumn = (int)Math.Round(VolumeBar.Value);
             //显示静音按钮
             VolumeButton.Visibility = Visibility.Hidden;
             MuteButton.Visibility = Visibility.Visible;
