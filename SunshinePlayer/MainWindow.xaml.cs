@@ -464,6 +464,8 @@ namespace SunshinePlayer {
         /// 设置
         /// </summary>
         private void setting(object sender, RoutedEventArgs e) {
+            //弹出设置窗口
+            new Setting().ShowDialog();
         }
         /// <summary>
         /// 桌面歌词开关切换
