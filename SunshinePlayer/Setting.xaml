@@ -12,11 +12,11 @@
     <DockPanel>
         <!--左侧菜单-->
         <StackPanel DockPanel.Dock="Left" Width="100px" Background="#222">
-            <TextBox Text="123" Background="#888" Foreground="White" BorderThickness="0" Height="30px" Cursor="Arrow" TextAlignment="Right" VerticalContentAlignment="Center" Padding="5px,0"/>
-            <TextBox Text="123" Background="#444" Foreground="White" BorderThickness="0" Height="30px" Cursor="Hand" TextAlignment="Right" VerticalContentAlignment="Center" Padding="5px,0"/>
-            <TextBox Text="123" Background="#444" Foreground="White" BorderThickness="0" Height="30px" Cursor="Hand" TextAlignment="Right" VerticalContentAlignment="Center" Padding="5px,0"/>
-            <TextBox Text="123" Background="#444" Foreground="White" BorderThickness="0" Height="30px" Cursor="Hand" TextAlignment="Right" VerticalContentAlignment="Center" Padding="5px,0"/>
-            <TextBox Text="123" Background="#444" Foreground="White" BorderThickness="0" Height="30px" Cursor="Hand" TextAlignment="Right" VerticalContentAlignment="Center" Padding="5px,0"/>
+            <TextBox Text="123" Style="{DynamicResource ActivityMenuItem}"/>
+            <TextBox Text="123" Style="{DynamicResource NormalMenuItem}"/>
+            <TextBox Text="123" Style="{DynamicResource NormalMenuItem}"/>
+            <TextBox Text="123" Style="{DynamicResource NormalMenuItem}"/>
+            <TextBox Text="123" Style="{DynamicResource NormalMenuItem}"/>
         </StackPanel>
         <!--底部按钮-->
         <Canvas DockPanel.Dock="Bottom" Height="40px" Background="#222">

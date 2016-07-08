@@ -45,4 +45,30 @@
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="AllowsTransparency" Value="True" />
     </Style>
+    <!--激活菜单样式-->
+    <Style x:Key="ActivityMenuItem" TargetType="TextBox">
+        <Setter Property="Background" Value="#888"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Height" Value="30px"/>
+        <Setter Property="Cursor" Value="Arrow"/>
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="5px,0"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
+    </Style>
+    <!--正常菜单样式-->
+    <Style x:Key="NormalMenuItem" TargetType="TextBox">
+        <Setter Property="Background" Value="#444"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Height" Value="30px"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="5px,0"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
+    </Style>
 </ResourceDictionary>
