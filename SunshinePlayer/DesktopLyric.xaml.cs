@@ -174,8 +174,10 @@ namespace SunshinePlayer {
             }
             if(e.ProgressPercentage == 1 || MainWindow.lyric.Lines == 0) {
                 LrcTop.Tag = "Sunshine Player";
-                LrcTop.Value = 1;
+                LrcTop.Value = 0.99;
                 LrcBottom.Tag = "";
+                LrcTop.UpdateLayout();
+                LrcTop.Value = 1;
                 LrcTop.UpdateLayout();
                 LrcTop.SetValue(Canvas.LeftProperty, (this.Width - LrcTop.ActualWidth) / 2);
                 return;
