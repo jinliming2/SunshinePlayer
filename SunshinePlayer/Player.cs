@@ -72,6 +72,10 @@ namespace SunshinePlayer {
         /// </summary>
         private int _volumn = 100;
         /// <summary>
+        /// 静音状态
+        /// </summary>
+        private bool _mute = false;
+        /// <summary>
         /// 频谱数据
         /// </summary>
         private float[] _spectrum = new float[128];
@@ -81,6 +85,7 @@ namespace SunshinePlayer {
         /// </summary>
         public bool mute {
             set {
+                _mute = value;
                 if(value) {
                     int v = _volumn;
                     volumn = 0;
@@ -97,7 +102,9 @@ namespace SunshinePlayer {
             get {
                 float value = 100;
                 if(Bass.BASS_ChannelGetAttribute(stream, BASSAttribute.BASS_ATTRIB_VOL, ref value)) {
-                    _volumn = (int)(Math.Round(value * 100));
+                    if(!_mute) {
+                        _volumn = (int)(Math.Round(value * 100));
+                    }
                     return _volumn;
                 } else {
                     return 100;
@@ -108,7 +115,7 @@ namespace SunshinePlayer {
                 _volumn = value;
                 //设置音量
                 if(stream != 0) {
-                    Bass.BASS_ChannelSetAttribute(stream, BASSAttribute.BASS_ATTRIB_VOL, value / 100f);
+                    Bass.BASS_ChannelSetAttribute(stream, BASSAttribute.BASS_ATTRIB_VOL, _mute ? 0 : (value / 100f));
                 }
             }
         }
