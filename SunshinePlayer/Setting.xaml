@@ -24,23 +24,24 @@
                 <Label Content="基本设置" Style="{StaticResource labTitle}"/>
                 <Label Content="启动" Style="{StaticResource labSubtitle}"/>
                 <UniformGrid Columns="2" Margin="30px,0,10px,0">
-                    <CheckBox Content="显示桌面歌词"/>
-                    <CheckBox Content="自动开始播放"/>
+                    <CheckBox x:Name="desktopLyric" Content="显示桌面歌词"/>
+                    <CheckBox x:Name="autoPlay" Content="自动开始播放"/>
                 </UniformGrid>
                 <Label Content="播放设置" Style="{StaticResource labTitle}"/>
                 <Label Content="播放" Style="{StaticResource labSubtitle}"/>
                 <UniformGrid Columns="2" Margin="30px,0,10px,0">
                     <CheckBox Content="声音渐入渐出"/>
-                    <CheckBox Content="音效"/>
+                    <CheckBox x:Name="fx" Content="音效"/>
                 </UniformGrid>
                 <Label Content="音效" Style="{StaticResource labSubtitle}"/>
-                <ListBox Height="150" Margin="30px,0,30px,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox x:Name="listFx" Height="150" Margin="30px,0,30px,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 </ListBox>
                 <Label Content="歌词设置" Style="{StaticResource labTitle}"/>
                 <Label Content="效果" Style="{StaticResource labSubtitle}"/>
                 <UniformGrid Columns="2" Margin="30px,0,10px,0">
-                    <CheckBox Content="开启卡拉OK效果"/>
+                    <CheckBox x:Name="lyricAnimation" Content="开启卡拉OK效果"/>
                     <CheckBox Content="窗口歌词滚动效果"/>
+                    <CheckBox x:Name="desktopLyricLock" Content="锁定桌面歌词"/>
                 </UniformGrid>
                 <Label Content="窗口歌词显示" Style="{StaticResource labSubtitle}"/>
                 <UniformGrid Columns="4" Margin="30px,0,10px,0">

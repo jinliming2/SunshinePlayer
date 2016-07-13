@@ -86,6 +86,12 @@ namespace SunshinePlayer {
                     }
                 }
             };
+            //加载配置
+            Config config = Config.getInstance();
+            desktopLyric.IsChecked = config.showDesktopLyric;  //桌面歌词
+            autoPlay.IsChecked = config.autoPlay;  //自动播放
+            lyricAnimation.IsChecked = config.lyricAnimation;  //歌词卡拉OK效果
+            desktopLyricLock.IsChecked = config.desktopLyricLocked;  //锁定桌面歌词
         }
     }
 }
