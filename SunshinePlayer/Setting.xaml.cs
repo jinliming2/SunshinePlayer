@@ -29,11 +29,6 @@ namespace SunshinePlayer {
             this.MouseLeftButtonDown += delegate { this.MouseMove += dragWindow; };
         }
         /// <summary>
-        /// 窗口加载完成
-        /// </summary>
-        private void Window_Loaded(object sender, RoutedEventArgs e) {
-        }
-        /// <summary>
         /// 窗口拖动
         /// </summary>
         private void dragWindow(object sender, MouseEventArgs e) {
@@ -42,6 +37,55 @@ namespace SunshinePlayer {
             } else {
                 this.MouseMove -= dragWindow;
             }
+        }
+        /// <summary>
+        /// 窗口加载完成
+        /// </summary>
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
+            //添加左侧菜单
+            double t = mainFrame.Margin.Top;
+            foreach(UIElement child in mainFrame.Children) {
+                if(child is Label) {
+                    Label lab = child as Label;
+                    //菜单标题标签
+                    if(lab.Style == Resources["labTitle"]) {
+                        Label m = new Label();
+                        m.Content = lab.Content;
+                        m.Style = (Style)Resources["NormalMenuItem"];
+                        m.Tag = t;
+                        //菜单项点击滚动
+                        m.MouseDown += delegate {
+                            scrollFrame.ScrollToVerticalOffset((double)m.Tag);
+                        };
+                        leftMenu.Children.Add(m);
+                        lab.Tag = t;
+                    }
+                }
+                t += child.RenderSize.Height;
+            }
+            ((Label)leftMenu.Children[0]).Style = (Style)Resources["ActivityMenuItem"];
+            //主界面滚动
+            scrollFrame.ScrollChanged += (object s, ScrollChangedEventArgs se) => {
+                Label n = null;
+                foreach(UIElement child in mainFrame.Children) {
+                    if(child is Label) {
+                        Label lab = child as Label;
+                        //菜单标题标签
+                        if(lab.Style == Resources["labTitle"]) {
+                            if((double)lab.Tag <= se.VerticalOffset + lab.ActualHeight) {
+                                n = lab;
+                            }
+                        }
+                    }
+                }
+                foreach(Label menu in leftMenu.Children) {
+                    if((double)menu.Tag == (double)n.Tag) {
+                        menu.Style = (Style)Resources["ActivityMenuItem"];
+                    } else {
+                        menu.Style = (Style)Resources["NormalMenuItem"];
+                    }
+                }
+            };
         }
     }
 }

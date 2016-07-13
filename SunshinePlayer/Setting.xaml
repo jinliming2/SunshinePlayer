@@ -11,10 +11,7 @@
     </Window.Resources>
     <DockPanel>
         <!--左侧菜单-->
-        <StackPanel DockPanel.Dock="Left" Width="100px" Background="#222">
-            <Label Content="基本设置" Style="{DynamicResource ActivityMenuItem}"/>
-            <Label Content="播放设置" Style="{DynamicResource NormalMenuItem}"/>
-            <Label Content="歌词设置" Style="{DynamicResource NormalMenuItem}"/>
+        <StackPanel x:Name="leftMenu" DockPanel.Dock="Left" Width="100px" Background="#222">
         </StackPanel>
         <!--底部按钮-->
         <Canvas DockPanel.Dock="Bottom" Height="40px" Background="#222">
@@ -22,8 +19,8 @@
             <Button Content="取消" Height="25px" Width="80px" Canvas.Top="7.5px" Canvas.Right="18px"/>
         </Canvas>
         <!--主面板-->
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Background="#888">
-            <StackPanel Margin="0,0,0,10px">
+        <ScrollViewer x:Name="scrollFrame" VerticalScrollBarVisibility="Auto" Background="#888">
+            <StackPanel x:Name="mainFrame" Margin="0,0,0,10px">
                 <Label Content="基本设置" Style="{StaticResource labTitle}"/>
                 <Label Content="启动" Style="{StaticResource labSubtitle}"/>
                 <UniformGrid Columns="2" Margin="30px,0,10px,0">
@@ -37,7 +34,7 @@
                     <CheckBox Content="音效"/>
                 </UniformGrid>
                 <Label Content="音效" Style="{StaticResource labSubtitle}"/>
-                <ListBox Height="150" Margin="30px,0,10px,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox Height="150" Margin="30px,0,30px,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 </ListBox>
                 <Label Content="歌词设置" Style="{StaticResource labTitle}"/>
                 <Label Content="效果" Style="{StaticResource labSubtitle}"/>
