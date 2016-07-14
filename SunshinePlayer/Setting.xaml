@@ -15,8 +15,9 @@
         </StackPanel>
         <!--底部按钮-->
         <Canvas DockPanel.Dock="Bottom" Height="40px" Background="#222">
-            <Button Content="保存" Height="25px" Width="80px" Canvas.Top="7.5px" Canvas.Right="108px" TabIndex="0"/>
-            <Button Content="取消" Height="25px" Width="80px" Canvas.Top="7.5px" Canvas.Right="18px"/>
+            <Button Content="应用" Height="25px" Width="80px" Canvas.Top="7.5px" Canvas.Right="198px" Click="save"/>
+            <Button Content="保存" Height="25px" Width="80px" Canvas.Top="7.5px" Canvas.Right="108px" TabIndex="0" Click="ok"/>
+            <Button Content="取消" Height="25px" Width="80px" Canvas.Top="7.5px" Canvas.Right="18px" Click="cancel"/>
         </Canvas>
         <!--主面板-->
         <ScrollViewer x:Name="scrollFrame" VerticalScrollBarVisibility="Auto" Background="#888">

@@ -93,5 +93,23 @@ namespace SunshinePlayer {
             lyricAnimation.IsChecked = config.lyricAnimation;  //歌词卡拉OK效果
             desktopLyricLock.IsChecked = config.desktopLyricLocked;  //锁定桌面歌词
         }
+        /// <summary>
+        /// 保存
+        /// </summary>
+        private void save(object sender, RoutedEventArgs e) {
+        }
+        /// <summary>
+        /// 确定
+        /// </summary>
+        private void ok(object sender, RoutedEventArgs e) {
+            save(sender, e);
+            cancel(sender, e);
+        }
+        /// <summary>
+        /// 取消
+        /// </summary>
+        private void cancel(object sender, RoutedEventArgs e) {
+            this.Close();
+        }
     }
 }
