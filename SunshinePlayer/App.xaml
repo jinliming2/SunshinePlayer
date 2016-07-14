@@ -16,7 +16,7 @@
         </CornerRadius>
         <!-- 窗口边框样式 -->
         <Style x:Key="winBorderStyle" TargetType="{x:Type Border}">
-            <Setter Property="Background" Value="#00000000" />
+            <Setter Property="Background" Value="#00000000"/>
         </Style>
         <!-- 标题栏圆角 -->
         <CornerRadius x:Key="winTitleCorner">
@@ -27,35 +27,35 @@
         </CornerRadius>
         <!-- 窗口标题样式 -->
         <Style x:Key="winTitleStyle" TargetType="{x:Type Border}">
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Width" Value="Auto" />
-            <Setter Property="Height" Value="28" />
-            <Setter Property="DockPanel.Dock" Value="Top" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Padding" Value="10,5,10,5" />
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="DockPanel.Dock" Value="Top"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="10,5,10,5"/>
         </Style>
         <!-- 最小化按钮样式 -->
         <Style x:Key="btnMinimizeStyle" TargetType="{x:Type Button}">
-            <Setter Property="Margin" Value="2,0,2,0" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Opacity" Value="0.75" />
+            <Setter Property="Margin" Value="2,0,2,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Opacity" Value="0.75"/>
             <Setter Property="ToolTip" Value="最小化"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Rectangle Width="18" Height="16" Fill="White" Opacity=".1" RadiusX="4" RadiusY="4" StrokeThickness="2" />
-                            <Rectangle Width="18" Height="16" StrokeThickness="2" RadiusX="4" RadiusY="4" Stroke="White" />
+                            <Rectangle Width="18" Height="16" Fill="White" Opacity=".1" RadiusX="4" RadiusY="4" StrokeThickness="2"/>
+                            <Rectangle Width="18" Height="16" StrokeThickness="2" RadiusX="4" RadiusY="4" Stroke="White"/>
                             <!-- 按钮内容 -->
                             <Grid>
                                 <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
-                                    <Line StrokeThickness="2" Stroke="White" X1="0" Y1="4" X2="8" Y2="4" />
+                                    <Line StrokeThickness="2" Stroke="White" X1="0" Y1="4" X2="8" Y2="4"/>
                                 </Canvas>
                             </Grid>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver"  Value="True">
-                                <Setter Property="Opacity" Value="1" />
+                                <Setter Property="Opacity" Value="1"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -64,27 +64,27 @@
         </Style>
         <!-- 关闭按钮样式 -->
         <Style x:Key="btnCloseStyle" TargetType="{x:Type Button}">
-            <Setter Property="Margin" Value="2,0,2,0" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Opacity" Value="0.75" />
+            <Setter Property="Margin" Value="2,0,2,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Opacity" Value="0.75"/>
             <Setter Property="ToolTip" Value="关闭"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid>
-                            <Ellipse Width="18" Height="18" Opacity=".1" StrokeThickness="2" Fill="#4f535d" Stroke="White" />
-                            <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Stroke="White" />
+                            <Ellipse Width="18" Height="18" Opacity=".1" StrokeThickness="2" Fill="#4f535d" Stroke="White"/>
+                            <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Stroke="White"/>
                             <!-- 按钮内容 -->
                             <Grid>
                                 <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
-                                    <Line StrokeThickness="2" Stroke="White" X1="0" Y1="0" X2="8" Y2="8" />
-                                    <Line StrokeThickness="2" Stroke="White" X1="0" Y1="8" X2="8" Y2="0" />
+                                    <Line StrokeThickness="2" Stroke="White" X1="0" Y1="0" X2="8" Y2="8"/>
+                                    <Line StrokeThickness="2" Stroke="White" X1="0" Y1="8" X2="8" Y2="0"/>
                                 </Canvas>
                             </Grid>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver"  Value="True">
-                                <Setter Property="Opacity" Value="1" />
+                                <Setter Property="Opacity" Value="1"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -318,7 +318,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border Background="{TemplateBinding Background}" />
+                        <Border Background="{TemplateBinding Background}"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -393,12 +393,12 @@
                 <Trigger Property="Orientation" Value="Horizontal">
                     <Setter Property="Width" Value="Auto"/>
                     <Setter Property="Height" Value="12"/>
-                    <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
+                    <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}"/>
                 </Trigger>
                 <Trigger Property="Orientation" Value="Vertical">
                     <Setter Property="Width" Value="12"/>
                     <Setter Property="Height" Value="Auto"/>
-                    <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+                    <Setter Property="Template" Value="{StaticResource VerticalScrollBar}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>

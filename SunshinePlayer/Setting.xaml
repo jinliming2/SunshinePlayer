@@ -7,12 +7,11 @@
         mc:Ignorable="d"
         Title="设置" Height="350" Width="500" Icon="Sun.ico" ResizeMode="NoResize" Background="Black" ScrollViewer.VerticalScrollBarVisibility="Disabled" Style="{DynamicResource settingStyle}" Loaded="Window_Loaded" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
     <Window.Resources>
-        <ResourceDictionary Source="settingResources.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="settingResources.xaml"/>
     </Window.Resources>
     <DockPanel>
         <!--左侧菜单-->
-        <StackPanel x:Name="leftMenu" DockPanel.Dock="Left" Width="100px" Background="#222">
-        </StackPanel>
+        <StackPanel x:Name="leftMenu" DockPanel.Dock="Left" Width="100px" Background="#222"/>
         <!--底部按钮-->
         <Canvas DockPanel.Dock="Bottom" Height="40px" Background="#222">
             <Button Content="应用" Height="25px" Width="80px" Canvas.Top="7.5px" Canvas.Right="198px" Click="save"/>
@@ -35,8 +34,7 @@
                     <CheckBox x:Name="fx" Content="音效"/>
                 </UniformGrid>
                 <Label Content="音效" Style="{StaticResource labSubtitle}"/>
-                <ListBox x:Name="listFx" Height="150" Margin="30px,0,30px,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                </ListBox>
+                <ListBox x:Name="listFx" Height="150" Margin="30px,0,30px,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
                 <Label Content="歌词设置" Style="{StaticResource labTitle}"/>
                 <Label Content="效果" Style="{StaticResource labSubtitle}"/>
                 <UniformGrid Columns="2" Margin="30px,0,10px,0">

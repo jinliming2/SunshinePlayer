@@ -3,27 +3,27 @@
                     xmlns:local="clr-namespace:SunshinePlayer">
     <!-- 提前按钮样式 -->
     <Style x:Key="btnAdvanceStyle" TargetType="{x:Type Button}">
-        <Setter Property="Margin" Value="2,0,2,0" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="Margin" Value="2,0,2,0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Opacity" Value="0.75"/>
         <Setter Property="ToolTip" Value="歌词提前0.1s"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Ellipse Width="18" Height="18" Opacity=".1" StrokeThickness="2" Fill="#4f535d" Stroke="White" />
-                        <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Stroke="White" />
+                        <Ellipse Width="18" Height="18" Opacity=".1" StrokeThickness="2" Fill="#4f535d" Stroke="White"/>
+                        <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Stroke="White"/>
                         <!-- 按钮内容 -->
                         <Grid>
                             <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
-                                <Line StrokeThickness="2" Stroke="White" X1="5" Y1="0" X2="1" Y2="4" />
-                                <Line StrokeThickness="2" Stroke="White" X1="1" Y1="4" X2="5" Y2="8" />
+                                <Line StrokeThickness="2" Stroke="White" X1="5" Y1="0" X2="1" Y2="4"/>
+                                <Line StrokeThickness="2" Stroke="White" X1="1" Y1="4" X2="5" Y2="8"/>
                             </Canvas>
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver"  Value="True">
-                            <Setter Property="Opacity" Value="1" />
+                            <Setter Property="Opacity" Value="1"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -32,27 +32,27 @@
     </Style>
     <!-- 延后按钮样式 -->
     <Style x:Key="btnDelayStyle" TargetType="{x:Type Button}">
-        <Setter Property="Margin" Value="2,0,2,0" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="Margin" Value="2,0,2,0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Opacity" Value="0.75"/>
         <Setter Property="ToolTip" Value="歌词延后0.1s"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Ellipse Width="18" Height="18" Opacity=".1" StrokeThickness="2" Fill="#4f535d" Stroke="White" />
-                        <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Stroke="White" />
+                        <Ellipse Width="18" Height="18" Opacity=".1" StrokeThickness="2" Fill="#4f535d" Stroke="White"/>
+                        <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Stroke="White"/>
                         <!-- 按钮内容 -->
                         <Grid>
                             <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
-                                <Line StrokeThickness="2" Stroke="White" X1="3" Y1="0" X2="7" Y2="4" />
-                                <Line StrokeThickness="2" Stroke="White" X1="7" Y1="4" X2="3" Y2="8" />
+                                <Line StrokeThickness="2" Stroke="White" X1="3" Y1="0" X2="7" Y2="4"/>
+                                <Line StrokeThickness="2" Stroke="White" X1="7" Y1="4" X2="3" Y2="8"/>
                             </Canvas>
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver"  Value="True">
-                            <Setter Property="Opacity" Value="1" />
+                            <Setter Property="Opacity" Value="1"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -61,27 +61,27 @@
     </Style>
     <!-- 设置按钮样式 -->
     <Style x:Key="btnSettingStyle" TargetType="{x:Type Button}">
-        <Setter Property="Margin" Value="2,0,2,0" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="Margin" Value="2,0,2,0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Opacity" Value="0.75"/>
         <Setter Property="ToolTip" Value="设置"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Rectangle Width="18" Height="16" Fill="White" Opacity=".1" RadiusX="4" RadiusY="4" StrokeThickness="2" />
-                        <Rectangle Width="18" Height="16" StrokeThickness="2" RadiusX="4" RadiusY="4" Stroke="White" />
+                        <Rectangle Width="18" Height="16" Fill="White" Opacity=".1" RadiusX="4" RadiusY="4" StrokeThickness="2"/>
+                        <Rectangle Width="18" Height="16" StrokeThickness="2" RadiusX="4" RadiusY="4" Stroke="White"/>
                         <!-- 按钮内容 -->
                         <Grid>
                             <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
-                                <Line StrokeThickness="2" Stroke="White" X1="1" Y1="1" X2="8" Y2="8" />
-                                <Line StrokeThickness="4" Stroke="White" X1="-2" Y1="4" X2="4" Y2="-2" />
+                                <Line StrokeThickness="2" Stroke="White" X1="1" Y1="1" X2="8" Y2="8"/>
+                                <Line StrokeThickness="4" Stroke="White" X1="-2" Y1="4" X2="4" Y2="-2"/>
                             </Canvas>
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver"  Value="True">
-                            <Setter Property="Opacity" Value="1" />
+                            <Setter Property="Opacity" Value="1"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -92,7 +92,7 @@
     <Style x:Key="btnOpenStyle" TargetType="{x:Type Button}">
         <Setter Property="Margin" Value="5,0"/>
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="Opacity" Value="0.75"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -103,7 +103,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="CheckBox.IsMouseOver"  Value="True">
-                            <Setter Property="Opacity" Value="1" />
+                            <Setter Property="Opacity" Value="1"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -124,14 +124,14 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="CheckBox.IsMouseOver"  Value="True">
-                            <Setter Property="BorderBrush" TargetName="borderoflrcbtnstyle" Value="Yellow" />
-                            <Setter Property="Foreground" TargetName="textblockoflrcbtnstyle" Value="Yellow" />
+                            <Setter Property="BorderBrush" TargetName="borderoflrcbtnstyle" Value="Yellow"/>
+                            <Setter Property="Foreground" TargetName="textblockoflrcbtnstyle" Value="Yellow"/>
                         </Trigger>
                         <Trigger Property="CheckBox.IsChecked"  Value="True">
-                            <Setter Property="Opacity" Value="1" />
+                            <Setter Property="Opacity" Value="1"/>
                         </Trigger>
                         <Trigger Property="CheckBox.IsChecked"  Value="False">
-                            <Setter Property="Opacity" Value="0.75" />
+                            <Setter Property="Opacity" Value="0.75"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -168,7 +168,7 @@
                         <Rectangle x:Name="PART_Track"/>
                         <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
                             <Grid x:Name="Foreground">
-                                <TextBlock x:Name="Indicator" Text="{TemplateBinding Tag}" Foreground="{TemplateBinding Foreground}" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="20" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Left" />
+                                <TextBlock x:Name="Indicator" Text="{TemplateBinding Tag}" Foreground="{TemplateBinding Foreground}" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="20" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Left"/>
                             </Grid>
                         </Decorator>
                     </Grid>
@@ -201,26 +201,26 @@
     <ControlTemplate x:Key="mainWindowTemplate" TargetType="{x:Type Window}">
         <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
             <!--border元素：实现窗体四周半透明的环绕-->
-            <Border BorderThickness="5" CornerRadius="6" BorderBrush="#000000" Opacity="0.08" />
+            <Border BorderThickness="5" CornerRadius="6" BorderBrush="#000000" Opacity="0.08"/>
             <!--borderBg实现半透明-->
             <Border x:Name="borderBg" Margin="5" Background="{TemplateBinding Background}" BorderBrush="#ffffff" Opacity="0.9" BorderThickness="2" CornerRadius="{StaticResource winCorner}" Style="{StaticResource winBorderStyle}">
                 <!--定义窗口的元素，Grid分别为标题栏、内容-->
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                 </Grid>
             </Border>
             <Grid Margin="7">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <!--标题栏框-->
                 <Border x:Name="borderTitle" Grid.Row="0" CornerRadius="{StaticResource winTitleCorner}" Style="{StaticResource winTitleStyle}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                     <Grid Background="Transparent">
-                        <TextBlock Text="{TemplateBinding Title}" Foreground="White" Opacity="0.75" HorizontalAlignment="Left" />
+                        <TextBlock Text="{TemplateBinding Title}" Foreground="White" Opacity="0.75" HorizontalAlignment="Left"/>
                         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Visible" Orientation="Horizontal">
                             <!--提前、延后、歌词开关、打开文件、设置、最小化和关闭按钮-->
                             <Button x:Name="advanceButton" Style="{StaticResource btnAdvanceStyle}"/>
@@ -228,14 +228,14 @@
                             <Button x:Name="OpenButton" Content="打开文件" Style="{StaticResource btnOpenStyle}"/>
                             <CheckBox x:Name="LrcButton" Content="桌面歌词" Style="{StaticResource btnLrcStyle}"/>
                             <Button x:Name="settingButton" Style="{StaticResource btnSettingStyle}"/>
-                            <Button x:Name="minimizeButton" Style="{StaticResource btnMinimizeStyle}" />
-                            <Button x:Name="closeButton" Style="{StaticResource btnCloseStyle}" />
+                            <Button x:Name="minimizeButton" Style="{StaticResource btnMinimizeStyle}"/>
+                            <Button x:Name="closeButton" Style="{StaticResource btnCloseStyle}"/>
                         </StackPanel>
                     </Grid>
                 </Border>
                 <!--内容-->
                 <Grid x:Name="gridContent" Grid.Row="1">
-                    <ContentPresenter />
+                    <ContentPresenter/>
                 </Grid>
             </Grid>
         </Grid>
@@ -244,8 +244,8 @@
     <Style x:Key="windowStyle" TargetType="{x:Type Window}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template" Value="{StaticResource mainWindowTemplate}"/>
-        <Setter Property="WindowStyle" Value="None" />
-        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="AllowsTransparency" Value="True"/>
     </Style>
     <Style x:Key="LyricText" TargetType="{x:Type ProgressBar}">
         <Setter Property="Foreground" Value="#01D328"/>
@@ -262,7 +262,7 @@
                         <Rectangle x:Name="PART_Track"/>
                         <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
                             <Grid x:Name="Foreground">
-                                <TextBlock x:Name="Indicator" Text="{TemplateBinding Tag}" Foreground="{TemplateBinding Foreground}" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="20" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Left" />
+                                <TextBlock x:Name="Indicator" Text="{TemplateBinding Tag}" Foreground="{TemplateBinding Foreground}" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontSize="20" FontFamily="Courier New" FontWeight="Bold" TextAlignment="Left"/>
                             </Grid>
                         </Decorator>
                     </Grid>

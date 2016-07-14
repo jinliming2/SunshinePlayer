@@ -5,35 +5,35 @@
     <ControlTemplate x:Key="settingTemplate" TargetType="{x:Type Window}">
         <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
             <!--border元素：实现窗体四周半透明的环绕-->
-            <Border BorderThickness="5" CornerRadius="6" BorderBrush="#000000" Opacity="0.08" />
+            <Border BorderThickness="5" CornerRadius="6" BorderBrush="#000000" Opacity="0.08"/>
             <!--borderBg实现半透明-->
             <Border x:Name="borderBg" Margin="5" Background="{TemplateBinding Background}" BorderBrush="#ffffff" Opacity="0.9" BorderThickness="2" CornerRadius="{StaticResource winCorner}" Style="{StaticResource winBorderStyle}">
                 <!--定义窗口的元素，Grid分别为标题栏、内容-->
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                 </Grid>
             </Border>
             <Grid Margin="7">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <!--标题栏框-->
                 <Border x:Name="borderTitle" Grid.Row="0" CornerRadius="{StaticResource winTitleCorner}" Style="{StaticResource winTitleStyle}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                     <Grid Background="Transparent">
-                        <TextBlock Text="{TemplateBinding Title}" Foreground="White" Opacity="0.75" HorizontalAlignment="Left" />
+                        <TextBlock Text="{TemplateBinding Title}" Foreground="White" Opacity="0.75" HorizontalAlignment="Left"/>
                         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Visible" Orientation="Horizontal">
                             <!--关闭按钮-->
-                            <Button x:Name="closeButton" Style="{StaticResource btnCloseStyle}" />
+                            <Button x:Name="closeButton" Style="{StaticResource btnCloseStyle}"/>
                         </StackPanel>
                     </Grid>
                 </Border>
                 <!--内容-->
                 <Grid x:Name="gridContent" Grid.Row="1">
-                    <ContentPresenter />
+                    <ContentPresenter/>
                 </Grid>
             </Grid>
         </Grid>
@@ -42,8 +42,8 @@
     <Style x:Key="settingStyle" TargetType="{x:Type Window}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template" Value="{StaticResource settingTemplate}"/>
-        <Setter Property="WindowStyle" Value="None" />
-        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="AllowsTransparency" Value="True"/>
     </Style>
     <!--激活菜单样式-->
     <Style x:Key="ActivityMenuItem" TargetType="Label">

@@ -33,7 +33,7 @@
                                         <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
                                     </Canvas.Effect>
                                     <Ellipse HorizontalAlignment="Left" Height="100" Margin="0" Stroke="White" VerticalAlignment="Top" Width="100" StrokeThickness="5" Fill="#02FFFFFF"/>
-                                    <Polygon Points="0,0 0,50 43.3,25" Stroke="White" StrokeThickness="5" Canvas.Left="32.85" Canvas.Top="24.835" Fill="White" />
+                                    <Polygon Points="0,0 0,50 43.3,25" Stroke="White" StrokeThickness="5" Canvas.Left="32.85" Canvas.Top="24.835" Fill="White"/>
                                 </Canvas>
                             </ControlTemplate>
                         </Setter.Value>
@@ -80,8 +80,8 @@
                                         <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
                                     </Canvas.Effect>
                                     <Ellipse HorizontalAlignment="Left" Height="80" Margin="0" Stroke="White" VerticalAlignment="Top" Width="80" StrokeThickness="5" Fill="#02FFFFFF"/>
-                                    <Polygon Points="0,17.5 21.65,35 21.65,0" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="10.985" />
-                                    <Polygon Points="0,17.5 21.65,35 21.65,0" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="41.319" />
+                                    <Polygon Points="0,17.5 21.65,35 21.65,0" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="10.985"/>
+                                    <Polygon Points="0,17.5 21.65,35 21.65,0" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="41.319"/>
                                 </Canvas>
                             </ControlTemplate>
                         </Setter.Value>
@@ -104,8 +104,8 @@
                                         <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
                                     </Canvas.Effect>
                                     <Ellipse HorizontalAlignment="Left" Height="80" Margin="0" Stroke="White" VerticalAlignment="Top" Width="80" StrokeThickness="5" Fill="#02FFFFFF"/>
-                                    <Polygon Points="0,0 0,35 21.65,17.5" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="17.332" />
-                                    <Polygon Points="0,0 0,35 21.65,17.5" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="47.666" />
+                                    <Polygon Points="0,0 0,35 21.65,17.5" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="17.332"/>
+                                    <Polygon Points="0,0 0,35 21.65,17.5" Stroke="White" StrokeThickness="5" Canvas.Top="22.501" Fill="White" Canvas.Left="47.666"/>
                                 </Canvas>
                             </ControlTemplate>
                         </Setter.Value>
@@ -124,14 +124,14 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type Button}">
                                 <Canvas SnapsToDevicePixels="true" Background="#01000000">
-                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="2" X2="5" Y2="2" />
-                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="2" X2="40" Y2="2" />
-                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="14" X2="5" Y2="14" />
-                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="14" X2="40" Y2="14" />
-                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="26" X2="5" Y2="26" />
-                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="26" X2="40" Y2="26" />
-                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="38" X2="5" Y2="38" />
-                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="38" X2="40" Y2="38" />
+                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="2" X2="5" Y2="2"/>
+                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="2" X2="40" Y2="2"/>
+                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="14" X2="5" Y2="14"/>
+                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="14" X2="40" Y2="14"/>
+                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="26" X2="5" Y2="26"/>
+                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="26" X2="40" Y2="26"/>
+                                    <Line StrokeThickness="5" Stroke="White" X1="0" Y1="38" X2="5" Y2="38"/>
+                                    <Line StrokeThickness="5" Stroke="White" X1="10" Y1="38" X2="40" Y2="38"/>
                                 </Canvas>
                             </ControlTemplate>
                         </Setter.Value>
@@ -253,7 +253,7 @@
             </Label.Effect>
         </Label>
         <!-- 时间显示 -->
-        <TextBlock x:Name="TimeLabel" Height="22" Canvas.Left="606" Canvas.Top="507" Width="170" Foreground="#CCFFFFFF" FontSize="16" TextAlignment="Right" d:IsLocked="False" />
+        <TextBlock x:Name="TimeLabel" Height="22" Canvas.Left="606" Canvas.Top="507" Width="170" Foreground="#CCFFFFFF" FontSize="16" TextAlignment="Right" d:IsLocked="False"/>
         <!-- 进度条 -->
         <Slider x:Name="Progress" Opacity="0.8" Style="{DynamicResource SimpleSlider}" Width="766" Height="14" Canvas.Left="10" Canvas.Top="534" Maximum="10000" Orientation="Horizontal" SmallChange="1" TickPlacement="None" Cursor="Hand" d:IsLocked="False"/>
         <!-- 音量操作区 -->
@@ -272,10 +272,10 @@
                                         <Canvas.Effect>
                                             <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
                                         </Canvas.Effect>
-                                        <Polygon Points="0,10 0,30 10,30 20,40 20,0 10,10" Stroke="White" StrokeThickness="1" Fill="White" />
-                                        <Line StrokeThickness="2" Stroke="White" X1="25" Y1="13" X2="40" Y2="4" />
-                                        <Line StrokeThickness="2" Stroke="White" X1="25" Y1="20" X2="40" Y2="20" />
-                                        <Line StrokeThickness="2" Stroke="White" X1="25" Y1="27" X2="40" Y2="36" />
+                                        <Polygon Points="0,10 0,30 10,30 20,40 20,0 10,10" Stroke="White" StrokeThickness="1" Fill="White"/>
+                                        <Line StrokeThickness="2" Stroke="White" X1="25" Y1="13" X2="40" Y2="4"/>
+                                        <Line StrokeThickness="2" Stroke="White" X1="25" Y1="20" X2="40" Y2="20"/>
+                                        <Line StrokeThickness="2" Stroke="White" X1="25" Y1="27" X2="40" Y2="36"/>
                                     </Canvas>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -297,9 +297,9 @@
                                         <Canvas.Effect>
                                             <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="0"/>
                                         </Canvas.Effect>
-                                        <Polygon Points="0,10 0,30 10,30 20,40 20,0 10,10" Stroke="White" StrokeThickness="1" Fill="White" />
+                                        <Polygon Points="0,10 0,30 10,30 20,40 20,0 10,10" Stroke="White" StrokeThickness="1" Fill="White"/>
                                         <Ellipse Canvas.Left="15" Canvas.Top="7.5" HorizontalAlignment="Left" Height="25" Margin="0" Stroke="Red" VerticalAlignment="Top" Width="25" StrokeThickness="4" Fill="#02FFFFFF"/>
-                                        <Line StrokeThickness="4" Stroke="Red" X1="20" Y1="25" X2="37" Y2="14" />
+                                        <Line StrokeThickness="4" Stroke="Red" X1="20" Y1="25" X2="37" Y2="14"/>
                                     </Canvas>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -352,7 +352,7 @@
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver"  Value="True">
-                                            <Setter Property="Opacity" Value="1" />
+                                            <Setter Property="Opacity" Value="1"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
