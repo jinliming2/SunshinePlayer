@@ -21,6 +21,10 @@ namespace SunshinePlayer {
         /// </summary>
         private Player player;
         /// <summary>
+        /// 配置
+        /// </summary>
+        private Config config = Config.getInstance();
+        /// <summary>
         /// 鼠标进入窗口延迟计算器
         /// </summary>
         private BackgroundWorker moveTimer = new BackgroundWorker();
@@ -79,7 +83,7 @@ namespace SunshinePlayer {
         private void Window_SourceInitialized(object sender, EventArgs e) {
             IntPtr hwnd = new WindowInteropHelper(this).Handle;
             extendedStyle = NativeMethods.GetWindowLong(hwnd, GWL_EXSTYLE);
-            if(Config.getInstance().desktopLyricLocked) {
+            if(config.desktopLyricLocked) {
                 NativeMethods.SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
             }
         }
@@ -88,7 +92,6 @@ namespace SunshinePlayer {
         /// 窗口加载完成
         /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e) {
-            Config config = Config.getInstance();
             //位置
             if(config.desktopLyricPosition.X == double.MinValue || config.desktopLyricPosition.Y == double.MinValue) {
                 move((SystemParameters.WorkArea.Width - this.Width) / 2, SystemParameters.WorkArea.Bottom - this.Height);
@@ -154,7 +157,6 @@ namespace SunshinePlayer {
             }
             this.Top = y;
             this.Left = x;
-            Config config = Config.getInstance();
             config.desktopLyricPosition.X = this.Left;
             config.desktopLyricPosition.Y = this.Top;
         }
@@ -191,7 +193,7 @@ namespace SunshinePlayer {
                 another = LrcBottom;
             }
             current.Tag = MainWindow.lyric.GetLine((uint)indexLyric);
-            current.Value = Config.getInstance().lyricAnimation ? valueLyric : 0;
+            current.Value = config.lyricAnimation ? valueLyric : 1;
             current.UpdateLayout();
             if(progressLyric < 0.5) {
                 //uint在小于0时溢出，得到最大值
@@ -201,7 +203,7 @@ namespace SunshinePlayer {
                     another.Value = 0.99;
                     another.UpdateLayout();
                 }
-                another.Value = 1;
+                another.Value = config.lyricAnimation ? 1 : 0;
             } else {
                 string tag = MainWindow.lyric.GetLine((uint)indexLyric + 1);
                 if((string)another.Tag != tag) {
