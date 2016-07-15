@@ -132,7 +132,7 @@ namespace SunshinePlayer {
         /// <summary>
         /// 桌面歌词窗口
         /// </summary>
-        private DesktopLyric desktopLyric = null;
+        public DesktopLyric desktopLyric = null;
         /// <summary>
         /// 托盘图标
         /// </summary>

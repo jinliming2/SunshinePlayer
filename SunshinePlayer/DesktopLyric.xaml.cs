@@ -13,6 +13,10 @@ namespace SunshinePlayer {
     /// </summary>
     public partial class DesktopLyric : Window, IDisposable {
         /// <summary>
+        /// 窗口句柄
+        /// </summary>
+        private IntPtr Handle { get { return new WindowInteropHelper(this).Handle; } }
+        /// <summary>
         /// 歌词加载时钟
         /// </summary>
         private BackgroundWorker timer = new BackgroundWorker();
@@ -81,10 +85,9 @@ namespace SunshinePlayer {
         /// 资源初始化 - 锁定桌面歌词
         /// </summary>
         private void Window_SourceInitialized(object sender, EventArgs e) {
-            IntPtr hwnd = new WindowInteropHelper(this).Handle;
-            extendedStyle = NativeMethods.GetWindowLong(hwnd, GWL_EXSTYLE);
+            extendedStyle = NativeMethods.GetWindowLong(Handle, GWL_EXSTYLE);
             if(config.desktopLyricLocked) {
-                NativeMethods.SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+                NativeMethods.SetWindowLong(Handle, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
             }
         }
         #endregion
@@ -273,6 +276,16 @@ namespace SunshinePlayer {
                 move(this.Left, this.Top);
             } else {
                 this.MouseMove -= dragWindow;
+            }
+        }
+        /// <summary>
+        /// 锁定/解锁窗口歌词
+        /// </summary>
+        public void lockOrUnlock() {
+            if(config.desktopLyricLocked) {
+                NativeMethods.SetWindowLong(Handle, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+            } else {
+                NativeMethods.SetWindowLong(Handle, GWL_EXSTYLE, extendedStyle);
             }
         }
     }

@@ -109,6 +109,9 @@ namespace SunshinePlayer {
             Config.saveConfig(App.workPath + "\\config.db");
             //即时生效
             MainWindow._this.lrcSwitch(this, e);  //桌面歌词
+            if(MainWindow._this.desktopLyric != null) {
+                MainWindow._this.desktopLyric.lockOrUnlock();  //锁定桌面歌词
+            }
         }
         /// <summary>
         /// 确定
