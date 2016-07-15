@@ -114,6 +114,10 @@ namespace SunshinePlayer {
         /// </summary>
         public bool lyricAnimation = true;
         /// <summary>
+        /// 窗口歌词滚动效果
+        /// </summary>
+        public bool lyricMove = true;
+        /// <summary>
         /// 是否显示桌面歌词
         /// </summary>
         public bool showDesktopLyric = true;

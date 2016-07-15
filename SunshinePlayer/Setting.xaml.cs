@@ -91,6 +91,7 @@ namespace SunshinePlayer {
             desktopLyric.IsChecked = config.showDesktopLyric;  //桌面歌词
             autoPlay.IsChecked = config.autoPlay;  //自动播放
             lyricAnimation.IsChecked = config.lyricAnimation;  //歌词卡拉OK效果
+            lyricMove.IsChecked = config.lyricMove;  //窗口歌词滚动效果
             desktopLyricLock.IsChecked = config.desktopLyricLocked;  //锁定桌面歌词
         }
         /// <summary>
@@ -102,6 +103,7 @@ namespace SunshinePlayer {
             config.showDesktopLyric = desktopLyric.IsChecked.Value;  //桌面歌词
             config.autoPlay = autoPlay.IsChecked.Value;  //自动播放
             config.lyricAnimation = lyricAnimation.IsChecked.Value;  //歌词卡拉OK效果
+            config.lyricMove = lyricMove.IsChecked.Value;  //窗口歌词滚动效果
             config.desktopLyricLocked = desktopLyricLock.IsChecked.Value;  //锁定桌面歌词
             //保存配置
             Config.saveConfig(App.workPath + "\\config.db");

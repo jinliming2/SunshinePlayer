@@ -1183,7 +1183,7 @@ namespace SunshinePlayer {
                 ProgressBar pb = (ProgressBar)Lrc.Children[indexLyric];
                 pb.Value = config.lyricAnimation ? valueLyric : 1;
                 if(indexLyric > 3) {
-                    Lrc.SetValue(Canvas.TopProperty, -(indexLyric - 4) * 68 / 3 - (config.lyricAnimation ? progressLyric * 68 / 3 : 0));
+                    Lrc.SetValue(Canvas.TopProperty, -(indexLyric - 4) * 68 / 3 - (config.lyricMove ? progressLyric * 68 / 3 : 0));
                 } else {
                     Lrc.SetValue(Canvas.TopProperty, 0.0);
                 }
