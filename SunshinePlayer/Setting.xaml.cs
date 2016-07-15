@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.Collections;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace SunshinePlayer {
     /// <summary>
@@ -66,6 +68,9 @@ namespace SunshinePlayer {
             ((Label)leftMenu.Children[0]).Style = (Style)Resources["ActivityMenuItem"];
             //主界面滚动
             scrollFrame.ScrollChanged += (object s, ScrollChangedEventArgs se) => {
+                if(se.Source != scrollFrame) {
+                    return;
+                }
                 Label n = null;
                 foreach(UIElement child in mainFrame.Children) {
                     if(child is Label) {
@@ -86,6 +91,35 @@ namespace SunshinePlayer {
                     }
                 }
             };
+            //加载字体
+            //未避免卡顿，先将字体存在Tag中，选择时再应用
+            foreach(FontFamily ff in Fonts.SystemFontFamilies) {
+                string name = string.Empty;
+                IEnumerator names = ff.FamilyNames.Values.GetEnumerator();
+                names.MoveNext();
+                while(names.MoveNext()) {
+                    name += (string)names.Current + " ";
+                }
+                names.Reset();
+                names.MoveNext();
+                name += (string)names.Current;
+                TextBlock tb = new TextBlock();
+                tb.Tag = ff;
+                tb.Text = name;
+                windowFont.Items.Add(tb);
+                tb = new TextBlock();
+                tb.Tag = ff;
+                tb.Text = name;
+                deskFont.Items.Add(tb);
+            }
+            windowFont.SelectionChanged += delegate {
+                TextBlock tb = windowFont.SelectedItem as TextBlock;
+                tb.FontFamily = tb.Tag as FontFamily;
+            };
+            deskFont.SelectionChanged += delegate {
+                TextBlock tb = deskFont.SelectedItem as TextBlock;
+                tb.FontFamily = tb.Tag as FontFamily;
+            };
             //加载配置
             Config config = Config.getInstance();
             desktopLyric.IsChecked = config.showDesktopLyric;  //桌面歌词
@@ -93,6 +127,12 @@ namespace SunshinePlayer {
             lyricAnimation.IsChecked = config.lyricAnimation;  //歌词卡拉OK效果
             lyricMove.IsChecked = config.lyricMove;  //窗口歌词滚动效果
             desktopLyricLock.IsChecked = config.desktopLyricLocked;  //锁定桌面歌词
+            //默认显示的字体
+            TextBlock textblock;
+            textblock = windowFont.SelectedItem as TextBlock;
+            textblock.FontFamily = textblock.Tag as FontFamily;
+            textblock = deskFont.SelectedItem as TextBlock;
+            textblock.FontFamily = textblock.Tag as FontFamily;
         }
         /// <summary>
         /// 保存
