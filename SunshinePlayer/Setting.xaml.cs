@@ -97,6 +97,16 @@ namespace SunshinePlayer {
         /// 保存
         /// </summary>
         private void save(object sender, RoutedEventArgs e) {
+            //保存配置
+            Config config = Config.getInstance();
+            config.showDesktopLyric = desktopLyric.IsChecked.Value;  //桌面歌词
+            config.autoPlay = autoPlay.IsChecked.Value;  //自动播放
+            config.lyricAnimation = lyricAnimation.IsChecked.Value;  //歌词卡拉OK效果
+            config.desktopLyricLocked = desktopLyricLock.IsChecked.Value;  //锁定桌面歌词
+            //保存配置
+            Config.saveConfig(App.workPath + "\\config.db");
+            //即时生效
+            MainWindow._this.lrcSwitch(this, e);  //桌面歌词
         }
         /// <summary>
         /// 确定

@@ -465,17 +465,24 @@ namespace SunshinePlayer {
         /// </summary>
         private void setting(object sender, RoutedEventArgs e) {
             //弹出设置窗口
-            new Setting().ShowDialog();
+            Setting setting = new Setting();
+            setting.Owner = this;
+            setting.ShowDialog();
         }
         /// <summary>
         /// 桌面歌词开关切换
         /// </summary>
-        private void lrcSwitch(object sender, RoutedEventArgs e) {
+        public void lrcSwitch(object sender, RoutedEventArgs e) {
             Config config = Config.getInstance();
-            LrcButton.IsChecked = menuDesktopLyric.IsChecked = config.showDesktopLyric = !config.showDesktopLyric;
+            if(!(sender is Setting)) {
+                config.showDesktopLyric = !config.showDesktopLyric;
+            }
+            LrcButton.IsChecked = menuDesktopLyric.IsChecked = config.showDesktopLyric;
             if(config.showDesktopLyric) {
                 //载入桌面歌词窗口
-                desktopLyric = new DesktopLyric();
+                if(desktopLyric == null) {
+                    desktopLyric = new DesktopLyric();
+                }
                 desktopLyric.Show();
             } else if(desktopLyric != null) {
                 //关闭桌面歌词
